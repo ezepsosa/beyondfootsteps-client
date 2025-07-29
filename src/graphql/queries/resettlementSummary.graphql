@@ -1,0 +1,16 @@
+query GetResettlementSummaries {
+  resettlementSummaries {
+    id
+    year
+    countryIso
+    totalRequests
+    totalDepartures
+    totalSubmissions
+    totalNeeds
+    totalGaps
+    coverageRate
+    requestVsNeedsRatio
+    submissionsEfficiency
+    realizationRate
+  }
+}

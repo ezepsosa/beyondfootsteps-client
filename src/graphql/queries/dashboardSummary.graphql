@@ -1,0 +1,25 @@
+query GetDashboardSummary {
+  dashboardSummaries {
+    id
+    year
+    countryIso
+    totalApplied
+    appliedPer100k
+    acceptanceRate
+    internalDisplacementTotal
+    displacementRatePer100k
+    idpReturnees
+    refugeesReturnees
+    naturalizationsTotal
+    naturalizationChange
+    resettlementRequests
+    resettlementDepartures
+    resettlementSubmissions
+    resettlementNeeds
+    resettlementGap
+    coverageRate
+    requestVsNeedsRatio
+    submissionsEfficiency
+    realizationRate
+  }
+}
