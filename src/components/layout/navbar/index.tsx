@@ -6,6 +6,7 @@ import {
   LogoLayout,
   MenuElement,
   MenuLayout,
+  AuxiliarMenu,
 } from "./style";
 import logo from "@assets/beyondfootsteps_transparent_logo.png";
 
@@ -22,10 +23,10 @@ export const Navbar = () => {
           <LinkElement to="/">Asylum Decisions</LinkElement>
           <LinkElement to="/">Resettlements</LinkElement>
         </MenuElement>
-        <MenuElement open={false}>
-          <LinkElement to="/">About Us</LinkElement>
-          <LinkElement to="/">Linkedin</LinkElement>
-        </MenuElement>
+        <AuxiliarMenu>
+          <LinkElement color="white" to="/">About Us</LinkElement>
+          <LinkElement color="white" to="/">Linkedin</LinkElement>
+        </AuxiliarMenu>
       </MenuContainer>
     </LayoutNavbar>
   );

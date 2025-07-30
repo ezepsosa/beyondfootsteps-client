@@ -14,7 +14,7 @@ export const LayoutNavbar = styled.nav`
   justify-content: space-between;
   background-color: transparent;
 
-    @media (min-width: ${breakpoints.md}) {
+  @media (min-width: ${breakpoints.md}) {
     justify-content: flex-start;
   }
 `;
@@ -35,6 +35,19 @@ export const MenuLayout = styled.div`
   }
 `;
 
+export const AuxiliarMenu = styled.div`
+  display: none;
+
+  @media (min-width: ${breakpoints.md}) {
+    display: flex;
+    flex-direction: row;
+    gap: 2rem;
+    border-radius: 2rem;
+    background-color: #111111ff;
+    padding: 0.75rem 0.4rem;
+  }
+`;
+
 export const MenuElement = styled.ul<{ open: boolean }>`
   list-style: none;
   margin: 0;
@@ -43,18 +56,20 @@ export const MenuElement = styled.ul<{ open: boolean }>`
   flex-direction: column;
   position: absolute;
   top: 100%;
-  width: 100vw;
+  left: calc(-1rem - 1rem); /* Compensar padding y margin de padres */
+  right: calc(-1rem - 1rem); /* Extender hasta el borde derecho también */
   background: rgba(29, 29, 29, 0.9);
   z-index: 999;
   box-sizing: border-box;
-  
-  transform: translateY(${({ open }) => (open ? "0" : "-20px")}) 
-             scale(${({ open }) => (open ? "1" : "0.95")});
+  padding: 1rem;
+
+  transform: translateY(${({ open }) => (open ? "0" : "-20px")})
+    scale(${({ open }) => (open ? "1" : "0.95")});
   opacity: ${({ open }) => (open ? "1" : "0")};
   visibility: ${({ open }) => (open ? "visible" : "hidden")};
   transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
   transform-origin: top center;
-  
+
   @media (min-width: ${breakpoints.md}) {
     display: flex;
     position: static;
@@ -66,23 +81,23 @@ export const MenuElement = styled.ul<{ open: boolean }>`
     gap: 2rem;
     border-radius: 2rem;
     background-color: #f5f5f5;
-    padding: 1.1rem;
+    padding: 0.75rem 0.4rem;
     transform: none;
     opacity: 1;
     visibility: visible;
     transition: none;
-    
   }
 `;
 
-export const LinkElement = styled(Link)`
-  color: white;
+export const LinkElement = styled(Link)<{ color?: string }>`
   text-decoration: none;
   transition: 0.4s;
   border-radius: 2rem;
-  font-size: 1.25rem;
-  padding: 1.75rem;
-  
+  font-size: 1.2rem;
+  font-family: "Inter", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 500;
+  font-style: normal;
 
   &:hover {
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
@@ -90,7 +105,7 @@ export const LinkElement = styled(Link)`
   }
 
   @media (min-width: ${breakpoints.md}) {
-    color: black;
+    color: ${({ color }) => color || "black"};
     padding: 1rem;
 
     &:hover {
@@ -106,6 +121,7 @@ export const MenuContainer = styled.div`
   justify-content: flex-end;
   align-items: center;
   position: relative;
+  margin: 0 1rem;
 
   @media (min-width: ${breakpoints.md}) {
     justify-content: space-between;
