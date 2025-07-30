@@ -49,27 +49,19 @@ export const AuxiliarMenu = styled.div`
 `;
 
 export const MenuElement = styled.ul<{ open: boolean }>`
-  list-style: none;
-  margin: 0;
-  padding: 0;
   display: flex;
   flex-direction: column;
-  position: absolute;
-  top: 100%;
-  left: calc(-1rem - 1rem); /* Compensar padding y margin de padres */
-  right: calc(-1rem - 1rem); /* Extender hasta el borde derecho también */
-  background: rgba(29, 29, 29, 0.9);
-  z-index: 999;
-  box-sizing: border-box;
-  padding: 1rem;
+  width: 100%;
+  background: rgba(14, 14, 14, 0.9);
 
   transform: translateY(${({ open }) => (open ? "0" : "-20px")})
-    scale(${({ open }) => (open ? "1" : "0.95")});
+  scale(${({ open }) => (open ? "1" : "0.95")});
   opacity: ${({ open }) => (open ? "1" : "0")};
   visibility: ${({ open }) => (open ? "visible" : "hidden")};
   transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
   transform-origin: top center;
 
+  
   @media (min-width: ${breakpoints.md}) {
     display: flex;
     position: static;
@@ -86,7 +78,6 @@ export const MenuElement = styled.ul<{ open: boolean }>`
     opacity: 1;
     visibility: visible;
     transition: none;
-  }
 `;
 
 export const LinkElement = styled(Link)<{ color?: string }>`
@@ -98,34 +89,55 @@ export const LinkElement = styled(Link)<{ color?: string }>`
   font-optical-sizing: auto;
   font-weight: 500;
   font-style: normal;
-
-  &:hover {
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-    background: white;
-  }
+  color: white;
+  padding: 1rem 0;
 
   @media (min-width: ${breakpoints.md}) {
     color: ${({ color }) => color || "black"};
     padding: 1rem;
 
     &:hover {
+      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
       color: #666;
     }
   }
 `;
 
-export const ElementList = styled.li``;
-
 export const MenuContainer = styled.div`
   display: flex;
+  flex-direction: column;
   justify-content: flex-end;
   align-items: center;
   position: relative;
-  margin: 0 1rem;
+  width: 100%;
 
   @media (min-width: ${breakpoints.md}) {
     justify-content: space-between;
-    width: 100%;
+    flex-direction: row;
+    gap: 2rem;
+  }
+`;
+
+export const LogoAndMobileMenu = styled.div`
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  align-items: center;
+
+  @media (min-width: ${breakpoints.md}) {
+    width: min-content;
+`;
+
+export const LinkMenu = styled.div`
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  align-items: center;
+
+  @media (min-width: ${breakpoints.md}) {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
     gap: 2rem;
   }
 `;
