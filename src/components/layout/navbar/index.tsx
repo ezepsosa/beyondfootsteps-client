@@ -1,28 +1,28 @@
 import { useState } from "react";
 import {
+  MenuContainer,
   LayoutNavbar,
   LinkElement,
   LogoLayout,
-  MenuContainer,
   MenuElement,
   MenuLayout,
 } from "./style";
 import logo from "@assets/beyondfootsteps_transparent_logo.png";
 
 export const Navbar = () => {
-  const [menuOpen, setMenuOpen] = useState<boolean>(false);
+  const [showInMobile, setShowInMobile] = useState<boolean>(false);
   return (
     <LayoutNavbar>
       <LogoLayout src={logo} />
       <MenuContainer>
-        <MenuLayout onClick={() => setMenuOpen(!menuOpen)}>☰</MenuLayout>
-        <MenuElement open={menuOpen}>
+        <MenuLayout onClick={() => setShowInMobile(!showInMobile)}>☰</MenuLayout>
+        <MenuElement open={showInMobile}>
           <LinkElement to="/">Dashboard</LinkElement>
           <LinkElement to="/">Asylum Requests</LinkElement>
           <LinkElement to="/">Asylum Decisions</LinkElement>
           <LinkElement to="/">Resettlements</LinkElement>
         </MenuElement>
-        <MenuElement open={menuOpen}>
+        <MenuElement open={false}>
           <LinkElement to="/">About Us</LinkElement>
           <LinkElement to="/">Linkedin</LinkElement>
         </MenuElement>

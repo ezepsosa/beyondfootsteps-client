@@ -11,15 +11,19 @@ export const LayoutNavbar = styled.nav`
   z-index: 1000;
   padding: 1rem 1rem;
   box-sizing: border-box;
+  justify-content: space-between;
   background-color: transparent;
 
+    @media (min-width: ${breakpoints.md}) {
+    justify-content: flex-start;
+  }
 `;
 
 export const LogoLayout = styled.img`
-  width: 3rem;
+  height: 3.5rem;
 
   @media (min-width: ${breakpoints.md}) {
-    width: 5rem;
+    height: 6rem;
   }
 `;
 
@@ -35,24 +39,39 @@ export const MenuElement = styled.ul<{ open: boolean }>`
   list-style: none;
   margin: 0;
   padding: 0;
-  display: ${({ open }) => (open ? "flex" : "none")};
+  display: flex;
   flex-direction: column;
   position: absolute;
-  top: 60px;
-  left: 0;
-  width: 100%;
-  background: rgba(0, 0, 0, 0.9);
-
+  top: 100%;
+  width: 100vw;
+  background: rgba(29, 29, 29, 0.9);
+  z-index: 999;
+  box-sizing: border-box;
+  
+  transform: translateY(${({ open }) => (open ? "0" : "-20px")}) 
+             scale(${({ open }) => (open ? "1" : "0.95")});
+  opacity: ${({ open }) => (open ? "1" : "0")};
+  visibility: ${({ open }) => (open ? "visible" : "hidden")};
+  transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+  transform-origin: top center;
+  
   @media (min-width: ${breakpoints.md}) {
     display: flex;
     position: static;
     flex-direction: row;
     width: auto;
+    left: auto;
+    right: auto;
     background: transparent;
     gap: 2rem;
     border-radius: 2rem;
     background-color: #f5f5f5;
     padding: 1.1rem;
+    transform: none;
+    opacity: 1;
+    visibility: visible;
+    transition: none;
+    
   }
 `;
 
@@ -61,6 +80,9 @@ export const LinkElement = styled(Link)`
   text-decoration: none;
   transition: 0.4s;
   border-radius: 2rem;
+  font-size: 1.25rem;
+  padding: 1.75rem;
+  
 
   &:hover {
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
@@ -76,16 +98,18 @@ export const LinkElement = styled(Link)`
     }
   }
 `;
+
+export const ElementList = styled.li``;
+
 export const MenuContainer = styled.div`
-  width: 100%;
   display: flex;
-  justify-content: end;
+  justify-content: flex-end;
   align-items: center;
-  margin: 0 1rem;
+  position: relative;
 
   @media (min-width: ${breakpoints.md}) {
     justify-content: space-between;
+    width: 100%;
+    gap: 2rem;
   }
 `;
-
-export const ElementList = styled.li``;
