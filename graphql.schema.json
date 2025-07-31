@@ -846,6 +846,39 @@
             "deprecationReason": null
           },
           {
+            "name": "dashboardSummariesByYear",
+            "description": " Queries with filters",
+            "args": [
+              {
+                "name": "year",
+                "description": null,
+                "type": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "Int",
+                    "ofType": null
+                  }
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              }
+            ],
+            "type": {
+              "kind": "LIST",
+              "name": null,
+              "ofType": {
+                "kind": "OBJECT",
+                "name": "DashboardSummary",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "idpDisplacements",
             "description": null,
             "args": [],
