@@ -1,4 +1,4 @@
-import { MapContainer, TileLayer, GeoJSON, useMap } from "react-leaflet";
+import { MapContainer, TileLayer, GeoJSON } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import geoDataRaw from "@assets/countries.geojson.json";
 import type { FeatureCollection } from "geojson";
@@ -6,20 +6,21 @@ import {
   useGetDashboardSummaryByYearQuery,
   type DashboardSummary,
 } from "@/gql/graphql";
-import { useEffect } from "react";
+import { useMemo, useState } from "react";
 import { scaleLinear } from "d3-scale";
+import { isNumber } from "chart.js/helpers";
 
 const geoData: FeatureCollection =
   geoDataRaw && typeof geoDataRaw === "object" && "type" in geoDataRaw
     ? (geoDataRaw as FeatureCollection)
     : { type: "FeatureCollection", features: [] };
 
-
 export const Dashboard = () => {
   const { data, loading, error } = useGetDashboardSummaryByYearQuery({
     variables: { year: 2024 },
   });
-  //const [MapSelection, setMapSelection] = useState<string>("coverageRate");
+  const [dashboardKeySelection, setDashboardKeySelection] =
+    useState<keyof DashboardSummary>("acceptanceRate");
 
   const mapStyle = { width: "100%", height: "100%" };
 
@@ -27,42 +28,30 @@ export const Dashboard = () => {
     console.warn("Error fetching dashboard data");
   }
 
-  useEffect(() => {
-    if (data) {
-      console.log("Dashboard data:", data.dashboardSummariesByYear);
-    }
-  }, [data, loading]);
+  const getColourForMap = useMemo(() => {
+    if (!data?.dashboardSummariesByYear) return {};
 
-  function getColourForValue(countryIso: string) {
-    const maxValue: number = data?.dashboardSummariesByYear
-      ? Math.max(
-          ...data.dashboardSummariesByYear
-            .filter((country) => country?.acceptanceRate != null)
-            .map((country) => country!.acceptanceRate!)
-        )
-      : 0;
+    const entries = data.dashboardSummariesByYear.filter(Boolean);
 
-    const minValue: number = data?.dashboardSummariesByYear
-      ? Math.min(
-          ...data.dashboardSummariesByYear
-            .filter((country) => country?.acceptanceRate != null)
-            .map((country) => country!.acceptanceRate!)
-        )
-      : 0;
+    const values: number[] = entries.map(
+      (dashboardElement) => dashboardElement?.[dashboardKeySelection]
+    ).filter((value) => isNumber(value));
 
-    const colourScale = scaleLinear<string>()
-      .domain([minValue, maxValue])
-      .range(["#35ff90ff", "#5c001cff"])
-      .clamp(true);
+    if (values.length === 0) return {}
+
+    const min = Math.min(...values);
+    const max = Math.max(...values)
+
+    const scale = scaleLinear<string>()
+    .domain([min, max]).range(["#35ff90ff", "#5c001cff"]).clamp(true)
     
-    console.log('MaxValue',maxValue, 'MinValue', minValue)
-    const countryValue: DashboardSummary | null | undefined =
-      data?.dashboardSummariesByYear?.find(
-        (country) => country?.countryIso == countryIso
-      );
-    const value: number = countryValue?.acceptanceRate ?? 0;
-    return colourScale(value);
-  }
+    return Object.fromEntries(
+      entries.map((entry) => {
+        const country = entry?.[dashboardKeySelection] ;
+        return [entry!.countryIso, typeof country === 'number' ? scale(country) : '#ccc'];
+      })
+    )
+  }, [data, dashboardKeySelection]);
 
   return (
     <MapContainer
@@ -82,21 +71,19 @@ export const Dashboard = () => {
         attribution='&copy; <a href="https://www.hotosm.org/">Humanitarian OpenStreetMap Team</a> &copy; <a href="https://osm.org/copyright">OpenStreetMap</a> contributors'
         maxZoom={18}
       />
-      {data && <GeoJSON
-        data={geoData}
-        style={(feature) => {
-          const value = getColourForValue(
-            feature?.properties?.["ISO3166-1-Alpha-3"]
-          );
-          return {
-            fillColor: value,
-            weight: 1,
-            color: "white",
-            fillOpacity: 0.8,
-          };
-        }}
-      />}
-      
+        <GeoJSON
+          data={geoData}
+          style={(feature) => {
+            const country = 
+              feature?.properties?.["ISO3166-1-Alpha-3"];
+            return {
+              fillColor: getColourForMap[country] || "#ccc",
+              weight: 1,
+              color: "white",
+              fillOpacity: 0.8,
+            };
+          }}
+        />
     </MapContainer>
   );
 };
