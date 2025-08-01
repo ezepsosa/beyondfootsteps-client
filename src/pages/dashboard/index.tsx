@@ -6,12 +6,24 @@ import {
   useGetDashboardSummaryByYearQuery,
   type DashboardSummary,
 } from "@/gql/graphql";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { scaleLinear } from "d3-scale";
 import { isNumber } from "chart.js/helpers";
 import { SelectorBar } from "@/components/selectorBar";
-import { LowerContainer } from "./styles";
+import {
+  CloseModal,
+  IconSpan,
+  InfoModal,
+  LowerContainer,
+  TextSpan,
+} from "./styles";
 import { ColourLegend } from "@/components/colourLegend";
+import {
+  dashboardKeyOptions,
+  dashboardYearOptions,
+  INDICATOR_INFO,
+} from "./auxliar";
+import { IoCloseOutline, IoInformationCircle } from "react-icons/io5";
 
 const geoData: FeatureCollection =
   geoDataRaw && typeof geoDataRaw === "object" && "type" in geoDataRaw
@@ -27,36 +39,8 @@ export const Dashboard = () => {
     number | string
   >(2024);
 
-  const dashboardKeyOptions: {
-    label: string;
-    value: keyof DashboardSummary;
-  }[] = [
-    { label: "Coverage Rate", value: "coverageRate" },
-    { label: "Applied per 100k", value: "appliedPer100k" },
-    { label: "Acceptance Rate", value: "acceptanceRate" },
-    { label: "Internal Displacement", value: "internalDisplacementTotal" },
-    { label: "Displacement Rate per 100k", value: "displacementRatePer100k" },
-    { label: "IDP Returnees", value: "idpReturnees" },
-    { label: "Refugee Returnees", value: "refugeesReturnees" },
-    { label: "Naturalizations Total", value: "naturalizationsTotal" },
-    { label: "Naturalization Change", value: "naturalizationChange" },
-    { label: "Resettlement Requests", value: "resettlementRequests" },
-    { label: "Resettlement Departures", value: "resettlementDepartures" },
-    { label: "Resettlement Submissions", value: "resettlementSubmissions" },
-    { label: "Resettlement Needs", value: "resettlementNeeds" },
-    { label: "Resettlement Gap", value: "resettlementGap" },
-    { label: "Request vs Needs Ratio", value: "requestVsNeedsRatio" },
-    { label: "Submissions Efficiency", value: "submissionsEfficiency" },
-    { label: "Realization Rate", value: "realizationRate" },
-  ];
-
-  const dashboardYearOptions: { label: number; value: string }[] = [
-    { label: 2024, value: "2024" },
-    { label: 2023, value: "2023" },
-    { label: 2022, value: "2022" },
-    { label: 2021, value: "2021" },
-    { label: 2020, value: "2020" },
-  ];
+  const [info, setInfo] = useState<string>();
+  const [openInfo, setOpenInfo] = useState<boolean>(false);
 
   const mapStyle = { width: "100%", height: "100%" };
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -103,52 +87,68 @@ export const Dashboard = () => {
     return { scale, colours };
   }, [data, dashboardKeySelection]);
 
+  useEffect(() => {
+    if (dashboardKeySelection) {
+      setInfo(INDICATOR_INFO[dashboardKeySelection]);
+    }
+  }, [dashboardKeySelection]);
+
   return (
-    <MapContainer
-      center={[20, 0]}
-      zoom={2}
-      style={mapStyle}
-      maxZoom={6}
-      minZoom={3}
-      maxBounds={[
-        [-85, -170],
-        [85, 180],
-      ]}
-      maxBoundsViscosity={1.0}
-    >
-      <TileLayer
-        url="https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png"
-        attribution='&copy; <a href="https://www.hotosm.org/">Humanitarian OpenStreetMap Team</a> &copy; <a href="https://osm.org/copyright">OpenStreetMap</a> contributors'
-        maxZoom={18}
-      />
-      <GeoJSON
-        data={geoData}
-        style={(feature) => {
-          const country = feature?.properties?.["ISO3166-1-Alpha-3"];
-          return {
-            fillColor: getColourForMap.colours?.[country] || "#ccc",
-            weight: 1,
-            color: "white",
-            fillOpacity: 0.8,
-          };
-        }}
-      />
-      <LowerContainer>
-        <SelectorBar
-          defaultValue={dashboardYearSelection}
-          paddingMobile="0.4rem 2.5rem;"
-          selectors={dashboardYearOptions}
-          setOption={setDashboardYearSelection}
+    <>
+      <MapContainer
+        center={[20, 0]}
+        zoom={2}
+        style={mapStyle}
+        maxZoom={6}
+        minZoom={3}
+        maxBounds={[[-85, -170], [85, 180]]}
+        maxBoundsViscosity={1.0}
+      >
+        <TileLayer
+          url="https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png"
+          attribution='&copy; <a href="https://www.hotosm.org/">Humanitarian OpenStreetMap Team</a> &copy; <a href="https://osm.org/copyright">OpenStreetMap</a> contributors'
+          maxZoom={18}
         />
-        <SelectorBar
-          defaultValue={dashboardKeySelection}
-          selectors={dashboardKeyOptions}
-          setOption={setDashboardKeySelection}
+        <GeoJSON
+          data={geoData}
+          style={(feature) => {
+            const country = feature?.properties?.["ISO3166-1-Alpha-3"];
+            return {
+              fillColor: getColourForMap.colours?.[country] || "#ccc",
+              weight: 1,
+              color: "white",
+              fillOpacity: 0.8,
+            };
+          }}
         />
-        {getColourForMap.scale && (
-          <ColourLegend scale={getColourForMap.scale}></ColourLegend>
-        )}
-      </LowerContainer>
-    </MapContainer>
+        <LowerContainer>
+          <SelectorBar
+            defaultValue={dashboardYearSelection}
+            paddingMobile="0.4rem 2.5rem;"
+            selectors={dashboardYearOptions}
+            setOption={setDashboardYearSelection}
+          />
+          <SelectorBar
+            defaultValue={dashboardKeySelection}
+            selectors={dashboardKeyOptions}
+            setOption={setDashboardKeySelection}
+          />
+          {getColourForMap.scale && (
+            <ColourLegend scale={getColourForMap.scale}></ColourLegend>
+          )}
+        </LowerContainer>
+      </MapContainer>
+
+      <IconSpan onClick={() => setOpenInfo(true)}>
+        <IoInformationCircle size="1.5rem" />
+      </IconSpan>
+
+      <InfoModal $visible={openInfo}>
+        <TextSpan>{info}</TextSpan>
+        <CloseModal onClick={() => setOpenInfo(false)}>
+          <IoCloseOutline color="white" size="1.2rem" />
+        </CloseModal>
+      </InfoModal>
+    </>
   );
 };
