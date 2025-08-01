@@ -53,6 +53,15 @@ export const InfoModal = styled.div<{ $visible: boolean }>`
 
   transition: opacity 0.4s ease-out, transform 0.4s ease-out,
     visibility 0.4s ease-out;
+
+  @media (min-width: ${breakpoints.md}) {
+    transform: ${({ $visible }) =>
+      $visible ? "translateY(0)" : "translateY(-100%)"};
+
+    top: 8rem;
+    left: 6rem;
+    bottom: inherit;
+  }
 `;
 
 export const TextSpan = styled.span`

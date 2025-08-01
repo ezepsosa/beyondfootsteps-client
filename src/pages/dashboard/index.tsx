@@ -139,7 +139,7 @@ export const Dashboard = () => {
         </LowerContainer>
       </MapContainer>
 
-      <IconSpan onClick={() => setOpenInfo(true)}>
+      <IconSpan onClick={() => setOpenInfo((value) => !value)}>
         <IoInformationCircle size="1.5rem" />
       </IconSpan>
 
