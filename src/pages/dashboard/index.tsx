@@ -11,6 +11,7 @@ import { scaleLinear } from "d3-scale";
 import { isNumber } from "chart.js/helpers";
 import { SelectorBar } from "@/components/selectorBar";
 import { LowerContainer } from "./styles";
+import { ColourLegend } from "@/components/colourLegend";
 
 const geoData: FeatureCollection =
   geoDataRaw && typeof geoDataRaw === "object" && "type" in geoDataRaw
@@ -20,7 +21,7 @@ const geoData: FeatureCollection =
 export const Dashboard = () => {
   const [dashboardKeySelection, setDashboardKeySelection] = useState<
     number | string
-  >("acceptanceRate");
+  >("coverageRate");
 
   const [dashboardYearSelection, setDashboardYearSelection] = useState<
     number | string
@@ -86,10 +87,10 @@ export const Dashboard = () => {
 
     const scale = scaleLinear<string>()
       .domain([min, max])
-      .range(["#35ff90ff", "#5c001cff"])
+      .range(["#2bff00ff", "#00478fff"])
       .clamp(true);
 
-    return Object.fromEntries(
+    const colours = Object.fromEntries(
       entries.map((entry) => {
         const country =
           entry?.[dashboardKeySelection as keyof DashboardSummary];
@@ -99,7 +100,9 @@ export const Dashboard = () => {
         ];
       })
     );
+    return { scale, colours };
   }, [data, dashboardKeySelection]);
+
   return (
     <MapContainer
       center={[20, 0]}
@@ -123,7 +126,7 @@ export const Dashboard = () => {
         style={(feature) => {
           const country = feature?.properties?.["ISO3166-1-Alpha-3"];
           return {
-            fillColor: getColourForMap[country] || "#ccc",
+            fillColor: getColourForMap.colours?.[country] || "#ccc",
             weight: 1,
             color: "white",
             fillOpacity: 0.8,
@@ -139,6 +142,9 @@ export const Dashboard = () => {
           selectors={dashboardKeyOptions}
           setOption={setDashboardKeySelection}
         />
+        {getColourForMap.scale && (
+          <ColourLegend scale={getColourForMap.scale}></ColourLegend>
+        )}
       </LowerContainer>
     </MapContainer>
   );
