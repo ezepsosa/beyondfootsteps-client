@@ -135,10 +135,13 @@ export const Dashboard = () => {
       />
       <LowerContainer>
         <SelectorBar
+          defaultValue={dashboardYearSelection}
+          paddingMobile="0.4rem 2.5rem;"
           selectors={dashboardYearOptions}
           setOption={setDashboardYearSelection}
         />
         <SelectorBar
+          defaultValue={dashboardKeySelection}
           selectors={dashboardKeyOptions}
           setOption={setDashboardKeySelection}
         />

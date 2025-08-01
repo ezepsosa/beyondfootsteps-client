@@ -1,17 +1,21 @@
 import { breakpoints } from "@/styles/breakpoints";
 import styled from "styled-components";
 
-export const Selector = styled.select`
+export const Selector = styled.select<{
+  $paddingDesktop?: string;
+  $paddingMobile?: string;
+}>`
   background: transparent;
   border-radius: 1rem;
   background-color: #f5f5f5;
-  padding: 0.5rem 0.4rem;
+  padding: ${({ $paddingMobile }) => $paddingMobile || "0.5rem 0.4rem"};
   opacity: 1;
   text-align: center;
   font-family: "Inter", sans-serif;
   font-optical-sizing: auto;
   font-weight: 500;
   font-style: normal;
+  font-size: 0.8rem;
   appearance: none;
   -webkit-appearance: none;
   -moz-appearance: none;
@@ -31,7 +35,7 @@ export const Selector = styled.select`
   @media (min-width: ${breakpoints.md}) {
     font-size: 1.2rem;
     font-weight: 500;
-    padding: 0.75rem 0.4rem;
+    padding: ${({ $paddingDesktop }) => $paddingDesktop || "0.75rem 3rem"};
   }
 `;
 
