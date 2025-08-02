@@ -17,23 +17,27 @@ export const LowerContainer = styled.div`
   }
 `;
 
-export const IconSpan = styled.span`
+export const TopButtomContainer = styled.span`
   position: fixed;
-  top: 6rem;
-  left: 0.65rem;
-  z-index: 1000;
   display: flex;
+  top: 6rem;
+  z-index: 1000;
   align-items: center;
   gap: 0.5rem;
-  background-color: #f5f5f5;
   padding: 0.5rem 1rem;
   border-radius: 8px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
 
   @media (min-width: ${breakpoints.md}) {
     top: 8rem;
     left: 2rem;
   }
+`;
+
+export const IconSpan = styled.span`
+  background-color: #f5f5f5;
+  border-radius: 8px;
+  padding: 0.5rem 0.5rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
 `;
 
 export const InfoModal = styled.div<{ $visible: boolean }>`
@@ -73,6 +77,16 @@ export const TextSpan = styled.span`
   color: rgba(255, 255, 255, 1);
 `;
 
+export const KpiSpan = styled.span`
+  display: flex;
+  width: max-content;
+  font-size: 0.7rem;
+  font-family: "Inter", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+  color: black;
+`;
 export const CloseModal = styled.div`
   position: absolute;
   top: 0.5rem;

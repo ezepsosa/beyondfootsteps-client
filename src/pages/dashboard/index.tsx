@@ -1,7 +1,13 @@
-import { MapContainer, TileLayer, GeoJSON } from "react-leaflet";
+import {
+  MapContainer,
+  TileLayer,
+  GeoJSON,
+  LayerGroup,
+  Marker,
+} from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import geoDataRaw from "@assets/countries.geojson.json";
-import type { FeatureCollection } from "geojson";
+import type { Feature, FeatureCollection, Geometry } from "geojson";
 import {
   useGetDashboardSummaryByYearQuery,
   type DashboardSummary,
@@ -14,8 +20,10 @@ import {
   CloseModal,
   IconSpan,
   InfoModal,
+  KpiSpan,
   LowerContainer,
   TextSpan,
+  TopButtomContainer,
 } from "./styles";
 import { ColourLegend } from "@/components/colourLegend";
 import {
@@ -24,6 +32,11 @@ import {
   INDICATOR_INFO,
 } from "./auxliar";
 import { IoCloseOutline, IoInformationCircle } from "react-icons/io5";
+import { geoCentroid } from "d3-geo";
+import L from "leaflet";
+import ReactDOMServer from "react-dom/server";
+import { RxEyeOpen } from "react-icons/rx";
+import { GoEyeClosed } from "react-icons/go";
 
 const geoData: FeatureCollection =
   geoDataRaw && typeof geoDataRaw === "object" && "type" in geoDataRaw
@@ -41,6 +54,7 @@ export const Dashboard = () => {
 
   const [info, setInfo] = useState<string>();
   const [openInfo, setOpenInfo] = useState<boolean>(false);
+  const [showMetric, setShowMetric] = useState<boolean>(true);
 
   const mapStyle = { width: "100%", height: "100%" };
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -87,6 +101,24 @@ export const Dashboard = () => {
     return { scale, colours };
   }, [data, dashboardKeySelection]);
 
+  const centroids = useMemo(() => {
+    const countryCenter: Record<string, [number, number]> = {};
+    geoData.features?.forEach((f: Feature<Geometry>) => {
+      const iso = f.properties?.["ISO3166-1-Alpha-3"];
+      countryCenter[iso] = geoCentroid(f);
+    });
+    return countryCenter;
+  }, []);
+
+  function humanize(n: number, decimals = 2): string {
+    const abs = Math.abs(n);
+
+    if (abs >= 1_000_000) return (n / 1_000_000).toFixed(decimals) + " M";
+    if (abs >= 1_000) return (n / 1_000).toFixed(decimals) + " k";
+    if (abs < 1e-3 && n !== 0) return n.toExponential(decimals); // 0.0003 → "3.00e-4"
+
+    return n.toLocaleString("es-ES", { maximumFractionDigits: decimals });
+  }
   useEffect(() => {
     if (dashboardKeySelection) {
       setInfo(INDICATOR_INFO[dashboardKeySelection]);
@@ -101,7 +133,10 @@ export const Dashboard = () => {
         style={mapStyle}
         maxZoom={6}
         minZoom={3}
-        maxBounds={[[-85, -170], [85, 180]]}
+        maxBounds={[
+          [-85, -170],
+          [85, 180],
+        ]}
         maxBoundsViscosity={1.0}
       >
         <TileLayer
@@ -121,6 +156,32 @@ export const Dashboard = () => {
             };
           }}
         />
+        {showMetric && (
+          <LayerGroup>
+            {data?.dashboardSummariesByYear?.filter(Boolean).map((entry) => {
+              const iso = entry!.countryIso;
+              if (!iso) return null;
+              const val =
+                entry?.[dashboardKeySelection as keyof DashboardSummary];
+              const center = centroids[iso];
+              if (!center || !isNumber(val)) return null;
+              return (
+                <Marker
+                  key={iso}
+                  position={[center[1], center[0]]}
+                  icon={L.divIcon({
+                    className: "",
+                    html: ReactDOMServer.renderToStaticMarkup(
+                      <KpiSpan onClick={() => console.log("hi")}>
+                        {humanize(val)}
+                      </KpiSpan>
+                    ),
+                  })}
+                />
+              );
+            })}
+          </LayerGroup>
+        )}
         <LowerContainer>
           <SelectorBar
             defaultValue={dashboardYearSelection}
@@ -138,10 +199,18 @@ export const Dashboard = () => {
           )}
         </LowerContainer>
       </MapContainer>
-
-      <IconSpan onClick={() => setOpenInfo((value) => !value)}>
-        <IoInformationCircle size="1.5rem" />
-      </IconSpan>
+      <TopButtomContainer>
+        <IconSpan onClick={() => setOpenInfo((value) => !value)}>
+          <IoInformationCircle size="1.5rem" />
+        </IconSpan>
+        <IconSpan onClick={() => setShowMetric((value) => !value)}>
+          {showMetric ? (
+            <RxEyeOpen size="1.5rem" />
+          ) : (
+            <GoEyeClosed size="1.5rem" />
+          )}
+        </IconSpan>
+      </TopButtomContainer>
 
       <InfoModal $visible={openInfo}>
         <TextSpan>{info}</TextSpan>
