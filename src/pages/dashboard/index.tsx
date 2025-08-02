@@ -115,7 +115,7 @@ export const Dashboard = () => {
 
     if (abs >= 1_000_000) return (n / 1_000_000).toFixed(decimals) + " M";
     if (abs >= 1_000) return (n / 1_000).toFixed(decimals) + " k";
-    if (abs < 1e-3 && n !== 0) return n.toExponential(decimals); // 0.0003 → "3.00e-4"
+    if (abs < 1e-3 && n !== 0) return n.toExponential(decimals);
 
     return n.toLocaleString("es-ES", { maximumFractionDigits: decimals });
   }
