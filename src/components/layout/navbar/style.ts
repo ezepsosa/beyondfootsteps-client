@@ -8,7 +8,7 @@ export const LayoutNavbar = styled.nav`
   width: 100%;
   display: flex;
   align-items: center;
-  z-index: 1000;
+  z-index: 1001;
   padding: 1rem 1rem;
   box-sizing: border-box;
   justify-content: space-between;
@@ -49,7 +49,7 @@ export const AuxiliarMenu = styled.div`
 `;
 
 export const MenuElement = styled.ul<{ open: boolean }>`
-  display: flex;
+  display: ${({ open }) => (open ? "flex" : "none")};
   flex-direction: column;
   width: 100%;
   background: rgba(14, 14, 14, 0.9);

@@ -50,6 +50,7 @@ export type DashboardSummary = {
   __typename?: 'DashboardSummary';
   acceptanceRate?: Maybe<Scalars['Float']['output']>;
   appliedPer100k?: Maybe<Scalars['Float']['output']>;
+  country?: Maybe<Scalars['String']['output']>;
   countryIso?: Maybe<Scalars['String']['output']>;
   coverageRate?: Maybe<Scalars['Float']['output']>;
   displacementRatePer100k?: Maybe<Scalars['Float']['output']>;
@@ -97,10 +98,17 @@ export type Query = {
   asylumDecisions?: Maybe<Array<Maybe<AsylumDecision>>>;
   asylumRequests?: Maybe<Array<Maybe<AsylumRequest>>>;
   dashboardSummaries?: Maybe<Array<Maybe<DashboardSummary>>>;
+  /**  Queries with filters */
+  dashboardSummariesByYear?: Maybe<Array<Maybe<DashboardSummary>>>;
   idpDisplacements?: Maybe<Array<Maybe<IdpDisplacement>>>;
   idpReturnees?: Maybe<Array<Maybe<IdpReturnees>>>;
   refugeeNaturalizations?: Maybe<Array<Maybe<RefugeeNaturalization>>>;
   resettlementSummaries?: Maybe<Array<Maybe<ResettlementSummary>>>;
+};
+
+
+export type QueryDashboardSummariesByYearArgs = {
+  year: Scalars['Int']['input'];
 };
 
 export type RefugeeNaturalization = {
@@ -145,7 +153,14 @@ export type GetAsylumRequestsQuery = { __typename?: 'Query', asylumRequests?: Ar
 export type GetDashboardSummaryQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetDashboardSummaryQuery = { __typename?: 'Query', dashboardSummaries?: Array<{ __typename?: 'DashboardSummary', id: string, year?: number | null, countryIso?: string | null, totalApplied?: number | null, appliedPer100k?: number | null, acceptanceRate?: number | null, internalDisplacementTotal?: number | null, displacementRatePer100k?: number | null, idpReturnees?: number | null, refugeesReturnees?: number | null, naturalizationsTotal?: number | null, naturalizationChange?: number | null, resettlementRequests?: number | null, resettlementDepartures?: number | null, resettlementSubmissions?: number | null, resettlementNeeds?: number | null, resettlementGap?: number | null, coverageRate?: number | null, requestVsNeedsRatio?: number | null, submissionsEfficiency?: number | null, realizationRate?: number | null } | null> | null };
+export type GetDashboardSummaryQuery = { __typename?: 'Query', dashboardSummaries?: Array<{ __typename?: 'DashboardSummary', id: string, year?: number | null, countryIso?: string | null, country?: string | null, totalApplied?: number | null, appliedPer100k?: number | null, acceptanceRate?: number | null, internalDisplacementTotal?: number | null, displacementRatePer100k?: number | null, idpReturnees?: number | null, refugeesReturnees?: number | null, naturalizationsTotal?: number | null, naturalizationChange?: number | null, resettlementRequests?: number | null, resettlementDepartures?: number | null, resettlementSubmissions?: number | null, resettlementNeeds?: number | null, resettlementGap?: number | null, coverageRate?: number | null, requestVsNeedsRatio?: number | null, submissionsEfficiency?: number | null, realizationRate?: number | null } | null> | null };
+
+export type GetDashboardSummaryByYearQueryVariables = Exact<{
+  year: Scalars['Int']['input'];
+}>;
+
+
+export type GetDashboardSummaryByYearQuery = { __typename?: 'Query', dashboardSummariesByYear?: Array<{ __typename?: 'DashboardSummary', id: string, year?: number | null, countryIso?: string | null, country?: string | null, totalApplied?: number | null, appliedPer100k?: number | null, acceptanceRate?: number | null, internalDisplacementTotal?: number | null, displacementRatePer100k?: number | null, idpReturnees?: number | null, refugeesReturnees?: number | null, naturalizationsTotal?: number | null, naturalizationChange?: number | null, resettlementRequests?: number | null, resettlementDepartures?: number | null, resettlementSubmissions?: number | null, resettlementNeeds?: number | null, resettlementGap?: number | null, coverageRate?: number | null, requestVsNeedsRatio?: number | null, submissionsEfficiency?: number | null, realizationRate?: number | null } | null> | null };
 
 export type GetAllIdpDisplacementsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -271,6 +286,7 @@ export const GetDashboardSummaryDocument = gql`
     id
     year
     countryIso
+    country
     totalApplied
     appliedPer100k
     acceptanceRate
@@ -324,6 +340,67 @@ export type GetDashboardSummaryQueryHookResult = ReturnType<typeof useGetDashboa
 export type GetDashboardSummaryLazyQueryHookResult = ReturnType<typeof useGetDashboardSummaryLazyQuery>;
 export type GetDashboardSummarySuspenseQueryHookResult = ReturnType<typeof useGetDashboardSummarySuspenseQuery>;
 export type GetDashboardSummaryQueryResult = Apollo.QueryResult<GetDashboardSummaryQuery, GetDashboardSummaryQueryVariables>;
+export const GetDashboardSummaryByYearDocument = gql`
+    query GetDashboardSummaryByYear($year: Int!) {
+  dashboardSummariesByYear(year: $year) {
+    id
+    year
+    countryIso
+    country
+    totalApplied
+    appliedPer100k
+    acceptanceRate
+    internalDisplacementTotal
+    displacementRatePer100k
+    idpReturnees
+    refugeesReturnees
+    naturalizationsTotal
+    naturalizationChange
+    resettlementRequests
+    resettlementDepartures
+    resettlementSubmissions
+    resettlementNeeds
+    resettlementGap
+    coverageRate
+    requestVsNeedsRatio
+    submissionsEfficiency
+    realizationRate
+  }
+}
+    `;
+
+/**
+ * __useGetDashboardSummaryByYearQuery__
+ *
+ * To run a query within a React component, call `useGetDashboardSummaryByYearQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetDashboardSummaryByYearQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetDashboardSummaryByYearQuery({
+ *   variables: {
+ *      year: // value for 'year'
+ *   },
+ * });
+ */
+export function useGetDashboardSummaryByYearQuery(baseOptions: Apollo.QueryHookOptions<GetDashboardSummaryByYearQuery, GetDashboardSummaryByYearQueryVariables> & ({ variables: GetDashboardSummaryByYearQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetDashboardSummaryByYearQuery, GetDashboardSummaryByYearQueryVariables>(GetDashboardSummaryByYearDocument, options);
+      }
+export function useGetDashboardSummaryByYearLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetDashboardSummaryByYearQuery, GetDashboardSummaryByYearQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetDashboardSummaryByYearQuery, GetDashboardSummaryByYearQueryVariables>(GetDashboardSummaryByYearDocument, options);
+        }
+export function useGetDashboardSummaryByYearSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetDashboardSummaryByYearQuery, GetDashboardSummaryByYearQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetDashboardSummaryByYearQuery, GetDashboardSummaryByYearQueryVariables>(GetDashboardSummaryByYearDocument, options);
+        }
+export type GetDashboardSummaryByYearQueryHookResult = ReturnType<typeof useGetDashboardSummaryByYearQuery>;
+export type GetDashboardSummaryByYearLazyQueryHookResult = ReturnType<typeof useGetDashboardSummaryByYearLazyQuery>;
+export type GetDashboardSummaryByYearSuspenseQueryHookResult = ReturnType<typeof useGetDashboardSummaryByYearSuspenseQuery>;
+export type GetDashboardSummaryByYearQueryResult = Apollo.QueryResult<GetDashboardSummaryByYearQuery, GetDashboardSummaryByYearQueryVariables>;
 export const GetAllIdpDisplacementsDocument = gql`
     query GetAllIdpDisplacements {
   idpDisplacements {
