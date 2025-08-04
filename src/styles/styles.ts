@@ -12,11 +12,22 @@ export const TextSpan = styled.span<TextSpanProps>`
 
   @media (min-width: ${breakpoints.md}) {
     font-size: ${({ $fontSizeMD }) => $fontSizeMD || "1rem"};
-
   }
 `;
 
 export const LabelValueContainer = styled.div`
   display: flex;
   gap: 0.2rem;
+`;
+
+export const CloseModal = styled.div`
+  position: absolute;
+  top: 0.5rem;
+  right: 0.75rem;
+  cursor: pointer;
+
+  @media (min-width: ${breakpoints.md}) {
+    top: 0.4rem;
+    right: 0.3rem;
+  }
 `;

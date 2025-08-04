@@ -1,5 +1,4 @@
 import { IoCloseOutline } from "react-icons/io5";
-import { CloseModal } from "../styles";
 import {
   BodyData,
   Container,
@@ -9,7 +8,7 @@ import {
 } from "./style";
 import type { Props } from "./types";
 import flagData from "@assets/iso-flags.json";
-import { LabelValueContainer, TextSpan } from "@/styles/styles";
+import { CloseModal, LabelValueContainer, TextSpan } from "@/styles/styles";
 import { dashboardKeyOptions, humanize } from "../auxliar";
 
 type isoFlag = {

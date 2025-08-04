@@ -17,9 +17,7 @@ import { scaleLinear } from "d3-scale";
 import { isNumber } from "chart.js/helpers";
 import { SelectorBar } from "@/components/selectorBar";
 import {
-  CloseModal,
   IconSpan,
-  InfoModal,
   KpiSpan,
   LowerContainer,
   TopButtomContainer,
@@ -31,14 +29,14 @@ import {
   humanize,
   INDICATOR_INFO,
 } from "./auxliar";
-import { IoCloseOutline, IoInformationCircle } from "react-icons/io5";
+import { IoInformationCircle } from "react-icons/io5";
 import { geoCentroid } from "d3-geo";
 import L from "leaflet";
 import ReactDOMServer from "react-dom/server";
 import { RxEyeOpen } from "react-icons/rx";
 import { GoEyeClosed } from "react-icons/go";
 import { InfoCountryModal } from "./infoCountryModal";
-import { TextSpan } from "@/styles/styles";
+import { InfoKPIModal } from "./infoKPIModal";
 
 const geoData: FeatureCollection =
   geoDataRaw && typeof geoDataRaw === "object" && "type" in geoDataRaw
@@ -211,18 +209,7 @@ export const Dashboard = () => {
         </IconSpan>
       </TopButtomContainer>
 
-      <InfoModal $visible={openInfo}>
-        <TextSpan
-          $fontColor="  rgba(255, 255, 255, 1)"
-          $fontWeight="lighter"
-          $fontSize="0.8rem"
-        >
-          {info}
-        </TextSpan>
-        <CloseModal onClick={() => setOpenInfo(false)}>
-          <IoCloseOutline color="white" size="1.2rem" />
-        </CloseModal>
-      </InfoModal>
+      <InfoKPIModal info={info ?? ""} openInfo={openInfo} setOpenInfo={setOpenInfo}/>
 
       {openCountryInfo &&
         countrySelected &&
