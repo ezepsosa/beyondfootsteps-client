@@ -3,6 +3,7 @@ query GetDashboardSummary {
     id
     year
     countryIso
+    country
     totalApplied
     appliedPer100k
     acceptanceRate
@@ -29,6 +30,7 @@ query GetDashboardSummaryByYear($year: Int!) {
     id
     year
     countryIso
+    country
     totalApplied
     appliedPer100k
     acceptanceRate

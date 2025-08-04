@@ -50,6 +50,7 @@ export type DashboardSummary = {
   __typename?: 'DashboardSummary';
   acceptanceRate?: Maybe<Scalars['Float']['output']>;
   appliedPer100k?: Maybe<Scalars['Float']['output']>;
+  country?: Maybe<Scalars['String']['output']>;
   countryIso?: Maybe<Scalars['String']['output']>;
   coverageRate?: Maybe<Scalars['Float']['output']>;
   displacementRatePer100k?: Maybe<Scalars['Float']['output']>;
@@ -152,14 +153,14 @@ export type GetAsylumRequestsQuery = { __typename?: 'Query', asylumRequests?: Ar
 export type GetDashboardSummaryQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetDashboardSummaryQuery = { __typename?: 'Query', dashboardSummaries?: Array<{ __typename?: 'DashboardSummary', id: string, year?: number | null, countryIso?: string | null, totalApplied?: number | null, appliedPer100k?: number | null, acceptanceRate?: number | null, internalDisplacementTotal?: number | null, displacementRatePer100k?: number | null, idpReturnees?: number | null, refugeesReturnees?: number | null, naturalizationsTotal?: number | null, naturalizationChange?: number | null, resettlementRequests?: number | null, resettlementDepartures?: number | null, resettlementSubmissions?: number | null, resettlementNeeds?: number | null, resettlementGap?: number | null, coverageRate?: number | null, requestVsNeedsRatio?: number | null, submissionsEfficiency?: number | null, realizationRate?: number | null } | null> | null };
+export type GetDashboardSummaryQuery = { __typename?: 'Query', dashboardSummaries?: Array<{ __typename?: 'DashboardSummary', id: string, year?: number | null, countryIso?: string | null, country?: string | null, totalApplied?: number | null, appliedPer100k?: number | null, acceptanceRate?: number | null, internalDisplacementTotal?: number | null, displacementRatePer100k?: number | null, idpReturnees?: number | null, refugeesReturnees?: number | null, naturalizationsTotal?: number | null, naturalizationChange?: number | null, resettlementRequests?: number | null, resettlementDepartures?: number | null, resettlementSubmissions?: number | null, resettlementNeeds?: number | null, resettlementGap?: number | null, coverageRate?: number | null, requestVsNeedsRatio?: number | null, submissionsEfficiency?: number | null, realizationRate?: number | null } | null> | null };
 
 export type GetDashboardSummaryByYearQueryVariables = Exact<{
   year: Scalars['Int']['input'];
 }>;
 
 
-export type GetDashboardSummaryByYearQuery = { __typename?: 'Query', dashboardSummariesByYear?: Array<{ __typename?: 'DashboardSummary', id: string, year?: number | null, countryIso?: string | null, totalApplied?: number | null, appliedPer100k?: number | null, acceptanceRate?: number | null, internalDisplacementTotal?: number | null, displacementRatePer100k?: number | null, idpReturnees?: number | null, refugeesReturnees?: number | null, naturalizationsTotal?: number | null, naturalizationChange?: number | null, resettlementRequests?: number | null, resettlementDepartures?: number | null, resettlementSubmissions?: number | null, resettlementNeeds?: number | null, resettlementGap?: number | null, coverageRate?: number | null, requestVsNeedsRatio?: number | null, submissionsEfficiency?: number | null, realizationRate?: number | null } | null> | null };
+export type GetDashboardSummaryByYearQuery = { __typename?: 'Query', dashboardSummariesByYear?: Array<{ __typename?: 'DashboardSummary', id: string, year?: number | null, countryIso?: string | null, country?: string | null, totalApplied?: number | null, appliedPer100k?: number | null, acceptanceRate?: number | null, internalDisplacementTotal?: number | null, displacementRatePer100k?: number | null, idpReturnees?: number | null, refugeesReturnees?: number | null, naturalizationsTotal?: number | null, naturalizationChange?: number | null, resettlementRequests?: number | null, resettlementDepartures?: number | null, resettlementSubmissions?: number | null, resettlementNeeds?: number | null, resettlementGap?: number | null, coverageRate?: number | null, requestVsNeedsRatio?: number | null, submissionsEfficiency?: number | null, realizationRate?: number | null } | null> | null };
 
 export type GetAllIdpDisplacementsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -285,6 +286,7 @@ export const GetDashboardSummaryDocument = gql`
     id
     year
     countryIso
+    country
     totalApplied
     appliedPer100k
     acceptanceRate
@@ -344,6 +346,7 @@ export const GetDashboardSummaryByYearDocument = gql`
     id
     year
     countryIso
+    country
     totalApplied
     appliedPer100k
     acceptanceRate
