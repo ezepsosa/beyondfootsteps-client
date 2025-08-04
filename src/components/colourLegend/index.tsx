@@ -6,6 +6,7 @@ import {
   LegendNumberContainers,
   SimpleDiv,
 } from "./style";
+import { humanize } from "@/pages/dashboard/auxliar";
 
 type Props = {
   scale: ScaleLinear<string, string, never>;
@@ -43,9 +44,9 @@ export const ColourLegend = ({ scale }: Props) => {
       </CustomSVG>
 
       <LegendNumberContainers style={{ marginLeft: "10px" }}>
-        {scaleValues.map((value, i) => (
+        {scaleValues.map((value, index) => (
           <SimpleDiv
-            key={i}
+            key={index}
             style={{
               height: scaleHeight / numSteps,
               display: "flex",
@@ -53,7 +54,7 @@ export const ColourLegend = ({ scale }: Props) => {
               fontSize: "12px",
             }}
           >
-            {value.toFixed(1)}
+            {index == scaleValues.length -1 ? Math.round(value) : humanize(value, 1)}
           </SimpleDiv>
         ))}
       </LegendNumberContainers>
