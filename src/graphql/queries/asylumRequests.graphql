@@ -1,0 +1,12 @@
+query GetAsylumRequests {
+  asylumRequests {
+    id
+    year
+    countryOfOrigin
+    countryOfOriginIso
+    countryOfAsylum
+    countryOfAsylumIso
+    appliedPer100k
+    applied
+  }
+}

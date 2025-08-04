@@ -1,0 +1,11 @@
+query GetAllIdpReturnees {
+  idpReturnees {
+    id
+    year
+    countryOfOriginIso
+    countryOfOrigin
+    idpReturneesNumber
+    refugeesReturnees
+    byDate
+  }
+}

@@ -1,0 +1,13 @@
+query GetAllRefugeeNaturalization {
+  refugeeNaturalizations {
+    id
+    year
+    countryOfOrigin
+    countryOfOriginIso
+    countryOfAsylum
+    countryOfAsylumIso
+    total
+    intakeDate
+    naturalizationChange
+  }
+}

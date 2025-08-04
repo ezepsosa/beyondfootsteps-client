@@ -1,0 +1,10 @@
+query GetAllIdpDisplacements {
+  idpDisplacements {
+    id
+    year
+    countryOfOrigin
+    countryOfOriginIso
+    displacementRatePer100k
+    total
+  }
+}
