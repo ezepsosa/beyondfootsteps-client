@@ -1,4 +1,3 @@
-import { MapContainer, TileLayer } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import geoDataRaw from "@assets/countries.geojson.json";
 import type { Feature, FeatureCollection, Geometry } from "geojson";
@@ -25,6 +24,7 @@ import { InfoCountryModal } from "./infoCountryModal";
 import { InfoKPIModal } from "./infoKPIModal";
 import { GeoJSONLayer } from "./geoJSONLayer";
 import { CountryMetricLayer } from "./countryMetricLayer";
+import { MapComponent } from "@/components/mapComponent";
 
 const geoData: FeatureCollection =
   geoDataRaw && typeof geoDataRaw === "object" && "type" in geoDataRaw
@@ -44,7 +44,6 @@ export const Dashboard = () => {
   const [showMetric, setShowMetric] = useState<boolean>(true);
   const [openCountryInfo, setOpenCountryInfo] = useState<boolean>(true);
 
-  const mapStyle = { width: "100%", height: "100%" };
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { data, loading, error } = useGetDashboardSummaryByYearQuery({
     variables: { year: Number(dashboardYearSelection) },
@@ -102,23 +101,7 @@ export const Dashboard = () => {
 
   return (
     <>
-      <MapContainer
-        center={[20, 0]}
-        zoom={2}
-        style={mapStyle}
-        maxZoom={6}
-        minZoom={3}
-        maxBounds={[
-          [-85, -170],
-          [85, 180],
-        ]}
-        maxBoundsViscosity={1.0}
-      >
-        <TileLayer
-          url="https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png"
-          attribution='&copy; <a href="https://www.hotosm.org/">Humanitarian OpenStreetMap Team</a> &copy; <a href="https://osm.org/copyright">OpenStreetMap</a> contributors'
-          maxZoom={18}
-        />
+      <MapComponent>
         <GeoJSONLayer data={geoData} geoColourForMap={getColourForMap} />
         {showMetric && data && (
           <CountryMetricLayer
@@ -147,7 +130,7 @@ export const Dashboard = () => {
             <ColourLegend scale={getColourForMap.scale}></ColourLegend>
           )}
         </LowerContainer>
-      </MapContainer>
+      </MapComponent>
       <TopButtomContainer>
         <IconSpan onClick={() => setOpenInfo((value) => !value)}>
           <IoInformationCircle size="1.5rem" />

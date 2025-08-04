@@ -26,7 +26,7 @@ export const Navbar = () => {
         <LinkMenu>
           <MenuElement open={showInMobile}>
             <LinkElement to="/">Dashboard</LinkElement>
-            <LinkElement to="/">Asylum Requests</LinkElement>
+            <LinkElement to="/requests">Asylum Requests</LinkElement>
             <LinkElement to="/">Asylum Decisions</LinkElement>
             <LinkElement to="/">Resettlements</LinkElement>
           </MenuElement>
