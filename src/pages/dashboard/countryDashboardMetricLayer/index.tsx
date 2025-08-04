@@ -1,12 +1,12 @@
 import { isNumber } from "chart.js/helpers";
 import { LayerGroup, Marker } from "react-leaflet";
-import { humanize } from "../../../pages/dashboard/auxliar";
+import { humanize } from "../auxliar";
 import type { Props } from "./types";
 import L from "leaflet";
 import ReactDOMServer from "react-dom/server";
 import { KpiSpan } from "./style";
 
-export const CountryMetricLayer = ({
+export const CountryDashboardMetricLayer = ({
   dashboardSummariesByYear,
   centroids,
   dashboardKeySelection,

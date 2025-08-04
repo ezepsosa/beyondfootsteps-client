@@ -22,9 +22,9 @@ import { RxEyeOpen } from "react-icons/rx";
 import { GoEyeClosed } from "react-icons/go";
 import { InfoCountryModal } from "./infoCountryModal";
 import { InfoKPIModal } from "./infoKPIModal";
-import { CountryMetricLayer } from "../../components/mapUsableComponents/countryMetricLayer";
 import { MapComponent } from "@/components/mapUsableComponents/mapComponent";
 import { GeoJSONLayer } from "@/components/mapUsableComponents/geoJSONLayer";
+import { CountryDashboardMetricLayer } from "./countryDashboardMetricLayer";
 
 const geoData: FeatureCollection =
   geoDataRaw && typeof geoDataRaw === "object" && "type" in geoDataRaw
@@ -44,7 +44,6 @@ export const Dashboard = () => {
   const [showMetric, setShowMetric] = useState<boolean>(true);
   const [openCountryInfo, setOpenCountryInfo] = useState<boolean>(true);
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { data, error } = useGetDashboardSummaryByYearQuery({
     variables: { year: Number(dashboardYearSelection) },
   });
@@ -104,7 +103,7 @@ export const Dashboard = () => {
       <MapComponent>
         <GeoJSONLayer geoColourForMap={getColourForMap} />
         {showMetric && data && (
-          <CountryMetricLayer
+          <CountryDashboardMetricLayer
             centroids={centroids}
             dashboardKeySelection={
               dashboardKeySelection as keyof DashboardSummary

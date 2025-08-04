@@ -9,8 +9,17 @@ import { dashboardYearOptions } from "../dashboard/auxliar";
 import { isNumber } from "chart.js/helpers";
 import { scaleLinear } from "d3-scale";
 import { GeoJSONLayer } from "@/components/mapUsableComponents/geoJSONLayer";
+import { CountryAsylumMetricLayer } from "./countryMetricLayer";
+import type { Feature, FeatureCollection, Geometry } from "geojson";
+import geoDataRaw from "@assets/countries.geojson.json";
+import { geoCentroid } from "d3-geo";
 
 const isoNameRawTyped: isoNameType[] = isoNameRaw as isoNameType[];
+
+const geoData: FeatureCollection =
+  geoDataRaw && typeof geoDataRaw === "object" && "type" in geoDataRaw
+    ? (geoDataRaw as FeatureCollection)
+    : { type: "FeatureCollection", features: [] };
 
 export const AsylumRequests = () => {
   const [countrySelected, setCountrySelected] = useState<number | string>(
@@ -33,7 +42,7 @@ export const AsylumRequests = () => {
 
   const { data, error } = useGetAsylumRequestsByYearAndCountryQuery({
     variables: {
-      year: 2020,
+      year: Number(dashboardYearSelection),
       countryOfAsylumIso:
         directionSelected == "asylum" ? (countrySelected as string) : null,
       countryOfOriginIso:
@@ -45,7 +54,6 @@ export const AsylumRequests = () => {
     console.warn("Error fetching asylum request data");
   }
 
-  console.log(data);
 
   const getColourForMap = useMemo(() => {
     if (!data?.asylumRequestsByYearAndCountry) return {};
@@ -84,9 +92,27 @@ export const AsylumRequests = () => {
     return { scale, colours };
   }, [data, countrySelected, directionSelected]);
 
+  const centroids = useMemo(() => {
+    const countryCenter: Record<string, [number, number]> = {};
+    geoData.features?.forEach((f: Feature<Geometry>) => {
+      const iso = f.properties?.["ISO3166-1-Alpha-3"];
+      countryCenter[iso] = geoCentroid(f);
+    });
+    return countryCenter;
+  }, []);
+
   return (
     <MapComponent>
       <GeoJSONLayer geoColourForMap={getColourForMap} />
+
+      {data && (
+        <CountryAsylumMetricLayer
+          centroids={centroids}
+          originOrAsylum={String(directionSelected)}
+          asylumRequests={data?.asylumRequestsByYearAndCountry ?? []}
+        />
+      )}
+
       <LowerContainer>
         <SelectorBar
           defaultValue={directionSelected}
