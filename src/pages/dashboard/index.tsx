@@ -1,4 +1,4 @@
-import { MapContainer, TileLayer, LayerGroup, Marker } from "react-leaflet";
+import { MapContainer, TileLayer } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import geoDataRaw from "@assets/countries.geojson.json";
 import type { Feature, FeatureCollection, Geometry } from "geojson";
@@ -6,32 +6,25 @@ import {
   useGetDashboardSummaryByYearQuery,
   type DashboardSummary,
 } from "@/gql/graphql";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { scaleLinear } from "d3-scale";
 import { isNumber } from "chart.js/helpers";
 import { SelectorBar } from "@/components/selectorBar";
-import {
-  IconSpan,
-  KpiSpan,
-  LowerContainer,
-  TopButtomContainer,
-} from "./styles";
+import { IconSpan, LowerContainer, TopButtomContainer } from "./styles";
 import { ColourLegend } from "@/components/colourLegend";
 import {
   dashboardKeyOptions,
   dashboardYearOptions,
-  humanize,
   INDICATOR_INFO,
 } from "./auxliar";
 import { IoInformationCircle } from "react-icons/io5";
 import { geoCentroid } from "d3-geo";
-import L from "leaflet";
-import ReactDOMServer from "react-dom/server";
 import { RxEyeOpen } from "react-icons/rx";
 import { GoEyeClosed } from "react-icons/go";
 import { InfoCountryModal } from "./infoCountryModal";
 import { InfoKPIModal } from "./infoKPIModal";
 import { GeoJSONLayer } from "./geoJSONLayer";
+import { CountryMetricLayer } from "./countryMetricLayer";
 
 const geoData: FeatureCollection =
   geoDataRaw && typeof geoDataRaw === "object" && "type" in geoDataRaw
@@ -73,6 +66,8 @@ export const Dashboard = () => {
       )
       .filter((value) => isNumber(value));
 
+    setInfo(INDICATOR_INFO[dashboardKeySelection]);
+
     if (values.length === 0) return {};
 
     const min = Math.min(...values);
@@ -105,12 +100,6 @@ export const Dashboard = () => {
     return countryCenter;
   }, []);
 
-  useEffect(() => {
-    if (dashboardKeySelection) {
-      setInfo(INDICATOR_INFO[dashboardKeySelection]);
-    }
-  }, [dashboardKeySelection]);
-
   return (
     <>
       <MapContainer
@@ -131,35 +120,16 @@ export const Dashboard = () => {
           maxZoom={18}
         />
         <GeoJSONLayer data={geoData} geoColourForMap={getColourForMap} />
-        {showMetric && (
-          <LayerGroup>
-            {data?.dashboardSummariesByYear?.filter(Boolean).map((entry) => {
-              const iso = entry!.countryIso;
-              if (!iso) return null;
-              const val =
-                entry?.[dashboardKeySelection as keyof DashboardSummary];
-              const center = centroids[iso];
-              if (!center || !isNumber(val)) return null;
-              return (
-                <Marker
-                  key={iso}
-                  position={[center[1], center[0]]}
-                  icon={L.divIcon({
-                    className: "",
-                    html: ReactDOMServer.renderToStaticMarkup(
-                      <KpiSpan>{humanize(val)}</KpiSpan>
-                    ),
-                  })}
-                  eventHandlers={{
-                    click: () => {
-                      setCountrySelected(iso);
-                      setOpenCountryInfo(true);
-                    },
-                  }}
-                />
-              );
-            })}
-          </LayerGroup>
+        {showMetric && data && (
+          <CountryMetricLayer
+            centroids={centroids}
+            dashboardKeySelection={
+              dashboardKeySelection as keyof DashboardSummary
+            }
+            setCountrySelected={setCountrySelected}
+            setOpenCountryInfo={setOpenCountryInfo}
+            dashboardSummariesByYear={data?.dashboardSummariesByYear ?? []}
+          />
         )}
         <LowerContainer>
           <SelectorBar

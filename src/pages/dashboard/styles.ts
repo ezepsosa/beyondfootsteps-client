@@ -42,13 +42,3 @@ export const IconSpan = styled.span`
 
 
 
-export const KpiSpan = styled.span`
-  display: flex;
-  width: max-content;
-  font-size: 0.7rem;
-  font-family: "Inter", sans-serif;
-  font-optical-sizing: auto;
-  font-weight: 400;
-  font-style: normal;
-  color: black;
-`;
