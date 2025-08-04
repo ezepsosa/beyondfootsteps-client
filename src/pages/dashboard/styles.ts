@@ -68,15 +68,6 @@ export const InfoModal = styled.div<{ $visible: boolean }>`
   }
 `;
 
-export const TextSpan = styled.span`
-  font-size: 0.9rem;
-  font-family: "Inter", sans-serif;
-  font-optical-sizing: auto;
-  font-weight: lighter;
-  font-style: normal;
-  color: rgba(255, 255, 255, 1);
-`;
-
 export const KpiSpan = styled.span`
   display: flex;
   width: max-content;

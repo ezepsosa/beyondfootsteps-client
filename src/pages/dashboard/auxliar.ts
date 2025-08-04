@@ -82,3 +82,13 @@ export const dashboardYearOptions: { label: number; value: string }[] = [
   { label: 2021, value: "2021" },
   { label: 2020, value: "2020" },
 ];
+
+export function humanize(n: number, decimals = 2): string {
+  const abs = Math.abs(n);
+
+  if (abs >= 1_000_000) return (n / 1_000_000).toFixed(decimals) + " M";
+  if (abs >= 1_000) return (n / 1_000).toFixed(decimals) + " k";
+  if (abs < 1e-3 && n !== 0) return n.toExponential(decimals);
+
+  return n.toLocaleString("es-ES", { maximumFractionDigits: decimals });
+}

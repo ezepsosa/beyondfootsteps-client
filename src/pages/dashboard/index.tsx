@@ -22,13 +22,13 @@ import {
   InfoModal,
   KpiSpan,
   LowerContainer,
-  TextSpan,
   TopButtomContainer,
 } from "./styles";
 import { ColourLegend } from "@/components/colourLegend";
 import {
   dashboardKeyOptions,
   dashboardYearOptions,
+  humanize,
   INDICATOR_INFO,
 } from "./auxliar";
 import { IoCloseOutline, IoInformationCircle } from "react-icons/io5";
@@ -37,6 +37,8 @@ import L from "leaflet";
 import ReactDOMServer from "react-dom/server";
 import { RxEyeOpen } from "react-icons/rx";
 import { GoEyeClosed } from "react-icons/go";
+import { InfoCountryModal } from "./infoCountryModal";
+import { TextSpan } from "@/styles/styles";
 
 const geoData: FeatureCollection =
   geoDataRaw && typeof geoDataRaw === "object" && "type" in geoDataRaw
@@ -53,8 +55,10 @@ export const Dashboard = () => {
   >(2024);
 
   const [info, setInfo] = useState<string>();
+  const [countrySelected, setCountrySelected] = useState<string>();
   const [openInfo, setOpenInfo] = useState<boolean>(false);
   const [showMetric, setShowMetric] = useState<boolean>(true);
+  const [openCountryInfo, setOpenCountryInfo] = useState<boolean>(true);
 
   const mapStyle = { width: "100%", height: "100%" };
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -110,15 +114,7 @@ export const Dashboard = () => {
     return countryCenter;
   }, []);
 
-  function humanize(n: number, decimals = 2): string {
-    const abs = Math.abs(n);
 
-    if (abs >= 1_000_000) return (n / 1_000_000).toFixed(decimals) + " M";
-    if (abs >= 1_000) return (n / 1_000).toFixed(decimals) + " k";
-    if (abs < 1e-3 && n !== 0) return n.toExponential(decimals);
-
-    return n.toLocaleString("es-ES", { maximumFractionDigits: decimals });
-  }
   useEffect(() => {
     if (dashboardKeySelection) {
       setInfo(INDICATOR_INFO[dashboardKeySelection]);
@@ -155,7 +151,7 @@ export const Dashboard = () => {
               fillOpacity: 0.8,
             };
           }}
-        />
+        ></GeoJSON>
         {showMetric && (
           <LayerGroup>
             {data?.dashboardSummariesByYear?.filter(Boolean).map((entry) => {
@@ -172,11 +168,14 @@ export const Dashboard = () => {
                   icon={L.divIcon({
                     className: "",
                     html: ReactDOMServer.renderToStaticMarkup(
-                      <KpiSpan onClick={() => console.log("hi")}>
-                        {humanize(val)}
-                      </KpiSpan>
+                      <KpiSpan>{humanize(val)}</KpiSpan>
                     ),
                   })}
+                  eventHandlers={{
+                    click: () => {
+                      setCountrySelected(iso);
+                    },
+                  }}
                 />
               );
             })}
@@ -213,11 +212,32 @@ export const Dashboard = () => {
       </TopButtomContainer>
 
       <InfoModal $visible={openInfo}>
-        <TextSpan>{info}</TextSpan>
+        <TextSpan
+          $fontColor="  rgba(255, 255, 255, 1)"
+          $fontWeight="lighter"
+          $fontSize="0.9rem"
+        >
+          {info}
+        </TextSpan>
         <CloseModal onClick={() => setOpenInfo(false)}>
           <IoCloseOutline color="white" size="1.2rem" />
         </CloseModal>
       </InfoModal>
+
+      {openCountryInfo &&
+        countrySelected &&
+        (() => {
+          const countryInfo = data?.dashboardSummariesByYear?.find(
+            (country) => country?.countryIso == countrySelected
+          );
+          if (!countryInfo) return null;
+          return (
+            <InfoCountryModal
+              setOpenModal={setOpenCountryInfo}
+              countryInfo={countryInfo}
+            />
+          );
+        })()}
     </>
   );
 };
