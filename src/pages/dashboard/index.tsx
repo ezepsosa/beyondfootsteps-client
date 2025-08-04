@@ -215,7 +215,7 @@ export const Dashboard = () => {
         <TextSpan
           $fontColor="  rgba(255, 255, 255, 1)"
           $fontWeight="lighter"
-          $fontSize="0.9rem"
+          $fontSize="0.8rem"
         >
           {info}
         </TextSpan>

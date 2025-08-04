@@ -42,7 +42,7 @@ export const IconSpan = styled.span`
 
 export const InfoModal = styled.div<{ $visible: boolean }>`
   position: fixed;
-  bottom: 8rem;
+  bottom: 7rem;
   width: 60%;
   left: 1rem;
   background-color: rgba(0, 0, 0, 0.75);
@@ -63,7 +63,7 @@ export const InfoModal = styled.div<{ $visible: boolean }>`
       $visible ? "translateY(0)" : "translateY(-100%)"};
 
     top: 8rem;
-    left: 6rem;
+    left: 9rem;
     bottom: inherit;
   }
 `;
