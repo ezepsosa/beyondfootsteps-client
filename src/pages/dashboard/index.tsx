@@ -31,7 +31,7 @@ import { RxEyeOpen } from "react-icons/rx";
 import { GoEyeClosed } from "react-icons/go";
 import { InfoCountryModal } from "./infoCountryModal";
 import { InfoKPIModal } from "./infoKPIModal";
-import { GeoJSONLayer } from "./GeoJSONLayer";
+import { GeoJSONLayer } from "./geoJSONLayer";
 
 const geoData: FeatureCollection =
   geoDataRaw && typeof geoDataRaw === "object" && "type" in geoDataRaw
