@@ -1,10 +1,4 @@
-import {
-  MapContainer,
-  TileLayer,
-  GeoJSON,
-  LayerGroup,
-  Marker,
-} from "react-leaflet";
+import { MapContainer, TileLayer, LayerGroup, Marker } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import geoDataRaw from "@assets/countries.geojson.json";
 import type { Feature, FeatureCollection, Geometry } from "geojson";
@@ -37,6 +31,7 @@ import { RxEyeOpen } from "react-icons/rx";
 import { GoEyeClosed } from "react-icons/go";
 import { InfoCountryModal } from "./infoCountryModal";
 import { InfoKPIModal } from "./infoKPIModal";
+import { GeoJSONLayer } from "./GeoJSONLayer";
 
 const geoData: FeatureCollection =
   geoDataRaw && typeof geoDataRaw === "object" && "type" in geoDataRaw
@@ -47,11 +42,9 @@ export const Dashboard = () => {
   const [dashboardKeySelection, setDashboardKeySelection] = useState<
     number | string
   >("coverageRate");
-
   const [dashboardYearSelection, setDashboardYearSelection] = useState<
     number | string
   >(2024);
-
   const [info, setInfo] = useState<string>();
   const [countrySelected, setCountrySelected] = useState<string>();
   const [openInfo, setOpenInfo] = useState<boolean>(false);
@@ -137,18 +130,7 @@ export const Dashboard = () => {
           attribution='&copy; <a href="https://www.hotosm.org/">Humanitarian OpenStreetMap Team</a> &copy; <a href="https://osm.org/copyright">OpenStreetMap</a> contributors'
           maxZoom={18}
         />
-        <GeoJSON
-          data={geoData}
-          style={(feature) => {
-            const country = feature?.properties?.["ISO3166-1-Alpha-3"];
-            return {
-              fillColor: getColourForMap.colours?.[country] || "#ccc",
-              weight: 1,
-              color: "white",
-              fillOpacity: 0.8,
-            };
-          }}
-        ></GeoJSON>
+        <GeoJSONLayer data={geoData} geoColourForMap={getColourForMap} />
         {showMetric && (
           <LayerGroup>
             {data?.dashboardSummariesByYear?.filter(Boolean).map((entry) => {
@@ -209,7 +191,11 @@ export const Dashboard = () => {
         </IconSpan>
       </TopButtomContainer>
 
-      <InfoKPIModal info={info ?? ""} openInfo={openInfo} setOpenInfo={setOpenInfo}/>
+      <InfoKPIModal
+        info={info ?? ""}
+        openInfo={openInfo}
+        setOpenInfo={setOpenInfo}
+      />
 
       {openCountryInfo &&
         countrySelected &&
