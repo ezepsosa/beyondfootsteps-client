@@ -22,7 +22,7 @@ import { RxEyeOpen } from "react-icons/rx";
 import { GoEyeClosed } from "react-icons/go";
 import { InfoCountryModal } from "./infoCountryModal";
 import { InfoKPIModal } from "./infoKPIModal";
-import { CountryMetricLayer } from "./countryMetricLayer";
+import { CountryMetricLayer } from "../../components/mapUsableComponents/countryMetricLayer";
 import { MapComponent } from "@/components/mapUsableComponents/mapComponent";
 import { GeoJSONLayer } from "@/components/mapUsableComponents/geoJSONLayer";
 

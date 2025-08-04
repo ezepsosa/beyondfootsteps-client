@@ -1,6 +1,6 @@
 import { isNumber } from "chart.js/helpers";
 import { LayerGroup, Marker } from "react-leaflet";
-import { humanize } from "../auxliar";
+import { humanize } from "../../../pages/dashboard/auxliar";
 import type { Props } from "./types";
 import L from "leaflet";
 import ReactDOMServer from "react-dom/server";
