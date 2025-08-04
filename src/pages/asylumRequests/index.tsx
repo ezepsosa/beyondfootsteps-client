@@ -1,4 +1,4 @@
-import { MapComponent } from "@/components/mapComponent";
+import { MapComponent } from "@/components/mapUsableComponents/mapComponent";
 import { LowerContainer } from "./style";
 import { SelectorBar } from "@/components/selectorBar";
 import { useState } from "react";

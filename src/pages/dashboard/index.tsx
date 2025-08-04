@@ -22,9 +22,9 @@ import { RxEyeOpen } from "react-icons/rx";
 import { GoEyeClosed } from "react-icons/go";
 import { InfoCountryModal } from "./infoCountryModal";
 import { InfoKPIModal } from "./infoKPIModal";
-import { GeoJSONLayer } from "./geoJSONLayer";
 import { CountryMetricLayer } from "./countryMetricLayer";
-import { MapComponent } from "@/components/mapComponent";
+import { MapComponent } from "@/components/mapUsableComponents/mapComponent";
+import { GeoJSONLayer } from "@/components/mapUsableComponents/geoJSONLayer";
 
 const geoData: FeatureCollection =
   geoDataRaw && typeof geoDataRaw === "object" && "type" in geoDataRaw
