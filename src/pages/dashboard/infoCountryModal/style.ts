@@ -15,7 +15,7 @@ export const Container = styled.div`
 
   @media (min-width: ${breakpoints.md}) {
     left: 2rem;
-    top: 15rem;
+    top: 14.5rem;
   }
 `;
 
@@ -48,7 +48,6 @@ export const BodyData = styled.div`
   height: 100%;
   border-radius: 1rem;
   padding: 0.5rem 1rem;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
 
   @media (min-width: ${breakpoints.md}) {
     gap: 0.8rem 1.5rem;

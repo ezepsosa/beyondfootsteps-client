@@ -114,7 +114,6 @@ export const Dashboard = () => {
     return countryCenter;
   }, []);
 
-
   useEffect(() => {
     if (dashboardKeySelection) {
       setInfo(INDICATOR_INFO[dashboardKeySelection]);
@@ -174,6 +173,7 @@ export const Dashboard = () => {
                   eventHandlers={{
                     click: () => {
                       setCountrySelected(iso);
+                      setOpenCountryInfo(true);
                     },
                   }}
                 />
