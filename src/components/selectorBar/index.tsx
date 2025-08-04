@@ -22,7 +22,6 @@ export const SelectorBar = ({
       $paddingMobile={paddingMobile || undefined}
       value={defaultValue}
       onChange={(e) => {
-        console.log(e.target.value);
         setOption(e.target.value);
       }}
     >

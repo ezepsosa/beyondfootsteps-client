@@ -45,7 +45,7 @@ export const Dashboard = () => {
   const [openCountryInfo, setOpenCountryInfo] = useState<boolean>(true);
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { data, loading, error } = useGetDashboardSummaryByYearQuery({
+  const { data, error } = useGetDashboardSummaryByYearQuery({
     variables: { year: Number(dashboardYearSelection) },
   });
 
@@ -102,7 +102,7 @@ export const Dashboard = () => {
   return (
     <>
       <MapComponent>
-        <GeoJSONLayer data={geoData} geoColourForMap={getColourForMap} />
+        <GeoJSONLayer geoColourForMap={getColourForMap} />
         {showMetric && data && (
           <CountryMetricLayer
             centroids={centroids}

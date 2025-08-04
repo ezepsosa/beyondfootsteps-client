@@ -1,11 +1,14 @@
 import { MapComponent } from "@/components/mapUsableComponents/mapComponent";
 import { LowerContainer } from "./style";
 import { SelectorBar } from "@/components/selectorBar";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import isoNameRaw from "@assets/iso-country.json";
 import type { isoNameType } from "./types";
 import { useGetAsylumRequestsByYearAndCountryQuery } from "@/gql/graphql";
 import { dashboardYearOptions } from "../dashboard/auxliar";
+import { isNumber } from "chart.js/helpers";
+import { scaleLinear } from "d3-scale";
+import { GeoJSONLayer } from "@/components/mapUsableComponents/geoJSONLayer";
 
 const isoNameRawTyped: isoNameType[] = isoNameRaw as isoNameType[];
 
@@ -21,14 +24,14 @@ export const AsylumRequests = () => {
   >(2024);
   const asylumDirectional = [
     { label: "Country of Origin", value: "origin" },
-    { label: "Country of Asylum", value: "destination" },
+    { label: "Country of Asylum", value: "asylum" },
   ];
 
   const countryOptions = isoNameRawTyped.map((element) => {
     return { label: element.name, value: element.iso };
   });
 
-  const { data, loading, error } = useGetAsylumRequestsByYearAndCountryQuery({
+  const { data, error } = useGetAsylumRequestsByYearAndCountryQuery({
     variables: {
       year: 2020,
       countryOfAsylumIso:
@@ -38,10 +41,52 @@ export const AsylumRequests = () => {
     },
   });
 
+  if (error) {
+    console.warn("Error fetching asylum request data");
+  }
+
   console.log(data);
+
+  const getColourForMap = useMemo(() => {
+    if (!data?.asylumRequestsByYearAndCountry) return {};
+
+    const entries = data.asylumRequestsByYearAndCountry.filter(Boolean);
+
+    const values: number[] = entries
+      .map((asylumRequest) => asylumRequest?.applied)
+      .filter((value) => isNumber(value));
+
+    if (values.length === 0) return {};
+
+    const min = Math.min(...values);
+    const max = Math.max(...values);
+
+    const scale = scaleLinear<string>()
+      .domain([min, max])
+      .range(["#2bff00ff", "#00478fff"])
+      .clamp(true);
+    const colours = Object.fromEntries(
+      entries.map((entry) => {
+        const appliedValue = entry?.applied;
+        const countryIso =
+          directionSelected === "origin"
+            ? entry?.countryOfAsylumIso
+            : entry?.countryOfOriginIso;
+
+        return [
+          countryIso,
+          typeof appliedValue === "number" ? scale(appliedValue) : "#ccc",
+        ];
+      })
+    );
+    colours[countrySelected.toString()] = "#333";
+
+    return { scale, colours };
+  }, [data, countrySelected, directionSelected]);
 
   return (
     <MapComponent>
+      <GeoJSONLayer geoColourForMap={getColourForMap} />
       <LowerContainer>
         <SelectorBar
           defaultValue={directionSelected}
