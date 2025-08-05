@@ -39,7 +39,6 @@ export const Selector = styled.select<{
   }
 `;
 
-// Mobile-first: barra con fondo, sombra y padding extra para mejor usabilidad táctil
 export const BarBackground = styled.div`
   width: 100vw;
   background: #fffdfa;
