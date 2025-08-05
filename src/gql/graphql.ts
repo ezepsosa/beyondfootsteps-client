@@ -36,6 +36,7 @@ export type AsylumDecision = {
 
 export type AsylumRequest = {
   __typename?: 'AsylumRequest';
+  appPc?: Maybe<Scalars['Boolean']['output']>;
   applied?: Maybe<Scalars['Int']['output']>;
   appliedPer100k?: Maybe<Scalars['Float']['output']>;
   countryOfAsylum?: Maybe<Scalars['String']['output']>;
@@ -97,6 +98,7 @@ export type Query = {
   __typename?: 'Query';
   asylumDecisions?: Maybe<Array<Maybe<AsylumDecision>>>;
   asylumRequests?: Maybe<Array<Maybe<AsylumRequest>>>;
+  asylumRequestsByYearAndCountry?: Maybe<Array<Maybe<AsylumRequest>>>;
   dashboardSummaries?: Maybe<Array<Maybe<DashboardSummary>>>;
   /**  Queries with filters */
   dashboardSummariesByYear?: Maybe<Array<Maybe<DashboardSummary>>>;
@@ -104,6 +106,13 @@ export type Query = {
   idpReturnees?: Maybe<Array<Maybe<IdpReturnees>>>;
   refugeeNaturalizations?: Maybe<Array<Maybe<RefugeeNaturalization>>>;
   resettlementSummaries?: Maybe<Array<Maybe<ResettlementSummary>>>;
+};
+
+
+export type QueryAsylumRequestsByYearAndCountryArgs = {
+  countryOfAsylumIso?: InputMaybe<Scalars['String']['input']>;
+  countryOfOriginIso?: InputMaybe<Scalars['String']['input']>;
+  year: Scalars['Int']['input'];
 };
 
 
@@ -148,7 +157,16 @@ export type GetAsylumDecisionsQuery = { __typename?: 'Query', asylumDecisions?: 
 export type GetAsylumRequestsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetAsylumRequestsQuery = { __typename?: 'Query', asylumRequests?: Array<{ __typename?: 'AsylumRequest', id: string, year?: number | null, countryOfOrigin?: string | null, countryOfOriginIso?: string | null, countryOfAsylum?: string | null, countryOfAsylumIso?: string | null, appliedPer100k?: number | null, applied?: number | null } | null> | null };
+export type GetAsylumRequestsQuery = { __typename?: 'Query', asylumRequests?: Array<{ __typename?: 'AsylumRequest', id: string, year?: number | null, countryOfOrigin?: string | null, countryOfOriginIso?: string | null, countryOfAsylum?: string | null, countryOfAsylumIso?: string | null, appPc?: boolean | null, appliedPer100k?: number | null, applied?: number | null } | null> | null };
+
+export type GetAsylumRequestsByYearAndCountryQueryVariables = Exact<{
+  year: Scalars['Int']['input'];
+  countryOfOriginIso?: InputMaybe<Scalars['String']['input']>;
+  countryOfAsylumIso?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+
+export type GetAsylumRequestsByYearAndCountryQuery = { __typename?: 'Query', asylumRequestsByYearAndCountry?: Array<{ __typename?: 'AsylumRequest', id: string, year?: number | null, countryOfOrigin?: string | null, countryOfOriginIso?: string | null, countryOfAsylum?: string | null, countryOfAsylumIso?: string | null, appPc?: boolean | null, appliedPer100k?: number | null, applied?: number | null } | null> | null };
 
 export type GetDashboardSummaryQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -243,6 +261,7 @@ export const GetAsylumRequestsDocument = gql`
     countryOfOriginIso
     countryOfAsylum
     countryOfAsylumIso
+    appPc
     appliedPer100k
     applied
   }
@@ -280,6 +299,60 @@ export type GetAsylumRequestsQueryHookResult = ReturnType<typeof useGetAsylumReq
 export type GetAsylumRequestsLazyQueryHookResult = ReturnType<typeof useGetAsylumRequestsLazyQuery>;
 export type GetAsylumRequestsSuspenseQueryHookResult = ReturnType<typeof useGetAsylumRequestsSuspenseQuery>;
 export type GetAsylumRequestsQueryResult = Apollo.QueryResult<GetAsylumRequestsQuery, GetAsylumRequestsQueryVariables>;
+export const GetAsylumRequestsByYearAndCountryDocument = gql`
+    query GetAsylumRequestsByYearAndCountry($year: Int!, $countryOfOriginIso: String, $countryOfAsylumIso: String) {
+  asylumRequestsByYearAndCountry(
+    year: $year
+    countryOfOriginIso: $countryOfOriginIso
+    countryOfAsylumIso: $countryOfAsylumIso
+  ) {
+    id
+    year
+    countryOfOrigin
+    countryOfOriginIso
+    countryOfAsylum
+    countryOfAsylumIso
+    appPc
+    appliedPer100k
+    applied
+  }
+}
+    `;
+
+/**
+ * __useGetAsylumRequestsByYearAndCountryQuery__
+ *
+ * To run a query within a React component, call `useGetAsylumRequestsByYearAndCountryQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetAsylumRequestsByYearAndCountryQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetAsylumRequestsByYearAndCountryQuery({
+ *   variables: {
+ *      year: // value for 'year'
+ *      countryOfOriginIso: // value for 'countryOfOriginIso'
+ *      countryOfAsylumIso: // value for 'countryOfAsylumIso'
+ *   },
+ * });
+ */
+export function useGetAsylumRequestsByYearAndCountryQuery(baseOptions: Apollo.QueryHookOptions<GetAsylumRequestsByYearAndCountryQuery, GetAsylumRequestsByYearAndCountryQueryVariables> & ({ variables: GetAsylumRequestsByYearAndCountryQueryVariables; skip?: boolean; } | { skip: boolean; }) ) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetAsylumRequestsByYearAndCountryQuery, GetAsylumRequestsByYearAndCountryQueryVariables>(GetAsylumRequestsByYearAndCountryDocument, options);
+      }
+export function useGetAsylumRequestsByYearAndCountryLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetAsylumRequestsByYearAndCountryQuery, GetAsylumRequestsByYearAndCountryQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetAsylumRequestsByYearAndCountryQuery, GetAsylumRequestsByYearAndCountryQueryVariables>(GetAsylumRequestsByYearAndCountryDocument, options);
+        }
+export function useGetAsylumRequestsByYearAndCountrySuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetAsylumRequestsByYearAndCountryQuery, GetAsylumRequestsByYearAndCountryQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetAsylumRequestsByYearAndCountryQuery, GetAsylumRequestsByYearAndCountryQueryVariables>(GetAsylumRequestsByYearAndCountryDocument, options);
+        }
+export type GetAsylumRequestsByYearAndCountryQueryHookResult = ReturnType<typeof useGetAsylumRequestsByYearAndCountryQuery>;
+export type GetAsylumRequestsByYearAndCountryLazyQueryHookResult = ReturnType<typeof useGetAsylumRequestsByYearAndCountryLazyQuery>;
+export type GetAsylumRequestsByYearAndCountrySuspenseQueryHookResult = ReturnType<typeof useGetAsylumRequestsByYearAndCountrySuspenseQuery>;
+export type GetAsylumRequestsByYearAndCountryQueryResult = Apollo.QueryResult<GetAsylumRequestsByYearAndCountryQuery, GetAsylumRequestsByYearAndCountryQueryVariables>;
 export const GetDashboardSummaryDocument = gql`
     query GetDashboardSummary {
   dashboardSummaries {

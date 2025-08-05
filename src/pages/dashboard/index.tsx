@@ -1,4 +1,3 @@
-import { MapContainer, TileLayer } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import geoDataRaw from "@assets/countries.geojson.json";
 import type { Feature, FeatureCollection, Geometry } from "geojson";
@@ -10,7 +9,7 @@ import { useMemo, useState } from "react";
 import { scaleLinear } from "d3-scale";
 import { isNumber } from "chart.js/helpers";
 import { SelectorBar } from "@/components/selectorBar";
-import { IconSpan, LowerContainer, TopButtomContainer } from "./styles";
+import { LowerContainer } from "./styles";
 import { ColourLegend } from "@/components/colourLegend";
 import {
   dashboardKeyOptions,
@@ -22,9 +21,12 @@ import { geoCentroid } from "d3-geo";
 import { RxEyeOpen } from "react-icons/rx";
 import { GoEyeClosed } from "react-icons/go";
 import { InfoCountryModal } from "./infoCountryModal";
-import { InfoKPIModal } from "./infoKPIModal";
-import { GeoJSONLayer } from "./geoJSONLayer";
-import { CountryMetricLayer } from "./countryMetricLayer";
+import { InfoKPIModal } from "../../components/mapUsableComponents/infoKPIModal";
+import { MapComponent } from "@/components/mapUsableComponents/mapComponent";
+import { GeoJSONLayer } from "@/components/mapUsableComponents/geoJSONLayer";
+import { CountryDashboardMetricLayer } from "./countryDashboardMetricLayer";
+import { CsvButtonDownload, IconSpan, TopButtomContainer } from "@/styles/styles";
+import { HiOutlineDocumentDownload } from "react-icons/hi";
 
 const geoData: FeatureCollection =
   geoDataRaw && typeof geoDataRaw === "object" && "type" in geoDataRaw
@@ -44,9 +46,7 @@ export const Dashboard = () => {
   const [showMetric, setShowMetric] = useState<boolean>(true);
   const [openCountryInfo, setOpenCountryInfo] = useState<boolean>(true);
 
-  const mapStyle = { width: "100%", height: "100%" };
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { data, loading, error } = useGetDashboardSummaryByYearQuery({
+  const { data, error } = useGetDashboardSummaryByYearQuery({
     variables: { year: Number(dashboardYearSelection) },
   });
 
@@ -102,26 +102,10 @@ export const Dashboard = () => {
 
   return (
     <>
-      <MapContainer
-        center={[20, 0]}
-        zoom={2}
-        style={mapStyle}
-        maxZoom={6}
-        minZoom={3}
-        maxBounds={[
-          [-85, -170],
-          [85, 180],
-        ]}
-        maxBoundsViscosity={1.0}
-      >
-        <TileLayer
-          url="https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png"
-          attribution='&copy; <a href="https://www.hotosm.org/">Humanitarian OpenStreetMap Team</a> &copy; <a href="https://osm.org/copyright">OpenStreetMap</a> contributors'
-          maxZoom={18}
-        />
-        <GeoJSONLayer data={geoData} geoColourForMap={getColourForMap} />
+      <MapComponent>
+        <GeoJSONLayer geoColourForMap={getColourForMap} />
         {showMetric && data && (
-          <CountryMetricLayer
+          <CountryDashboardMetricLayer
             centroids={centroids}
             dashboardKeySelection={
               dashboardKeySelection as keyof DashboardSummary
@@ -147,7 +131,7 @@ export const Dashboard = () => {
             <ColourLegend scale={getColourForMap.scale}></ColourLegend>
           )}
         </LowerContainer>
-      </MapContainer>
+      </MapComponent>
       <TopButtomContainer>
         <IconSpan onClick={() => setOpenInfo((value) => !value)}>
           <IoInformationCircle size="1.5rem" />
@@ -159,6 +143,22 @@ export const Dashboard = () => {
             <GoEyeClosed size="1.5rem" />
           )}
         </IconSpan>
+        {data ? (
+          <CsvButtonDownload
+            filename={`${dashboardYearSelection}_${countrySelected}_dashboard_summary_data.csv`}
+            data={
+              data.dashboardSummariesByYear?.filter(
+                (item): item is DashboardSummary => !!item
+              ) ?? []
+            }
+          >
+            <HiOutlineDocumentDownload size="1.5rem" />
+          </CsvButtonDownload>
+        ) : (
+          <IconSpan>
+            <HiOutlineDocumentDownload size="1.5rem" color="gray" />
+          </IconSpan>
+        )}
       </TopButtomContainer>
 
       <InfoKPIModal

@@ -21,7 +21,9 @@ export const SelectorBar = ({
       $paddingDesktop={paddingDesktop || undefined}
       $paddingMobile={paddingMobile || undefined}
       value={defaultValue}
-      onChange={(e) => setOption(e.target.value)}
+      onChange={(e) => {
+        setOption(e.target.value);
+      }}
     >
       {selectors?.map((entry) => (
         <Option key={entry.value} value={entry.value}>

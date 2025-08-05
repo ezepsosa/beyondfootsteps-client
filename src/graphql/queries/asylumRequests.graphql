@@ -6,6 +6,29 @@ query GetAsylumRequests {
     countryOfOriginIso
     countryOfAsylum
     countryOfAsylumIso
+    appPc
+    appliedPer100k
+    applied
+  }
+}
+
+query GetAsylumRequestsByYearAndCountry(
+  $year: Int!
+  $countryOfOriginIso: String
+  $countryOfAsylumIso: String
+) {
+  asylumRequestsByYearAndCountry(
+    year: $year
+    countryOfOriginIso: $countryOfOriginIso
+    countryOfAsylumIso: $countryOfAsylumIso
+  ) {
+    id
+    year
+    countryOfOrigin
+    countryOfOriginIso
+    countryOfAsylum
+    countryOfAsylumIso
+    appPc
     appliedPer100k
     applied
   }

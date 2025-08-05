@@ -6,7 +6,7 @@ import L from "leaflet";
 import ReactDOMServer from "react-dom/server";
 import { KpiSpan } from "./style";
 
-export const CountryMetricLayer = ({
+export const CountryDashboardMetricLayer = ({
   dashboardSummariesByYear,
   centroids,
   dashboardKeySelection,

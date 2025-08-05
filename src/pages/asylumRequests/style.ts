@@ -16,6 +16,3 @@ export const LowerContainer = styled.div`
     bottom: 2rem;
   }
 `;
-
-
-
