@@ -6,6 +6,7 @@ query GetAsylumRequests {
     countryOfOriginIso
     countryOfAsylum
     countryOfAsylumIso
+    appPc
     appliedPer100k
     applied
   }
@@ -27,6 +28,7 @@ query GetAsylumRequestsByYearAndCountry(
     countryOfOriginIso
     countryOfAsylum
     countryOfAsylumIso
+    appPc
     appliedPer100k
     applied
   }

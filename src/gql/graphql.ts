@@ -36,6 +36,7 @@ export type AsylumDecision = {
 
 export type AsylumRequest = {
   __typename?: 'AsylumRequest';
+  appPc?: Maybe<Scalars['Boolean']['output']>;
   applied?: Maybe<Scalars['Int']['output']>;
   appliedPer100k?: Maybe<Scalars['Float']['output']>;
   countryOfAsylum?: Maybe<Scalars['String']['output']>;
@@ -156,7 +157,7 @@ export type GetAsylumDecisionsQuery = { __typename?: 'Query', asylumDecisions?: 
 export type GetAsylumRequestsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetAsylumRequestsQuery = { __typename?: 'Query', asylumRequests?: Array<{ __typename?: 'AsylumRequest', id: string, year?: number | null, countryOfOrigin?: string | null, countryOfOriginIso?: string | null, countryOfAsylum?: string | null, countryOfAsylumIso?: string | null, appliedPer100k?: number | null, applied?: number | null } | null> | null };
+export type GetAsylumRequestsQuery = { __typename?: 'Query', asylumRequests?: Array<{ __typename?: 'AsylumRequest', id: string, year?: number | null, countryOfOrigin?: string | null, countryOfOriginIso?: string | null, countryOfAsylum?: string | null, countryOfAsylumIso?: string | null, appPc?: boolean | null, appliedPer100k?: number | null, applied?: number | null } | null> | null };
 
 export type GetAsylumRequestsByYearAndCountryQueryVariables = Exact<{
   year: Scalars['Int']['input'];
@@ -165,7 +166,7 @@ export type GetAsylumRequestsByYearAndCountryQueryVariables = Exact<{
 }>;
 
 
-export type GetAsylumRequestsByYearAndCountryQuery = { __typename?: 'Query', asylumRequestsByYearAndCountry?: Array<{ __typename?: 'AsylumRequest', id: string, year?: number | null, countryOfOrigin?: string | null, countryOfOriginIso?: string | null, countryOfAsylum?: string | null, countryOfAsylumIso?: string | null, appliedPer100k?: number | null, applied?: number | null } | null> | null };
+export type GetAsylumRequestsByYearAndCountryQuery = { __typename?: 'Query', asylumRequestsByYearAndCountry?: Array<{ __typename?: 'AsylumRequest', id: string, year?: number | null, countryOfOrigin?: string | null, countryOfOriginIso?: string | null, countryOfAsylum?: string | null, countryOfAsylumIso?: string | null, appPc?: boolean | null, appliedPer100k?: number | null, applied?: number | null } | null> | null };
 
 export type GetDashboardSummaryQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -260,6 +261,7 @@ export const GetAsylumRequestsDocument = gql`
     countryOfOriginIso
     countryOfAsylum
     countryOfAsylumIso
+    appPc
     appliedPer100k
     applied
   }
@@ -310,6 +312,7 @@ export const GetAsylumRequestsByYearAndCountryDocument = gql`
     countryOfOriginIso
     countryOfAsylum
     countryOfAsylumIso
+    appPc
     appliedPer100k
     applied
   }

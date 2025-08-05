@@ -1,7 +1,7 @@
 import { MapComponent } from "@/components/mapUsableComponents/mapComponent";
 import { LowerContainer } from "./style";
 import { SelectorBar } from "@/components/selectorBar";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import isoNameRaw from "@assets/iso-country.json";
 import type { isoNameType } from "./types";
 import { useGetAsylumRequestsByYearAndCountryQuery } from "@/gql/graphql";
@@ -13,6 +13,8 @@ import { CountryAsylumMetricLayer } from "./countryMetricLayer";
 import type { Feature, FeatureCollection, Geometry } from "geojson";
 import geoDataRaw from "@assets/countries.geojson.json";
 import { geoCentroid } from "d3-geo";
+import { ColourLegend } from "@/components/colourLegend";
+import { InfoKPIModal } from "@/components/mapUsableComponents/infoKPIModal";
 
 const isoNameRawTyped: isoNameType[] = isoNameRaw as isoNameType[];
 
@@ -28,6 +30,7 @@ export const AsylumRequests = () => {
   const [directionSelected, setDirectionSelected] = useState<number | string>(
     "origin"
   );
+  const [showInfo, setShowInfo] = useState<boolean>(false);
   const [dashboardYearSelection, setDashboardYearSelection] = useState<
     number | string
   >(2024);
@@ -53,7 +56,6 @@ export const AsylumRequests = () => {
   if (error) {
     console.warn("Error fetching asylum request data");
   }
-
 
   const getColourForMap = useMemo(() => {
     if (!data?.asylumRequestsByYearAndCountry) return {};
@@ -101,12 +103,24 @@ export const AsylumRequests = () => {
     return countryCenter;
   }, []);
 
+  useEffect(() => {
+    const isThereAny: boolean = !!data?.asylumRequestsByYearAndCountry?.some(
+      (asylumRequest) => asylumRequest?.appPc === true
+    );
+    if (isThereAny) {
+      setShowInfo(true);
+    } else {
+      setShowInfo(false);
+    }
+  }, [data]);
+
   return (
     <MapComponent>
       <GeoJSONLayer geoColourForMap={getColourForMap} />
 
       {data && (
         <CountryAsylumMetricLayer
+          key={directionSelected}
           centroids={centroids}
           originOrAsylum={String(directionSelected)}
           asylumRequests={data?.asylumRequestsByYearAndCountry ?? []}
@@ -114,6 +128,12 @@ export const AsylumRequests = () => {
       )}
 
       <LowerContainer>
+        <SelectorBar
+          defaultValue={dashboardYearSelection}
+          paddingMobile="0.4rem 2.5rem;"
+          selectors={dashboardYearOptions}
+          setOption={setDashboardYearSelection}
+        />
         <SelectorBar
           defaultValue={directionSelected}
           paddingMobile="0.4rem 2.5rem;"
@@ -125,13 +145,16 @@ export const AsylumRequests = () => {
           selectors={countryOptions}
           setOption={setCountrySelected}
         />
-        <SelectorBar
-          defaultValue={dashboardYearSelection}
-          paddingMobile="0.4rem 2.5rem;"
-          selectors={dashboardYearOptions}
-          setOption={setDashboardYearSelection}
-        />
+
+        {getColourForMap.scale && (
+          <ColourLegend scale={getColourForMap.scale} />
+        )}
       </LowerContainer>
+      <InfoKPIModal
+        info="The symbol * indicates the total number of applications where more people have been grouped together. In other words, the number may be significantly higher than the actual number of people who have applied."
+        openInfo={showInfo}
+        setOpenInfo={setShowInfo}
+      />
     </MapComponent>
   );
 };

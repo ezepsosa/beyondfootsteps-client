@@ -186,6 +186,18 @@
         "isOneOf": null,
         "fields": [
           {
+            "name": "appPc",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Boolean",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "applied",
             "description": null,
             "args": [],

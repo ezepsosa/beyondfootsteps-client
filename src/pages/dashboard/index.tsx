@@ -21,7 +21,7 @@ import { geoCentroid } from "d3-geo";
 import { RxEyeOpen } from "react-icons/rx";
 import { GoEyeClosed } from "react-icons/go";
 import { InfoCountryModal } from "./infoCountryModal";
-import { InfoKPIModal } from "./infoKPIModal";
+import { InfoKPIModal } from "../../components/mapUsableComponents/infoKPIModal";
 import { MapComponent } from "@/components/mapUsableComponents/mapComponent";
 import { GeoJSONLayer } from "@/components/mapUsableComponents/geoJSONLayer";
 import { CountryDashboardMetricLayer } from "./countryDashboardMetricLayer";
