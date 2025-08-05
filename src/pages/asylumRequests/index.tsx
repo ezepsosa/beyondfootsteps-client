@@ -19,9 +19,14 @@ import { geoCentroid } from "d3-geo";
 import { ColourLegend } from "@/components/colourLegend";
 import { InfoKPIModal } from "@/components/mapUsableComponents/infoKPIModal";
 import { ArrowLayer } from "@/components/mapUsableComponents/arrowsLayer";
-import { IconSpan, TopButtomContainer } from "@/styles/styles";
+import {
+  CsvButtonDownload,
+  IconSpan,
+  TopButtomContainer,
+} from "@/styles/styles";
 import { TbNumbers } from "react-icons/tb";
 import { AiOutlinePercentage } from "react-icons/ai";
+import { HiOutlineDocumentDownload } from "react-icons/hi";
 
 const isoNameRawTyped: isoNameType[] = isoNameRaw as isoNameType[];
 
@@ -41,27 +46,32 @@ function getArrows(
       return bElement - aElement;
     })
     .slice(0, 5)
-    .map(({ id, countryOfOriginIso, countryOfAsylumIso, appliedPer100k}, index) => {
-      console.log(appliedPer100k)
-      const origin = centroids[countryOfOriginIso ?? ""];
-      const destiny = centroids[countryOfAsylumIso ?? ""];
-      if (
-        origin != null &&
-        destiny != null &&
-        origin.length == 2 &&
-        destiny.length == 2
-      ) {
-        return (
-          <ArrowLayer
-            weight={index}
-            key={`arrow-${id}`}
-            destiny={[destiny[1], destiny[0]]}
-            origin={[origin[1], origin[0]]}
-          />
-        );
+    .map(
+      (
+        { id, countryOfOriginIso, countryOfAsylumIso, appliedPer100k },
+        index
+      ) => {
+        console.log(appliedPer100k);
+        const origin = centroids[countryOfOriginIso ?? ""];
+        const destiny = centroids[countryOfAsylumIso ?? ""];
+        if (
+          origin != null &&
+          destiny != null &&
+          origin.length == 2 &&
+          destiny.length == 2
+        ) {
+          return (
+            <ArrowLayer
+              weight={index}
+              key={`arrow-${id}`}
+              destiny={[destiny[1], destiny[0]]}
+              origin={[origin[1], origin[0]]}
+            />
+          );
+        }
+        return null;
       }
-      return null;
-    });
+    );
 }
 
 const geoData: FeatureCollection =
@@ -200,6 +210,22 @@ export const AsylumRequests = () => {
             <AiOutlinePercentage size="1.5rem" />
           )}
         </IconSpan>
+        {data ? (
+          <CsvButtonDownload
+            filename={`${dashboardYearSelection}_${directionSelected}_${countrySelected}_asylum_request_data.csv`}
+            data={
+              data.asylumRequestsByYearAndCountry?.filter(
+                (item): item is AsylumRequest => !!item
+              ) ?? []
+            }
+          >
+            <HiOutlineDocumentDownload size="1.5rem" />
+          </CsvButtonDownload>
+        ):  (
+          <IconSpan>
+            <HiOutlineDocumentDownload size="1.5rem" color="gray" />
+          </IconSpan>
+        )}
       </TopButtomContainer>
 
       <LowerContainer>

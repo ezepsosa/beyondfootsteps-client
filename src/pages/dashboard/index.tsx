@@ -25,7 +25,8 @@ import { InfoKPIModal } from "../../components/mapUsableComponents/infoKPIModal"
 import { MapComponent } from "@/components/mapUsableComponents/mapComponent";
 import { GeoJSONLayer } from "@/components/mapUsableComponents/geoJSONLayer";
 import { CountryDashboardMetricLayer } from "./countryDashboardMetricLayer";
-import { IconSpan, TopButtomContainer } from "@/styles/styles";
+import { CsvButtonDownload, IconSpan, TopButtomContainer } from "@/styles/styles";
+import { HiOutlineDocumentDownload } from "react-icons/hi";
 
 const geoData: FeatureCollection =
   geoDataRaw && typeof geoDataRaw === "object" && "type" in geoDataRaw
@@ -142,6 +143,22 @@ export const Dashboard = () => {
             <GoEyeClosed size="1.5rem" />
           )}
         </IconSpan>
+        {data ? (
+          <CsvButtonDownload
+            filename={`${dashboardYearSelection}_${countrySelected}_dashboard_summary_data.csv`}
+            data={
+              data.dashboardSummariesByYear?.filter(
+                (item): item is DashboardSummary => !!item
+              ) ?? []
+            }
+          >
+            <HiOutlineDocumentDownload size="1.5rem" />
+          </CsvButtonDownload>
+        ) : (
+          <IconSpan>
+            <HiOutlineDocumentDownload size="1.5rem" color="gray" />
+          </IconSpan>
+        )}
       </TopButtomContainer>
 
       <InfoKPIModal
