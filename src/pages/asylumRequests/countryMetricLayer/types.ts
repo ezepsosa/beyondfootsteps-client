@@ -4,4 +4,5 @@ export type Props = {
   centroids: Record<string, [number, number]>;
   asylumRequests: (AsylumRequest | null)[];
   originOrAsylum: string;
+  metricSelected: keyof AsylumRequest;
 };

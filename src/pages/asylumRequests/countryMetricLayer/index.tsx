@@ -10,23 +10,22 @@ export const CountryAsylumMetricLayer = ({
   asylumRequests,
   centroids,
   originOrAsylum,
+  metricSelected,
 }: Props) => {
   return (
     <LayerGroup>
       {asylumRequests?.filter(Boolean).map((entry) => {
-        console.log(entry?.appPc === true);
-        
         const iso =
           originOrAsylum === "asylum"
             ? entry?.countryOfOriginIso
             : entry?.countryOfAsylumIso;
         if (!iso) return null;
-        const val = entry?.applied;
+        const val = entry?.[metricSelected];
         const center = centroids[iso];
         if (!center || !isNumber(val)) return null;
         return (
           <Marker
-            key={entry?.countryOfAsylumIso}
+            key={`${entry?.id}-${originOrAsylum}`}
             position={[center[1], center[0]]}
             icon={L.divIcon({
               className: "",
@@ -37,7 +36,8 @@ export const CountryAsylumMetricLayer = ({
                   $fontWeight={entry?.appPc ? "600" : "400"}
                   $fontColor={entry?.appPc ? "red" : "black"}
                 >
-                  {humanize(val)}{entry?.appPc ? "*": ""}
+                  {humanize(val)}
+                  {entry?.appPc ? "*" : ""}
                 </KpiSpan>
               ),
             })}

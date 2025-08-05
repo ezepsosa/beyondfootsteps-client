@@ -9,7 +9,7 @@ import { useMemo, useState } from "react";
 import { scaleLinear } from "d3-scale";
 import { isNumber } from "chart.js/helpers";
 import { SelectorBar } from "@/components/selectorBar";
-import { IconSpan, LowerContainer, TopButtomContainer } from "./styles";
+import { LowerContainer } from "./styles";
 import { ColourLegend } from "@/components/colourLegend";
 import {
   dashboardKeyOptions,
@@ -25,6 +25,7 @@ import { InfoKPIModal } from "../../components/mapUsableComponents/infoKPIModal"
 import { MapComponent } from "@/components/mapUsableComponents/mapComponent";
 import { GeoJSONLayer } from "@/components/mapUsableComponents/geoJSONLayer";
 import { CountryDashboardMetricLayer } from "./countryDashboardMetricLayer";
+import { IconSpan, TopButtomContainer } from "@/styles/styles";
 
 const geoData: FeatureCollection =
   geoDataRaw && typeof geoDataRaw === "object" && "type" in geoDataRaw
