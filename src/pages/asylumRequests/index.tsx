@@ -30,50 +30,6 @@ import { HiOutlineDocumentDownload } from "react-icons/hi";
 
 const isoNameRawTyped: isoNameType[] = isoNameRaw as isoNameType[];
 
-function getArrows(
-  asylumRequestsByYearAndCountry: AsylumRequest[],
-  centroids: Record<string, [number, number]>,
-  metricSelected: keyof AsylumRequest
-): (React.ReactElement | null)[] {
-  return [...asylumRequestsByYearAndCountry]
-    .sort((a, b) => {
-      const aElement = isNumber(a[metricSelected])
-        ? a[metricSelected]
-        : -Infinity;
-      const bElement = isNumber(b[metricSelected])
-        ? b[metricSelected]
-        : -Infinity;
-      return bElement - aElement;
-    })
-    .slice(0, 5)
-    .map(
-      (
-        { id, countryOfOriginIso, countryOfAsylumIso, appliedPer100k },
-        index
-      ) => {
-        console.log(appliedPer100k);
-        const origin = centroids[countryOfOriginIso ?? ""];
-        const destiny = centroids[countryOfAsylumIso ?? ""];
-        if (
-          origin != null &&
-          destiny != null &&
-          origin.length == 2 &&
-          destiny.length == 2
-        ) {
-          return (
-            <ArrowLayer
-              weight={index}
-              key={`arrow-${id}`}
-              destiny={[destiny[1], destiny[0]]}
-              origin={[origin[1], origin[0]]}
-            />
-          );
-        }
-        return null;
-      }
-    );
-}
-
 const geoData: FeatureCollection =
   geoDataRaw && typeof geoDataRaw === "object" && "type" in geoDataRaw
     ? (geoDataRaw as FeatureCollection)
@@ -175,15 +131,6 @@ export const AsylumRequests = () => {
   return (
     <MapComponent>
       <GeoJSONLayer geoColourForMap={getColourForMap} />
-      {data?.asylumRequestsByYearAndCountry &&
-        centroids &&
-        getArrows(
-          data.asylumRequestsByYearAndCountry?.filter(
-            (item): item is AsylumRequest => !!item?.[metricSelected]
-          ),
-          centroids,
-          metricSelected
-        )}
       {data && (
         <CountryAsylumMetricLayer
           key={directionSelected}
