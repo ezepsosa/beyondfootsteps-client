@@ -1,7 +1,7 @@
 import { MapComponent } from "@/components/mapUsableComponents/mapComponent";
 import { LowerContainer } from "./style";
 import { SelectorBar } from "@/components/selectorBar";
-import React, { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import isoNameRaw from "@assets/iso-country.json";
 import type { isoNameType } from "./types";
 import {
