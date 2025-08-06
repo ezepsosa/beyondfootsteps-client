@@ -30,7 +30,7 @@ jobs:
         run: npm run build
 
       - name: Verify build output
-        run: ls -la build || (echo "Build failed: build/ folder not found" && exit 1)
+        run: ls -la build || (echo "Build failed: build/ folder not found" && exit 1")
 
       - name: Prepare deploy-build branch
         run: |
