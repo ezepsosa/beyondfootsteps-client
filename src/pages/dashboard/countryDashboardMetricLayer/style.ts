@@ -8,8 +8,6 @@ export const KpiSpan = styled(TextSpan)`
   color: black;
   padding: 2vh;
   margin-left: -2vh;
-  margin-top:-2vh;
+  margin-top: -2vh;
   position: relative;
-
 `;
-

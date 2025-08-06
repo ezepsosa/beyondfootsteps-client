@@ -14,15 +14,16 @@ export const LayoutNavbar = styled.nav`
   justify-content: space-between;
   background-color: transparent;
 
-  @media (min-width: ${breakpoints.md}) {
+  @media (min-width: ${breakpoints.lg}) {
     justify-content: flex-start;
   }
 `;
 
 export const LogoLayout = styled.img`
+  margin-left: 3vh;
   height: 3.5rem;
 
-  @media (min-width: ${breakpoints.md}) {
+  @media (min-width: ${breakpoints.lg}) {
     height: 6rem;
   }
 `;
@@ -30,7 +31,8 @@ export const LogoLayout = styled.img`
 export const MenuLayout = styled.div`
   font-size: 2rem;
   cursor: pointer;
-  @media (min-width: ${breakpoints.md}) {
+  
+  @media (min-width: ${breakpoints.lg}) {
     display: none;
   }
 `;
@@ -38,7 +40,7 @@ export const MenuLayout = styled.div`
 export const AuxiliarMenu = styled.div`
   display: none;
 
-  @media (min-width: ${breakpoints.md}) {
+  @media (min-width: ${breakpoints.lg}) {
     display: flex;
     flex-direction: row;
     gap: 2rem;
@@ -55,14 +57,13 @@ export const MenuElement = styled.ul<{ open: boolean }>`
   background: rgba(14, 14, 14, 0.9);
 
   transform: translateY(${({ open }) => (open ? "0" : "-20px")})
-  scale(${({ open }) => (open ? "1" : "0.95")});
+    scale(${({ open }) => (open ? "1" : "0.95")});
   opacity: ${({ open }) => (open ? "1" : "0")};
   visibility: ${({ open }) => (open ? "visible" : "hidden")};
   transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
   transform-origin: top center;
 
-  
-  @media (min-width: ${breakpoints.md}) {
+  @media (min-width: ${breakpoints.lg}) {
     display: flex;
     position: static;
     flex-direction: row;
@@ -78,27 +79,62 @@ export const MenuElement = styled.ul<{ open: boolean }>`
     opacity: 1;
     visibility: visible;
     transition: none;
+    backdrop-filter: none;
+  }
 `;
 
-export const LinkElement = styled(Link)<{ color?: string }>`
+export const LinkElement = styled(Link)<{ 
+  color?: string; 
+  active: boolean; 
+  linearGradient?: string;
+}>`
+  position: relative;
   text-decoration: none;
-  transition: 0.4s;
+  transition: color 0.4s ease;
   border-radius: 2rem;
-  font-size: 1.2rem;
+  font-size: 1rem;
   font-family: "Inter", sans-serif;
   font-optical-sizing: auto;
   font-weight: 500;
   font-style: normal;
   color: white;
-  padding: 1rem 0;
+  padding: 1rem 2rem;
+  text-align: center;
 
-  @media (min-width: ${breakpoints.md}) {
+  &::after {
+    content: "";
+    position: absolute;
+    bottom: 0.5rem;
+    left: 50%;
+    width: ${({ active }) => (active ? "80%" : "0")};
+    height: 2px;
+    background: linear-gradient(90deg, #d1d1d1ff, #ffffffff);
+    border-radius: 2px;
+    transform: translateX(-50%);
+    transition: width 0.3s ease;
+  }
+
+  &:hover::after {
+    width: 80%;
+  }
+
+  @media (min-width: ${breakpoints.lg}) {
     color: ${({ color }) => color || "black"};
-    padding: 1rem;
+    padding: 1.2rem;
+
+    &::after {
+      width: ${({ active }) => (active ? "80%" : "0")};
+      background: ${({ linearGradient }) => 
+        linearGradient || "linear-gradient(90deg, #d1d1d1ff, #ffffffff)"};
+      bottom: 0;
+    }
 
     &:hover {
-      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
       color: #666;
+    }
+
+    &:hover::after {
+      width: 80%;
     }
   }
 `;
@@ -111,7 +147,7 @@ export const MenuContainer = styled.div`
   position: relative;
   width: 100%;
 
-  @media (min-width: ${breakpoints.md}) {
+  @media (min-width: ${breakpoints.lg}) {
     justify-content: space-between;
     flex-direction: row;
     gap: 2rem;
@@ -124,8 +160,9 @@ export const LogoAndMobileMenu = styled.div`
   width: 100%;
   align-items: center;
 
-  @media (min-width: ${breakpoints.md}) {
+  @media (min-width: ${breakpoints.lg}) {
     width: min-content;
+  }
 `;
 
 export const LinkMenu = styled.div`
@@ -133,8 +170,9 @@ export const LinkMenu = styled.div`
   width: 100%;
   flex-direction: column;
   align-items: center;
+  position: relative;
 
-  @media (min-width: ${breakpoints.md}) {
+  @media (min-width: ${breakpoints.lg}) {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
