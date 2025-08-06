@@ -1,4 +1,4 @@
-name: Build and deploy React to deploy-build branch
+name: Build and deploy React to deploy-dist branch
 
 on:
   push:
@@ -20,11 +20,8 @@ jobs:
           node-version: '18'
           cache: 'npm'
 
-      - name: Install dependencies
-        run: npm ci
-
-      - name: dist React app
-        run: npm run dist
+      - name: Build React app
+        run: npm run build
 
       - name: Prepare deploy-dist branch
         run: |
@@ -32,7 +29,7 @@ jobs:
           git config user.email "github-actions@users.noreply.github.com"
           git checkout -B deploy-dist
           git rm -rf . || true
-          cp -r dist/* .
+          cp -r dist/. .
           rm -rf dist
           touch .nojekyll
           git add .
