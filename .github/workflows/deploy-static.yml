@@ -26,14 +26,8 @@ jobs:
       - name: Build React app
         run: npm run build
 
-      - name: Verify build output
-        run: |
-          if [ ! -d "build" ]; then
-            echo "Build failed: build/ folder not found"
-            exit 1
-          else
-            ls -la build
-          fi
+      - name: List build folder contents
+        run: ls -la build
 
       - name: Prepare deploy-build branch
         run: |
