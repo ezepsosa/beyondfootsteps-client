@@ -38,7 +38,13 @@ jobs:
           git add .
           git commit -m "Deploy React dist [skip ci]" || echo "No changes to commit"
 
-      - name: Push to deploy-dist branch
-        run: git push -f origin deploy-dist
+      - name: Set remote URL with PAT token
         env:
-          GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }} 
+          PAT_TOKEN: ${{ secrets.PAT_TOKEN }}
+        run: |
+          git remote set-url origin https://${PAT_TOKEN}@github.com/ezepsosa/beyondfootsteps-client.git
+
+      - name: Push to deploy-dist branch
+        env:
+          PAT_TOKEN: ${{ secrets.PAT_TOKEN }}
+        run: git push -f origin deploy-dist
