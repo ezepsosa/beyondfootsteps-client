@@ -18,7 +18,6 @@ import geoDataRaw from "@assets/countries.geojson.json";
 import { geoCentroid } from "d3-geo";
 import { ColourLegend } from "@/components/colourLegend";
 import { InfoKPIModal } from "@/components/mapUsableComponents/infoKPIModal";
-import { ArrowLayer } from "@/components/mapUsableComponents/arrowsLayer";
 import {
   CsvButtonDownload,
   IconSpan,
