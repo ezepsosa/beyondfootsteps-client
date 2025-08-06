@@ -82,9 +82,10 @@ export const MenuElement = styled.ul<{ open: boolean }>`
     transition: none;
 `;
 
-export const LinkElement = styled(Link)<{ color?: string }>`
+export const LinkElement = styled(Link)<{ color?: string; active: boolean, linearGradient?:string }>`
+  position: relative;
   text-decoration: none;
-  transition: 0.4s;
+  transition: color 0.4s ease;
   border-radius: 2rem;
   font-size: 1rem;
   font-family: "Inter", sans-serif;
@@ -94,13 +95,33 @@ export const LinkElement = styled(Link)<{ color?: string }>`
   color: white;
   padding: 1rem 0;
 
+  &::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: ${({ active }) => (active ? "80%" : "0")};
+    height: 2px;
+    background: ${({linearGradient}) => linearGradient || "linear-gradient(90deg, #000000ff, #555555cc);"};
+    border-radius: 2px;
+    transform: translateX(-50%);
+    transition: width 0.3s ease;
+  }
+
   @media (min-width: ${breakpoints.lg}) {
     color: ${({ color }) => color || "black"};
     padding: 1.2rem;
 
+    &::after {
+      width: ${({ active }) => (active ? "80%" : "0")};
+    }
+
     &:hover {
-      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
       color: #666;
+    }
+
+    &:hover::after {
+      width: 80%;
     }
   }
 `;
