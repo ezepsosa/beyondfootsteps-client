@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import {
   MenuContainer,
@@ -18,6 +18,16 @@ export const Navbar = () => {
   const location = useLocation();
   const currentPath = location.pathname;
 
+  // Cerrar menú cuando cambia la ruta
+  useEffect(() => {
+    setShowInMobile(false);
+  }, [location.pathname]);
+
+  // Función para manejar clic en enlaces
+  const handleLinkClick = () => {
+    setShowInMobile(false);
+  };
+
   return (
     <LayoutNavbar>
       <MenuContainer>
@@ -29,14 +39,56 @@ export const Navbar = () => {
         </LogoAndMobileMenu>
         <LinkMenu>
           <MenuElement open={showInMobile}>
-            <LinkElement to="/" active={currentPath === "/"}>Dashboard</LinkElement>
-            <LinkElement to="/requests" active={currentPath === "/requests"}>Asylum Requests</LinkElement>
-            <LinkElement to="/decisions" active={currentPath === "/decisions"}>Asylum Decisions</LinkElement>
-            <LinkElement to="/resettlements" active={currentPath === "/resettlements"}>Resettlements</LinkElement>
+            <LinkElement
+              to="/"
+              active={currentPath === "/"}
+              linearGradient="linear-gradient(90deg, #232526, #414345);"
+              onClick={handleLinkClick}
+            >
+              Dashboard
+            </LinkElement>
+            <LinkElement
+              to="/requests"
+              active={currentPath === "/requests"}
+              linearGradient="linear-gradient(90deg, #232526, #414345);"
+              onClick={handleLinkClick}
+            >
+              Asylum Requests
+            </LinkElement>
+            <LinkElement
+              to="/decisions"
+              active={currentPath === "/decisions"}
+              linearGradient="linear-gradient(90deg, #232526, #414345);"
+              onClick={handleLinkClick}
+            >
+              Asylum Decisions
+            </LinkElement>
+            <LinkElement
+              to="/resettlements"
+              active={currentPath === "/resettlements"}
+              linearGradient="linear-gradient(90deg, #232526, #414345);"
+              onClick={handleLinkClick}
+            >
+              Resettlements
+            </LinkElement>
           </MenuElement>
           <AuxiliarMenu>
-            <LinkElement color="white" active={currentPath === "/aboutUs"} linearGradient="linear-gradient(90deg, #d1d1d1ff, #ffffffff);" to="/aboutUs">About Us</LinkElement>
-            <LinkElement color="white" active={currentPath === "/linkedin"} linearGradient="linear-gradient(90deg, #d1d1d1ff, #ffffffff);" to="/linkedin">Linkedin</LinkElement>
+            <LinkElement
+              color="white"
+              active={currentPath === "/aboutUs"}
+              to="/aboutUs"
+              onClick={handleLinkClick}
+            >
+              About Us
+            </LinkElement>
+            <LinkElement
+              color="white"
+              active={currentPath === "/linkedin"}
+              to="/linkedin"
+              onClick={handleLinkClick}
+            >
+              Linkedin
+            </LinkElement>
           </AuxiliarMenu>
         </LinkMenu>
       </MenuContainer>
