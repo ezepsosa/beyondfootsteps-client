@@ -4,6 +4,11 @@ on:
   push:
     branches: [main]
 
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
@@ -19,32 +24,60 @@ jobs:
         with:
           node-version: '18'
           cache: 'npm'
-          
+
       - name: Install React app dependencies
         run: npm install
 
       - name: Build React app
         run: npm run build
 
+      - name: Verify GitHub token
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          if [ -z "$GITHUB_TOKEN" ]; then
+            echo "GITHUB_TOKEN is not available"
+            exit 1
+          else
+            echo "GITHUB_TOKEN is configured"
+          fi
+
       - name: Prepare deploy-dist branch
         run: |
           git config user.name "github-actions"
           git config user.email "github-actions@users.noreply.github.com"
-          git checkout -B deploy-dist
+          
+          if git ls-remote --heads origin deploy-dist | grep deploy-dist > /dev/null; then
+            echo "deploy-dist branch exists, checking out..."
+            git fetch origin deploy-dist
+            git checkout -B deploy-dist origin/deploy-dist
+          else
+            echo "deploy-dist branch does not exist, creating new..."
+            git checkout -B deploy-dist
+          fi
+          
           git rm -rf . || true
+          
           cp -r dist/. .
           rm -rf dist
           touch .nojekyll
+          
           git add .
-          git commit -m "Deploy React dist [skip ci]" || echo "No changes to commit"
-
-      - name: Set remote URL with PAT token
-        env:
-          PAT_TOKEN: ${{ secrets.PAT_TOKEN }}
-        run: |
-          git remote set-url origin https://${PAT_TOKEN}@github.com/ezepsosa/beyondfootsteps-client.git
+          
+          if git diff --staged --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "Deploy React dist [skip ci]"
+          fi
 
       - name: Push to deploy-dist branch
         env:
-          PAT_TOKEN: ${{ secrets.PAT_TOKEN }}
-        run: git push -f origin deploy-dist
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          echo "Setting up remote with GitHub token..."
+          git remote set-url origin https://x-access-token:${GITHUB_TOKEN}@github.com/ezepsosa/beyondfootsteps-client.git
+          
+          echo "Pushing to deploy-dist branch..."
+          git push -f origin deploy-dist
+          
+          echo "Successfully deployed to deploy-dist branch"
