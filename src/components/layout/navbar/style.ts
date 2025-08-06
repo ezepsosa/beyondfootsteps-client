@@ -14,15 +14,16 @@ export const LayoutNavbar = styled.nav`
   justify-content: space-between;
   background-color: transparent;
 
-  @media (min-width: ${breakpoints.md}) {
+  @media (min-width: ${breakpoints.lg}) {
     justify-content: flex-start;
   }
 `;
 
 export const LogoLayout = styled.img`
+  margin-left: 3vh;
   height: 3.5rem;
 
-  @media (min-width: ${breakpoints.md}) {
+  @media (min-width: ${breakpoints.lg}) {
     height: 6rem;
   }
 `;
@@ -30,7 +31,7 @@ export const LogoLayout = styled.img`
 export const MenuLayout = styled.div`
   font-size: 2rem;
   cursor: pointer;
-  @media (min-width: ${breakpoints.md}) {
+  @media (min-width: ${breakpoints.lg}) {
     display: none;
   }
 `;
@@ -38,7 +39,7 @@ export const MenuLayout = styled.div`
 export const AuxiliarMenu = styled.div`
   display: none;
 
-  @media (min-width: ${breakpoints.md}) {
+  @media (min-width: ${breakpoints.lg}) {
     display: flex;
     flex-direction: row;
     gap: 2rem;
@@ -62,8 +63,9 @@ export const MenuElement = styled.ul<{ open: boolean }>`
   transform-origin: top center;
 
   
-  @media (min-width: ${breakpoints.md}) {
+  @media (min-width: ${breakpoints.lg}) {
     display: flex;
+    
     position: static;
     flex-direction: row;
     width: auto;
@@ -84,7 +86,7 @@ export const LinkElement = styled(Link)<{ color?: string }>`
   text-decoration: none;
   transition: 0.4s;
   border-radius: 2rem;
-  font-size: 1.2rem;
+  font-size: 1rem;
   font-family: "Inter", sans-serif;
   font-optical-sizing: auto;
   font-weight: 500;
@@ -92,9 +94,9 @@ export const LinkElement = styled(Link)<{ color?: string }>`
   color: white;
   padding: 1rem 0;
 
-  @media (min-width: ${breakpoints.md}) {
+  @media (min-width: ${breakpoints.lg}) {
     color: ${({ color }) => color || "black"};
-    padding: 1rem;
+    padding: 1.2rem;
 
     &:hover {
       box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
@@ -111,7 +113,7 @@ export const MenuContainer = styled.div`
   position: relative;
   width: 100%;
 
-  @media (min-width: ${breakpoints.md}) {
+  @media (min-width: ${breakpoints.lg}) {
     justify-content: space-between;
     flex-direction: row;
     gap: 2rem;
@@ -124,7 +126,7 @@ export const LogoAndMobileMenu = styled.div`
   width: 100%;
   align-items: center;
 
-  @media (min-width: ${breakpoints.md}) {
+  @media (min-width: ${breakpoints.lg}) {
     width: min-content;
 `;
 
@@ -134,7 +136,7 @@ export const LinkMenu = styled.div`
   flex-direction: column;
   align-items: center;
 
-  @media (min-width: ${breakpoints.md}) {
+  @media (min-width: ${breakpoints.lg}) {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
