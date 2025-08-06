@@ -19,6 +19,9 @@ jobs:
         with:
           node-version: '18'
           cache: 'npm'
+          
+      - name: Install React app dependencies
+        run: npm install
 
       - name: Build React app
         run: npm run build
