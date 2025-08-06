@@ -23,9 +23,6 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Generate GraphQL types
-        run: npm run codegen
-
       - name: Build React app
         run: npm run build
 
