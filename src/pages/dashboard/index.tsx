@@ -25,7 +25,11 @@ import { InfoKPIModal } from "../../components/mapUsableComponents/infoKPIModal"
 import { MapComponent } from "@/components/mapUsableComponents/mapComponent";
 import { GeoJSONLayer } from "@/components/mapUsableComponents/geoJSONLayer";
 import { CountryDashboardMetricLayer } from "./countryDashboardMetricLayer";
-import { CsvButtonDownload, IconSpan, TopButtomContainer } from "@/styles/styles";
+import {
+  CsvButtonDownload,
+  IconSpan,
+  TopButtomContainer,
+} from "@/styles/styles";
 import { HiOutlineDocumentDownload } from "react-icons/hi";
 
 const geoData: FeatureCollection =
@@ -75,7 +79,8 @@ export const Dashboard = () => {
 
     const scale = scaleLinear<string>()
       .domain([min, max])
-      .range(["#2bff00ff", "#00478fff"])
+      .range(["#00478f", "#a8e600"])
+
       .clamp(true);
 
     const colours = Object.fromEntries(
@@ -118,8 +123,8 @@ export const Dashboard = () => {
         <LowerContainer>
           <SelectorBar
             defaultValue={dashboardYearSelection}
-            paddingMobile="0.4rem 2.5rem;"
             selectors={dashboardYearOptions}
+            paddingMobile="0.4rem 2.5rem;"
             setOption={setDashboardYearSelection}
           />
           <SelectorBar
@@ -127,10 +132,10 @@ export const Dashboard = () => {
             selectors={dashboardKeyOptions}
             setOption={setDashboardKeySelection}
           />
-          {getColourForMap.scale && (
-            <ColourLegend scale={getColourForMap.scale}></ColourLegend>
-          )}
         </LowerContainer>
+        {getColourForMap.scale && (
+          <ColourLegend scale={getColourForMap.scale}></ColourLegend>
+        )}
       </MapComponent>
       <TopButtomContainer>
         <IconSpan onClick={() => setOpenInfo((value) => !value)}>
