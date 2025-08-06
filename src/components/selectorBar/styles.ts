@@ -15,14 +15,15 @@ export const Selector = styled.select<{
   font-optical-sizing: auto;
   font-weight: 500;
   font-style: normal;
-  font-size: 0.8rem;
+  font-size: 0.6rem;
   appearance: none;
   -webkit-appearance: none;
   -moz-appearance: none;
-  background-image: url('data:image/svg+xml;utf8,<svg fill="none" stroke="%23333" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M6 9l6 6 6-6" stroke-linecap="round" stroke-linejoin="round"/></svg>');
-  background-repeat: no-repeat;
-  background-position: right 0.8rem center;
-  background-size: 1.5em;
+  cursor: pointer;
+
+  /* Sin flecha en móvil */
+  background-image: none;
+
   border: 2px solid #8d8d8dff;
   box-shadow: 0 2px 8px rgba(224, 192, 151, 0.15);
 
@@ -32,12 +33,23 @@ export const Selector = styled.select<{
     box-shadow: 0 0 0 2px #e0c09755;
   }
 
+  &:hover {
+    border-color: #b68973;
+  }
+
   @media (min-width: ${breakpoints.md}) {
     font-size: 1.2rem;
     font-weight: 500;
     padding: ${({ $paddingDesktop }) => $paddingDesktop || "0.75rem 3rem"};
+
+    /* Flecha solo a partir de breakpoints.md */
+    background-image: url('data:image/svg+xml;utf8,<svg fill="none" stroke="%23777" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M6 9l6 6 6-6" stroke-linecap="round" stroke-linejoin="round"/></svg>');
+    background-repeat: no-repeat;
+    background-position: right 0.8rem center;
+    background-size: 1.2em;
   }
 `;
+
 
 export const BarBackground = styled.div`
   width: 100vw;

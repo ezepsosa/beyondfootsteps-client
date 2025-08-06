@@ -1,7 +1,7 @@
 import { MapComponent } from "@/components/mapUsableComponents/mapComponent";
 import { LowerContainer } from "./style";
 import { SelectorBar } from "@/components/selectorBar";
-import React, { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import isoNameRaw from "@assets/iso-country.json";
 import type { isoNameType } from "./types";
 import {
@@ -86,7 +86,7 @@ export const AsylumRequests = () => {
 
     const scale = scaleLinear<string>()
       .domain([min, max])
-      .range(["#2bff00ff", "#00478fff"])
+      .range(["#00478f", "#a8e600"])
       .clamp(true);
     const colours = Object.fromEntries(
       entries.map((entry) => {
@@ -167,7 +167,7 @@ export const AsylumRequests = () => {
           >
             <HiOutlineDocumentDownload size="1.5rem" />
           </CsvButtonDownload>
-        ):  (
+        ) : (
           <IconSpan>
             <HiOutlineDocumentDownload size="1.5rem" color="gray" />
           </IconSpan>
@@ -177,13 +177,11 @@ export const AsylumRequests = () => {
       <LowerContainer>
         <SelectorBar
           defaultValue={dashboardYearSelection}
-          paddingMobile="0.4rem 2.5rem;"
           selectors={dashboardYearOptions}
           setOption={setDashboardYearSelection}
         />
         <SelectorBar
           defaultValue={directionSelected}
-          paddingMobile="0.4rem 2.5rem;"
           selectors={asylumDirectional}
           setOption={setDirectionSelected}
         />
@@ -192,11 +190,8 @@ export const AsylumRequests = () => {
           selectors={countryOptions}
           setOption={setCountrySelected}
         />
-
-        {getColourForMap.scale && (
-          <ColourLegend scale={getColourForMap.scale} />
-        )}
       </LowerContainer>
+      {getColourForMap.scale && <ColourLegend scale={getColourForMap.scale} />}
       <InfoKPIModal
         info="The symbol * indicates the total number of applications where more people have been grouped together. In other words, the number may be significantly higher than the actual number of people who have applied."
         openInfo={showInfo}
