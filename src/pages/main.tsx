@@ -4,7 +4,7 @@ import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
 import { AppRoutes } from "@/routes/AppRoutes";
 
 const client = new ApolloClient({
-  uri: "http://localhost:8080/graphql",
+  uri: "https://beyondfootsteps-api.onrender.com/graphql",
   cache: new InMemoryCache(),
 });
 
