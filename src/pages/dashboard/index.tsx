@@ -10,9 +10,9 @@ import { SelectorBar } from "@/components/selectorBar";
 import { LowerContainer } from "./styles";
 import { ColourLegend } from "@/components/colourLegend";
 import {
-  calculateColor,
   dashboardKeyOptions,
   dashboardYearOptions,
+  calculateCountryColor,
   INDICATOR_INFO,
 } from "../auxliar";
 import { IoInformationCircle } from "react-icons/io5";
@@ -38,10 +38,10 @@ const geoData: FeatureCollection =
 
 export const Dashboard = () => {
   const [dashboardKeySelection, setDashboardKeySelection] = useState<
-    number | string
+    string
   >("coverageRate");
   const [dashboardYearSelection, setDashboardYearSelection] = useState<
-    number | string
+    number
   >(2024);
   const [info, setInfo] = useState<string>();
   const [countrySelected, setCountrySelected] = useState<string>();
@@ -66,9 +66,9 @@ export const Dashboard = () => {
   );
 
   const getColourForMap = useMemo(() => {
-    return calculateColor({
+    return calculateCountryColor({
       arrayData: dashboardSummariesByYear ?? [],
-      dashboardKeySelection: dashboardKeySelection as keyof DashboardSummary,
+      metricSelected: dashboardKeySelection as keyof DashboardSummary,
     });
   }, [dashboardSummariesByYear, dashboardKeySelection]);
 
@@ -104,12 +104,12 @@ export const Dashboard = () => {
           <SelectorBar
             defaultValue={dashboardYearSelection}
             selectors={dashboardYearOptions}
-            setOption={setDashboardYearSelection}
+            setOption={(value) => setDashboardYearSelection(value as number)}
           />
           <SelectorBar
             defaultValue={dashboardKeySelection}
             selectors={dashboardKeyOptions}
-            setOption={setDashboardKeySelection}
+            setOption={(value) => setDashboardKeySelection(value as string)}
           />
         </LowerContainer>
         {getColourForMap.scale && (

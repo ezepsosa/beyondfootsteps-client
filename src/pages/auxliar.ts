@@ -1,6 +1,5 @@
-import type { DashboardSummary } from "@/gql/graphql";
-import { isNumber } from "chart.js/helpers";
-import { scaleLinear } from "d3-scale";
+import type { AsylumRequest, DashboardSummary } from "@/gql/graphql";
+import { scaleLinear, type ScaleLinear } from "d3-scale";
 export const INDICATOR_INFO: Record<string, string> = {
   coverageRate:
     "Coverage Rate: the percentage of people identified as being in need of protection or assistance who actually received it. High values indicate strong humanitarian reach or resource availability. Formula: (people assisted ÷ people in need) × 100.",
@@ -103,20 +102,110 @@ export function roundTwoDigits(number: number): number {
   return +redondeado.toPrecision(10).replace(/\.?0+$/, "");
 }
 
-export const calculateColor = ({
+/* The next functions cannot be easily self explained by reading the code, so a properly explanation is added here. @Author Ezequiel Pérez */
+
+/** * Type guard to check if an array is of type AsylumRequest.
+ * @param arr - The array to check.
+ * @returns True if the array is of type AsylumRequest, false otherwise.
+ */
+
+const isAsylumRequestArray = (
+  arr: (AsylumRequest | DashboardSummary)[]
+): arr is AsylumRequest[] => arr.length > 0 && "countryOfAsylumIso" in arr[0];
+
+
+
+/** * Calculates colors for countries based on a selected metric and returns a color scale.
+ * @param scale - The D3 scale to use for color mapping.    
+ * @param entries - The array of data entries, either `AsylumRequest[]` or `DashboardSummary[]`.
+ * @param metricSelected - The key of the metric to use for color calculation.
+ * @param directionSelected - (Optional) The direction filter to apply, if any.
+ * @param countrySelected - (Optional) The country filter to apply, if any.
+ * @returns An object mapping country ISO codes to their corresponding colors.
+ */
+
+function calculateColorReturningValue(
+  scale: ScaleLinear<string, string, never>,
+  entries: (AsylumRequest | DashboardSummary)[],
+  metricSelected: keyof AsylumRequest | keyof DashboardSummary,
+  directionSelected?: string,
+  countrySelected?: string
+) {
+  if (isAsylumRequestArray(entries)) {
+    const colors = Object.fromEntries(
+      entries.map((entry: AsylumRequest) => {
+        const value = entry[metricSelected as keyof AsylumRequest];
+        const countryIso =
+          directionSelected === "origin"
+            ? entry.countryOfAsylumIso
+            : entry.countryOfOriginIso;
+
+        return [countryIso, typeof value === "number" ? scale(value) : "#ccc"];
+      })
+    );
+    colors[countrySelected || ""] = "#333";
+    return colors;
+  } else {
+    const dashboardEntries = entries.filter(
+      (entry): entry is DashboardSummary => "countryIso" in entry
+    );
+    const colors = Object.fromEntries(
+      dashboardEntries.map((entry) => {
+        const value = entry[metricSelected as keyof DashboardSummary];
+
+        return [
+          entry.countryIso,
+          typeof value === "number" ? scale(value) : "#ccc",
+        ];
+      })
+    );
+
+    return colors;
+  }
+}
+
+/**
+ * Calculates a color scale and corresponding colors for countries based on a selected metric.
+ *
+ * @param arrayData - The array of data objects, either `AsylumRequest[]` or `DashboardSummary[]`.
+ * @param metricSelected - The key of the metric to use for color calculation.
+ * @param directionSelected - (Optional) The direction filter to apply, if any.
+ * @param countrySelected - (Optional) The country filter to apply, if any.
+ * @returns An object containing the D3 color scale and a mapping of colors for each entry.
+ *
+ * @remarks
+ * - Filters out invalid entries from the data array.
+ * - Determines the min and max values for the selected metric to create a linear color scale.
+ * - Uses the scale to assign colors to each entry based on its metric value.
+ * - Returns an empty object if no valid values are found.
+ */
+export const calculateCountryColor = ({
   arrayData,
-  dashboardKeySelection,
+  metricSelected,
+  directionSelected,
+  countrySelected,
 }: {
-  arrayData: DashboardSummary[];
-  dashboardKeySelection: keyof DashboardSummary;
+  arrayData: AsylumRequest[] | DashboardSummary[];
+  metricSelected: keyof AsylumRequest | keyof DashboardSummary;
+  directionSelected?: string;
+  countrySelected?: string;
 }) => {
   if (arrayData.length === 0) return {};
 
   const entries = arrayData.filter(Boolean);
 
-  const values: number[] = entries
-    .map((element: DashboardSummary) => element?.[dashboardKeySelection])
-    .filter((value): value is number => isNumber(value));
+  let values: number[] = [];
+
+  if (isAsylumRequestArray(entries)) {
+    values = entries
+      .map((element) => element[metricSelected as keyof AsylumRequest])
+      .filter((value): value is number => typeof value === "number");
+  } else {
+    values = entries
+      .filter((element): element is DashboardSummary => "countryIso" in element)
+      .map((element) => element[metricSelected as keyof DashboardSummary])
+      .filter((value): value is number => typeof value === "number");
+  }
 
   if (values.length === 0) return {};
 
@@ -126,17 +215,14 @@ export const calculateColor = ({
   const scale = scaleLinear<string>()
     .domain([min, max])
     .range(["#00478f", "#a8e600"])
-
     .clamp(true);
-
-  const colours = Object.fromEntries(
-    entries.map((entry: DashboardSummary) => {
-      const country = entry?.[dashboardKeySelection];
-      return [
-        entry.countryIso,
-        typeof country === "number" ? scale(country) : "#ccc",
-      ];
-    })
+  const colours = calculateColorReturningValue(
+    scale,
+    entries,
+    metricSelected,
+    directionSelected,
+    countrySelected
   );
+
   return { scale, colours };
 };

@@ -8,9 +8,7 @@ import {
   useGetAsylumRequestsByYearAndCountryQuery,
   type AsylumRequest,
 } from "@/gql/graphql";
-import { dashboardYearOptions } from "../auxliar";
-import { isNumber } from "chart.js/helpers";
-import { scaleLinear } from "d3-scale";
+import { dashboardYearOptions, calculateCountryColor } from "../auxliar";
 import { GeoJSONLayer } from "@/components/mapUsableComponents/geoJSONLayer";
 import { CountryAsylumMetricLayer } from "./countryMetricLayer";
 import type { Feature, FeatureCollection, Geometry } from "geojson";
@@ -35,17 +33,17 @@ const geoData: FeatureCollection =
     : { type: "FeatureCollection", features: [] };
 
 export const AsylumRequests = () => {
-  const [countrySelected, setCountrySelected] = useState<number | string>(
+  const [countrySelected, setCountrySelected] = useState<string>(
     "ESP"
   );
-  const [directionSelected, setDirectionSelected] = useState<number | string>(
+  const [directionSelected, setDirectionSelected] = useState<string>(
     "origin"
   );
   const [metricSelected, setMetricSelected] =
     useState<keyof AsylumRequest>("applied");
   const [showInfo, setShowInfo] = useState<boolean>(false);
   const [dashboardYearSelection, setDashboardYearSelection] = useState<
-    number | string
+    number
   >(2024);
   const asylumDirectional = [
     { label: "Country of Origin", value: "origin" },
@@ -60,9 +58,9 @@ export const AsylumRequests = () => {
     variables: {
       year: Number(dashboardYearSelection),
       countryOfAsylumIso:
-        directionSelected == "asylum" ? (countrySelected as string) : null,
+        directionSelected == "asylum" ? (countrySelected) : null,
       countryOfOriginIso:
-        directionSelected == "origin" ? (countrySelected as string) : null,
+        directionSelected == "origin" ? (countrySelected) : null,
     },
   });
 
@@ -79,42 +77,13 @@ export const AsylumRequests = () => {
   }
 
   const getColourForMap = useMemo(() => {
-    if (asylumRequestsByYearAndCountry.length > 0) return {};
-
-    const entries = asylumRequestsByYearAndCountry.filter(Boolean);
-
-    const values: number[] = entries
-      .map((asylumRequest: AsylumRequest) => asylumRequest?.[metricSelected])
-      .filter((value) => isNumber(value));
-
-    if (values.length === 0) return {};
-
-    const min = Math.min(...values);
-    const max = Math.max(...values);
-
-    const scale = scaleLinear<string>()
-      .domain([min, max])
-      .range(["#00478f", "#a8e600"])
-      .clamp(true);
-    const colours = Object.fromEntries(
-      entries.map((entry) => {
-        const appliedValue = entry?.[metricSelected];
-        const countryIso =
-          directionSelected === "origin"
-            ? entry?.countryOfAsylumIso
-            : entry?.countryOfOriginIso;
-
-        return [
-          countryIso,
-          typeof appliedValue === "number" ? scale(appliedValue) : "#ccc",
-        ];
-      })
-    );
-    colours[countrySelected.toString()] = "#333";
-
-    return { scale, colours };
-  }, [
-    asylumRequestsByYearAndCountry,
+    return calculateCountryColor({
+      arrayData: asylumRequestsByYearAndCountry,
+      metricSelected,
+      directionSelected,
+      countrySelected,
+    });
+  }, [asylumRequestsByYearAndCountry,
     countrySelected,
     directionSelected,
     metricSelected,
@@ -187,17 +156,17 @@ export const AsylumRequests = () => {
         <SelectorBar
           defaultValue={dashboardYearSelection}
           selectors={dashboardYearOptions}
-          setOption={setDashboardYearSelection}
+          setOption={(value) => setDashboardYearSelection(value as number)}
         />
         <SelectorBar
           defaultValue={directionSelected}
           selectors={asylumDirectional}
-          setOption={setDirectionSelected}
+          setOption={(value) => setDirectionSelected(value as string)}
         />
         <SelectorBar
           defaultValue={countrySelected}
           selectors={countryOptions}
-          setOption={setCountrySelected}
+          setOption={(value) => setCountrySelected(value as string)}
         />
       </LowerContainer>
       {getColourForMap.scale && <ColourLegend scale={getColourForMap.scale} />}
