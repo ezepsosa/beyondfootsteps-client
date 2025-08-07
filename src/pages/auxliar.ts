@@ -113,10 +113,8 @@ const isAsylumRequestArray = (
   arr: (AsylumRequest | DashboardSummary)[]
 ): arr is AsylumRequest[] => arr.length > 0 && "countryOfAsylumIso" in arr[0];
 
-
-
 /** * Calculates colors for countries based on a selected metric and returns a color scale.
- * @param scale - The D3 scale to use for color mapping.    
+ * @param scale - The D3 scale to use for color mapping.
  * @param entries - The array of data entries, either `AsylumRequest[]` or `DashboardSummary[]`.
  * @param metricSelected - The key of the metric to use for color calculation.
  * @param directionSelected - (Optional) The direction filter to apply, if any.
@@ -164,6 +162,43 @@ function calculateColorReturningValue(
   }
 }
 
+function calculateScale(values: number[]): ScaleLinear<string, string, never> {
+  if (values.length === 0) {
+    return scaleLinear<string>()
+      .domain([0, 1])
+      .range(["#ccc", "#ccc"])
+      .clamp(true);
+  }
+  const sortedValues = [...values].sort((a, b) => a - b);
+
+  console.log("Sorted Values:", sortedValues);
+
+  const getPercentile = (p: number): number => {
+    const index = (sortedValues.length - 1) * p;
+    const lower = Math.floor(index);
+    const upper = Math.ceil(index);
+    console.log("Lower:", lower, "Upper:", upper, "Index:", index);
+    if (lower === upper) return sortedValues[lower];
+    return (
+      sortedValues[lower] +
+      (sortedValues[upper] - sortedValues[lower]) * (index - lower)
+    );
+  };
+  const lowerBound = getPercentile(0.05);
+  const upperBound = getPercentile(0.95);
+  
+  if (lowerBound >= 0 || upperBound <= 0) {
+    return scaleLinear<string>()
+      .domain([lowerBound, upperBound])
+      .range(["#00478f", "#a8e600"])
+      .clamp(true);
+  }
+
+  return scaleLinear<string>()
+    .domain([lowerBound, 0, upperBound])
+     .range(["#00478f", "#52cccc9c", "#a8e600"])
+    .clamp(true);
+}
 /**
  * Calculates a color scale and corresponding colors for countries based on a selected metric.
  *
@@ -209,13 +244,7 @@ export const calculateCountryColor = ({
 
   if (values.length === 0) return {};
 
-  const min = Math.min(...values);
-  const max = Math.max(...values);
-
-  const scale = scaleLinear<string>()
-    .domain([min, max])
-    .range(["#00478f", "#a8e600"])
-    .clamp(true);
+  const scale = calculateScale(values);
   const colours = calculateColorReturningValue(
     scale,
     entries,
