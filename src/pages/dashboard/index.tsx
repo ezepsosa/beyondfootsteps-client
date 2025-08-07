@@ -16,7 +16,7 @@ import { IoInformationCircle } from "react-icons/io5";
 import { RxEyeOpen } from "react-icons/rx";
 import { GoEyeClosed } from "react-icons/go";
 import { InfoCountryModal } from "./infoCountryModal";
-import { CountryDashboardMetricLayer } from "./countryDashboardMetricLayer";
+
 import {
   CsvButtonDownload,
   IconSpan,
@@ -30,6 +30,7 @@ import { useCountryColor } from "@/hooks/useCountryColor";
 import { MapComponent } from "@/components/map/container";
 import { GeoJSONLayer } from "@/components/map/layer/geoJSON";
 import { InfoKPIModal } from "@/components/map/modal/kpi";
+import { MetricLayer } from "@/components/map/layer/metric";
 
 export const Dashboard = () => {
   const [dashboardKeySelection, setDashboardKeySelection] =
@@ -88,14 +89,14 @@ export const Dashboard = () => {
           <MapComponent>
             <GeoJSONLayer geoColourForMap={getColourForMap} />
             {showMetric && dashboardSummariesByYear.length > 0 && (
-              <CountryDashboardMetricLayer
+              <MetricLayer
                 centroids={centroids}
-                dashboardKeySelection={
+                metricSelected={
                   dashboardKeySelection as keyof DashboardSummary
                 }
-                setCountrySelected={setCountrySelected}
-                setOpenCountryInfo={setOpenCountryInfo}
-                dashboardSummariesByYear={dashboardSummariesByYear ?? []}
+                setToggleCountry={setCountrySelected}
+                setToggleInfo={setOpenCountryInfo}
+                arrayData={dashboardSummariesByYear ?? []}
               />
             )}
             <LowerContainer>

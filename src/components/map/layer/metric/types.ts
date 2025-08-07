@@ -5,6 +5,6 @@ export type Props = {
   arrayData: (AsylumRequest | AsylumDecision | DashboardSummary)[];
   originOrAsylum?: string;
   metricSelected: keyof AsylumRequest | keyof AsylumDecision | keyof DashboardSummary;
-  setToggleInfo?: () => void;
+  setToggleInfo?: (value: boolean) => void;
   setToggleCountry?: (value: string) => void;
 };

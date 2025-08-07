@@ -49,7 +49,7 @@ export const MetricLayer = ({
             eventHandlers={{
               click: () => {
                 setToggleCountry?.(iso);
-                setToggleInfo?.();
+                setToggleInfo?.(true);
               },
             }}
           />

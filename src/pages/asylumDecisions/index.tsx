@@ -19,10 +19,10 @@ import {
   type AsylumDecision,
 } from "@/gql/graphql";
 import { LowerContainer } from "./styles";
-import { CountryAsylumMetricLayer } from "./countryMetricLayer";
 import { MapComponent } from "@/components/map/container";
 import { GeoJSONLayer } from "@/components/map/layer/geoJSON";
 import { InfoKPIModal } from "@/components/map/modal/kpi";
+import { MetricLayer } from "@/components/map/layer/metric";
 
 const isoNameRawTyped: isoNameType[] = isoNameRaw as isoNameType[];
 
@@ -102,13 +102,12 @@ export const AsylumDecisions = () => {
         return (
           <MapComponent>
             <GeoJSONLayer geoColourForMap={getColourForMap} />
-            /** TODO: REFACTOR AND CREATE A GENERAL METHOD FOR ALL MAPS */
             {asylumDecisionsByYearAndCountry.length > 0 && (
-              <CountryAsylumMetricLayer
+              <MetricLayer
                 key={directionSelected}
                 centroids={centroids}
                 originOrAsylum={String(directionSelected)}
-                asylumDecisions={asylumDecisionsByYearAndCountry ?? []}
+                arrayData={asylumDecisionsByYearAndCountry ?? []}
                 metricSelected={"acceptanceRate"}
               />
             )}

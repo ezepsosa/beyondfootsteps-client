@@ -7,7 +7,6 @@ import {
   type AsylumRequest,
 } from "@/gql/graphql";
 import { dashboardYearOptions } from "../auxliar";
-import { CountryAsylumMetricLayer } from "./countryMetricLayer";
 import { ColourLegend } from "@/components/colourLegend";
 import {
   CsvButtonDownload,
@@ -25,6 +24,7 @@ import type { isoNameType } from "@/types/types";
 import { MapComponent } from "@/components/map/container";
 import { GeoJSONLayer } from "@/components/map/layer/geoJSON";
 import { InfoKPIModal } from "@/components/map/modal/kpi";
+import { MetricLayer } from "@/components/map/layer/metric";
 
 const isoNameRawTyped: isoNameType[] = isoNameRaw as isoNameType[];
 
@@ -106,11 +106,11 @@ export const AsylumRequests = () => {
           <MapComponent>
             <GeoJSONLayer geoColourForMap={getColourForMap} />
             {asylumRequestsByYearAndCountry.length > 0 && (
-              <CountryAsylumMetricLayer
+              <MetricLayer
                 key={directionSelected}
                 centroids={centroids}
                 originOrAsylum={String(directionSelected)}
-                asylumRequests={asylumRequestsByYearAndCountry ?? []}
+                arrayData={asylumRequestsByYearAndCountry ?? []}
                 metricSelected={metricSelected}
               />
             )}
