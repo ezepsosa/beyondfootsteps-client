@@ -1,5 +1,6 @@
 import type { AsylumRequest, DashboardSummary } from "@/gql/graphql";
 import { scaleLinear, type ScaleLinear } from "d3-scale";
+import { useMemo } from "react";
 export const INDICATOR_INFO: Record<string, string> = {
   coverageRate:
     "Coverage Rate: the percentage of people identified as being in need of protection or assistance who actually received it. High values indicate strong humanitarian reach or resource availability. Formula: (people assisted ÷ people in need) × 100.",
@@ -171,13 +172,11 @@ function calculateScale(values: number[]): ScaleLinear<string, string, never> {
   }
   const sortedValues = [...values].sort((a, b) => a - b);
 
-  console.log("Sorted Values:", sortedValues);
 
   const getPercentile = (p: number): number => {
     const index = (sortedValues.length - 1) * p;
     const lower = Math.floor(index);
     const upper = Math.ceil(index);
-    console.log("Lower:", lower, "Upper:", upper, "Index:", index);
     if (lower === upper) return sortedValues[lower];
     return (
       sortedValues[lower] +
@@ -214,7 +213,7 @@ function calculateScale(values: number[]): ScaleLinear<string, string, never> {
  * - Uses the scale to assign colors to each entry based on its metric value.
  * - Returns an empty object if no valid values are found.
  */
-export const calculateCountryColor = ({
+export const useCountryColor = ({
   arrayData,
   metricSelected,
   directionSelected,
@@ -225,33 +224,35 @@ export const calculateCountryColor = ({
   directionSelected?: string;
   countrySelected?: string;
 }) => {
-  if (arrayData.length === 0) return {};
+  return useMemo(() => {
+    if (arrayData.length === 0) return {};
 
-  const entries = arrayData.filter(Boolean);
+    const entries = arrayData.filter(Boolean);
 
-  let values: number[] = [];
+    let values: number[] = [];
 
-  if (isAsylumRequestArray(entries)) {
-    values = entries
-      .map((element) => element[metricSelected as keyof AsylumRequest])
-      .filter((value): value is number => typeof value === "number");
-  } else {
-    values = entries
-      .filter((element): element is DashboardSummary => "countryIso" in element)
-      .map((element) => element[metricSelected as keyof DashboardSummary])
-      .filter((value): value is number => typeof value === "number");
-  }
+    if (isAsylumRequestArray(entries)) {
+      values = entries
+        .map((element) => element[metricSelected as keyof AsylumRequest])
+        .filter((value): value is number => typeof value === "number");
+    } else {
+      values = entries
+        .filter((element): element is DashboardSummary => "countryIso" in element)
+        .map((element) => element[metricSelected as keyof DashboardSummary])
+        .filter((value): value is number => typeof value === "number");
+    }
 
-  if (values.length === 0) return {};
+    if (values.length === 0) return {};
 
-  const scale = calculateScale(values);
-  const colours = calculateColorReturningValue(
-    scale,
-    entries,
-    metricSelected,
-    directionSelected,
-    countrySelected
-  );
+    const scale = calculateScale(values);
+    const colours = calculateColorReturningValue(
+      scale,
+      entries,
+      metricSelected,
+      directionSelected,
+      countrySelected
+    );
 
-  return { scale, colours };
+    return { scale, colours };
+  }, [arrayData, metricSelected, directionSelected, countrySelected]);
 };

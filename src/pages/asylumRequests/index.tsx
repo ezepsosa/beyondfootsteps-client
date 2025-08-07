@@ -8,12 +8,9 @@ import {
   useGetAsylumRequestsByYearAndCountryQuery,
   type AsylumRequest,
 } from "@/gql/graphql";
-import { dashboardYearOptions, calculateCountryColor } from "../auxliar";
+import { dashboardYearOptions, useCountryColor } from "../auxliar";
 import { GeoJSONLayer } from "@/components/mapUsableComponents/geoJSONLayer";
 import { CountryAsylumMetricLayer } from "./countryMetricLayer";
-import type { Feature, FeatureCollection, Geometry } from "geojson";
-import geoDataRaw from "@assets/countries.geojson.json";
-import { geoCentroid } from "d3-geo";
 import { ColourLegend } from "@/components/colourLegend";
 import { InfoKPIModal } from "@/components/mapUsableComponents/infoKPIModal";
 import {
@@ -26,13 +23,9 @@ import { AiOutlinePercentage } from "react-icons/ai";
 import { HiOutlineDocumentDownload } from "react-icons/hi";
 import { DisplayError } from "@/components/error";
 import { Loading } from "@/components/loading";
+import { useCentroids } from "@/hooks/useCentroids";
 
 const isoNameRawTyped: isoNameType[] = isoNameRaw as isoNameType[];
-
-const geoData: FeatureCollection =
-  geoDataRaw && typeof geoDataRaw === "object" && "type" in geoDataRaw
-    ? (geoDataRaw as FeatureCollection)
-    : { type: "FeatureCollection", features: [] };
 
 export const AsylumRequests = () => {
   const [countrySelected, setCountrySelected] = useState<string>("ESP");
@@ -73,28 +66,14 @@ export const AsylumRequests = () => {
     console.warn("Error fetching asylum request data");
   }
 
-  const getColourForMap = useMemo(() => {
-    return calculateCountryColor({
-      arrayData: asylumRequestsByYearAndCountry,
-      metricSelected,
-      directionSelected,
-      countrySelected,
-    });
-  }, [
-    asylumRequestsByYearAndCountry,
-    countrySelected,
-    directionSelected,
+  const getColourForMap = useCountryColor({
+    arrayData: asylumRequestsByYearAndCountry,
     metricSelected,
-  ]);
+    directionSelected,
+    countrySelected,
+  });
 
-  const centroids = useMemo(() => {
-    const countryCenter: Record<string, [number, number]> = {};
-    geoData.features?.forEach((f: Feature<Geometry>) => {
-      const iso = f.properties?.["ISO3166-1-Alpha-3"];
-      countryCenter[iso] = geoCentroid(f);
-    });
-    return countryCenter;
-  }, []);
+  const centroids = useCentroids();
 
   useEffect(() => {
     const isThereAny: boolean = asylumRequestsByYearAndCountry.some(

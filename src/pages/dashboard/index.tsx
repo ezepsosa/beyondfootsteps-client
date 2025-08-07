@@ -1,6 +1,4 @@
 import "leaflet/dist/leaflet.css";
-import geoDataRaw from "@assets/countries.geojson.json";
-import type { Feature, FeatureCollection, Geometry } from "geojson";
 import {
   useGetDashboardSummaryByYearQuery,
   type DashboardSummary,
@@ -12,11 +10,10 @@ import { ColourLegend } from "@/components/colourLegend";
 import {
   dashboardKeyOptions,
   dashboardYearOptions,
-  calculateCountryColor,
   INDICATOR_INFO,
+  useCountryColor,
 } from "../auxliar";
 import { IoInformationCircle } from "react-icons/io5";
-import { geoCentroid } from "d3-geo";
 import { RxEyeOpen } from "react-icons/rx";
 import { GoEyeClosed } from "react-icons/go";
 import { InfoCountryModal } from "./infoCountryModal";
@@ -32,11 +29,7 @@ import {
 import { HiOutlineDocumentDownload } from "react-icons/hi";
 import { Loading } from "@/components/loading";
 import { DisplayError } from "@/components/error";
-
-const geoData: FeatureCollection =
-  geoDataRaw && typeof geoDataRaw === "object" && "type" in geoDataRaw
-    ? (geoDataRaw as FeatureCollection)
-    : { type: "FeatureCollection", features: [] };
+import { useCentroids } from "@/hooks/useCentroids";
 
 export const Dashboard = () => {
   const [dashboardKeySelection, setDashboardKeySelection] =
@@ -57,6 +50,8 @@ export const Dashboard = () => {
     console.warn("Error fetching dashboard data");
   }
 
+  const centroids = useCentroids();
+
   const dashboardSummariesByYear: DashboardSummary[] = useMemo(
     () =>
       data?.dashboardSummariesByYear?.filter(
@@ -65,25 +60,14 @@ export const Dashboard = () => {
     [data]
   );
 
-  const getColourForMap = useMemo(() => {
-    return calculateCountryColor({
-      arrayData: dashboardSummariesByYear ?? [],
-      metricSelected: dashboardKeySelection as keyof DashboardSummary,
-    });
-  }, [dashboardSummariesByYear, dashboardKeySelection]);
+  const getColourForMap = useCountryColor({
+    arrayData: dashboardSummariesByYear ?? [],
+    metricSelected: dashboardKeySelection as keyof DashboardSummary,
+  });
 
   useMemo(() => {
     setInfo(INDICATOR_INFO[dashboardKeySelection]);
   }, [dashboardKeySelection]);
-
-  const centroids = useMemo(() => {
-    const countryCenter: Record<string, [number, number]> = {};
-    geoData.features?.forEach((f: Feature<Geometry>) => {
-      const iso = f.properties?.["ISO3166-1-Alpha-3"];
-      countryCenter[iso] = geoCentroid(f);
-    });
-    return countryCenter;
-  }, []);
 
   return (
     <>
