@@ -1,6 +1,6 @@
 import { MapContainer, TileLayer } from "react-leaflet";
 
-export const MapComponent = ({ children, zoom = 2, center = [20, 0] }: { children?: React.ReactNode, zoom?: number, center?: [number, number] }) => {
+export const MapComponent = ({ children, zoom = 4, center = [30, 0] }: { children?: React.ReactNode, zoom?: number, center?: [number, number] }) => {
     const mapStyle = { width: "100%", height: "100%" };
 
     return (
@@ -8,8 +8,8 @@ export const MapComponent = ({ children, zoom = 2, center = [20, 0] }: { childre
             center={center}
             zoom={zoom}
             style={mapStyle}
-            maxZoom={6}
-            minZoom={3}
+            maxZoom={9}
+            minZoom={2.5}
             maxBounds={[
                 [-85, -170],
                 [85, 180],
