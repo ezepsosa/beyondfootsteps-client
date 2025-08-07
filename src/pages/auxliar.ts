@@ -92,3 +92,11 @@ export function humanize(n: number, decimals = 2): string {
 
   return n.toLocaleString("es-ES", { maximumFractionDigits: decimals });
 }
+
+export function roundTwoDigits(number: number): number {
+  if (number === 0) return 0;
+  const cifras = Math.floor(Math.log10(Math.abs(number))) - 1;
+  const factor = Math.pow(10, cifras);
+  const redondeado = Math.round(number / factor) * factor;
+  return +redondeado.toPrecision(10).replace(/\.?0+$/, '');
+}

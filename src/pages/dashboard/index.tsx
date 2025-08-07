@@ -6,7 +6,7 @@ import {
   type DashboardSummary,
 } from "@/gql/graphql";
 import { useMemo, useState } from "react";
-import { scaleLinear } from "d3-scale";
+import { scaleLinear} from "d3-scale";
 import { isNumber } from "chart.js/helpers";
 import { SelectorBar } from "@/components/selectorBar";
 import { LowerContainer } from "./styles";
@@ -15,7 +15,7 @@ import {
   dashboardKeyOptions,
   dashboardYearOptions,
   INDICATOR_INFO,
-} from "./auxliar";
+} from "../auxliar";
 import { IoInformationCircle } from "react-icons/io5";
 import { geoCentroid } from "d3-geo";
 import { RxEyeOpen } from "react-icons/rx";

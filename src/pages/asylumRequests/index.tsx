@@ -8,7 +8,7 @@ import {
   useGetAsylumRequestsByYearAndCountryQuery,
   type AsylumRequest,
 } from "@/gql/graphql";
-import { dashboardYearOptions } from "../dashboard/auxliar";
+import { dashboardYearOptions } from "../auxliar";
 import { isNumber } from "chart.js/helpers";
 import { scaleLinear } from "d3-scale";
 import { GeoJSONLayer } from "@/components/mapUsableComponents/geoJSONLayer";

@@ -9,7 +9,7 @@ import {
 import type { Props } from "./types";
 import flagData from "@assets/iso-flags.json";
 import { CloseModal, LabelValueContainer, TextSpan } from "@/styles/styles";
-import { dashboardKeyOptions, humanize } from "../auxliar";
+import { dashboardKeyOptions, humanize } from "../../auxliar";
 
 type isoFlag = {
   flags: {
