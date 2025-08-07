@@ -28,7 +28,7 @@ export const CountryDashboardMetricLayer = ({
             icon={L.divIcon({
               className: "",
               html: ReactDOMServer.renderToStaticMarkup(
-                <KpiSpan $fontSize=".6rem" $fontSizeMD=".6rem" $fontWeight="400">{humanize(val)}</KpiSpan>
+                <KpiSpan $fontSize=".7rem" $fontSizeMD=".8rem" $fontWeight="600">{humanize(val)}</KpiSpan>
               ),
             })}
             eventHandlers={{
