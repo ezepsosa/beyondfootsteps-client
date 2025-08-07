@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { breakpoints } from "@styles/breakpoints";
 import { Link } from "react-router-dom";
+import type { LinkElementProps } from "./types";
 
 export const LayoutNavbar = styled.nav`
   position: fixed;
@@ -83,11 +84,8 @@ export const MenuElement = styled.ul<{ open: boolean }>`
   }
 `;
 
-export const LinkElement = styled(Link)<{
-  color?: string;
-  active: boolean;
-  linearGradient?: string;
-}>`
+
+export const LinkElement = styled(Link)<LinkElementProps>`
   position: relative;
   text-decoration: none;
   transition: color 0.4s ease;
@@ -106,7 +104,7 @@ export const LinkElement = styled(Link)<{
     position: absolute;
     bottom: 0.5rem;
     left: 50%;
-    width: ${({ active }) => (active ? "80%" : "0")};
+    width: ${({ $active }) => ($active ? "80%" : "0")};
     height: 2px;
     background: linear-gradient(90deg, #d1d1d1ff, #ffffffff);
     border-radius: 2px;
@@ -123,9 +121,9 @@ export const LinkElement = styled(Link)<{
     padding: 1.2rem;
 
     &::after {
-      width: ${({ active }) => (active ? "80%" : "0")};
-      background: ${({ linearGradient }) =>
-        linearGradient || "linear-gradient(90deg, #d1d1d1ff, #ffffffff)"};
+      width: ${({ $active }) => ($active ? "80%" : "0")};
+      background: ${({ $linearGradient }) =>
+        $linearGradient || "linear-gradient(90deg, #d1d1d1ff, #ffffffff)"};
       bottom: 0;
     }
 

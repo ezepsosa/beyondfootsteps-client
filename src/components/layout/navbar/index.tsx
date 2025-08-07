@@ -39,32 +39,32 @@ export const Navbar = () => {
           <MenuElement open={showInMobile}>
             <LinkElement
               to="/"
-              active={currentPath === "/"}
-              linearGradient="linear-gradient(90deg, #232526, #414345);"
+              $active={currentPath === "/"}
+              $linearGradient="linear-gradient(90deg, #232526, #414345);"
               onClick={handleLinkClick}
             >
               Dashboard
             </LinkElement>
             <LinkElement
               to="/requests"
-              active={currentPath === "/requests"}
-              linearGradient="linear-gradient(90deg, #232526, #414345);"
+              $active={currentPath === "/requests"}
+              $linearGradient="linear-gradient(90deg, #232526, #414345);"
               onClick={handleLinkClick}
             >
               Asylum Requests
             </LinkElement>
             <LinkElement
               to="/decisions"
-              active={currentPath === "/decisions"}
-              linearGradient="linear-gradient(90deg, #232526, #414345);"
+              $active={currentPath === "/decisions"}
+              $linearGradient="linear-gradient(90deg, #232526, #414345);"
               onClick={handleLinkClick}
             >
               Asylum Decisions
             </LinkElement>
             <LinkElement
               to="/resettlements"
-              active={currentPath === "/resettlements"}
-              linearGradient="linear-gradient(90deg, #232526, #414345);"
+              $active={currentPath === "/resettlements"}
+              $linearGradient="linear-gradient(90deg, #232526, #414345);"
               onClick={handleLinkClick}
             >
               Resettlements
@@ -73,7 +73,7 @@ export const Navbar = () => {
           <AuxiliarMenu>
             <LinkElement
               color="white"
-              active={currentPath === "/aboutUs"}
+              $active={currentPath === "/aboutUs"}
               to="/aboutUs"
               onClick={handleLinkClick}
             >
@@ -81,7 +81,7 @@ export const Navbar = () => {
             </LinkElement>
             <LinkElement
               color="white"
-              active={currentPath === "/linkedin"}
+              $active={currentPath === "/linkedin"}
               to="/linkedin"
               onClick={handleLinkClick}
             >
