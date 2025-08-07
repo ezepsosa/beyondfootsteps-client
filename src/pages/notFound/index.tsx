@@ -17,7 +17,7 @@ export const NotFound = () => {
       <NotFoundContainer>
         <NotFoundContent>
           <IllustrationContainer>
-            <FootstepsIllustration>👣</FootstepsIllustration>
+            <FootstepsIllustration size="10vh" color="white"/>
           </IllustrationContainer>
 
           <ErrorCode>404</ErrorCode>

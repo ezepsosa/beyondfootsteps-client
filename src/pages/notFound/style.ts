@@ -1,3 +1,4 @@
+import { GiWorld } from "react-icons/gi";
 import styled, { keyframes } from "styled-components";
 
 const fadeIn = keyframes`
@@ -11,15 +12,15 @@ const fadeIn = keyframes`
   }
 `;
 
-const bounce = keyframes`
-  0%, 20%, 50%, 80%, 100% {
-    transform: translateY(0);
+const pulsate = keyframes`
+  0% {
+    transform: scale(1);
   }
-  40% {
-    transform: translateY(-10px);
+  50% {
+    transform: scale(1.1);
   }
-  60% {
-    transform: translateY(-5px);
+  100% {
+    transform: scale(1);
   }
 `;
 
@@ -44,9 +45,9 @@ export const IllustrationContainer = styled.div`
   margin-bottom: 2rem;
 `;
 
-export const FootstepsIllustration = styled.div`
+export const FootstepsIllustration = styled(GiWorld)`
   font-size: 4rem;
-  animation: ${bounce} 2s infinite;
+  animation: ${pulsate} 2s infinite;
   margin-bottom: 1rem;
 `;
 
@@ -103,7 +104,7 @@ export const BackButton = styled.button`
   
   &:hover {
     background: white;
-    color: #667eea;
+    color: #4c4f5eff;
     transform: translateY(-2px);
     box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
   }
