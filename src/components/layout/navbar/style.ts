@@ -12,10 +12,11 @@ export const LayoutNavbar = styled.nav`
   padding: 1rem 1rem;
   box-sizing: border-box;
   justify-content: space-between;
-  background-color: transparent;
+  background-color: #00000050;
 
   @media (min-width: ${breakpoints.lg}) {
     justify-content: flex-start;
+    background-color: transparent;
   }
 `;
 
@@ -32,7 +33,7 @@ export const MenuLayout = styled.div`
   font-size: 2rem;
   cursor: pointer;
   color: white;
-  
+
   @media (min-width: ${breakpoints.lg}) {
     display: none;
   }
@@ -55,8 +56,6 @@ export const MenuElement = styled.ul<{ open: boolean }>`
   display: ${({ open }) => (open ? "flex" : "none")};
   flex-direction: column;
   width: 100%;
-  background: rgba(14, 14, 14, 0.9);
-
   transform: translateY(${({ open }) => (open ? "0" : "-20px")})
     scale(${({ open }) => (open ? "1" : "0.95")});
   opacity: ${({ open }) => (open ? "1" : "0")};
@@ -84,9 +83,9 @@ export const MenuElement = styled.ul<{ open: boolean }>`
   }
 `;
 
-export const LinkElement = styled(Link)<{ 
-  color?: string; 
-  active: boolean; 
+export const LinkElement = styled(Link)<{
+  color?: string;
+  active: boolean;
   linearGradient?: string;
 }>`
   position: relative;
@@ -125,7 +124,7 @@ export const LinkElement = styled(Link)<{
 
     &::after {
       width: ${({ active }) => (active ? "80%" : "0")};
-      background: ${({ linearGradient }) => 
+      background: ${({ linearGradient }) =>
         linearGradient || "linear-gradient(90deg, #d1d1d1ff, #ffffffff)"};
       bottom: 0;
     }
