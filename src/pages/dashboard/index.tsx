@@ -89,7 +89,7 @@ export const Dashboard = () => {
     <>
       <MapComponent>
         <GeoJSONLayer geoColourForMap={getColourForMap} />
-        {showMetric && dashboardSummariesByYear && (
+        {showMetric && dashboardSummariesByYear.length > 0 && (
           <CountryDashboardMetricLayer
             centroids={centroids}
             dashboardKeySelection={
@@ -127,7 +127,7 @@ export const Dashboard = () => {
             <GoEyeClosed size="1.5rem" />
           )}
         </IconSpan>
-        {dashboardSummariesByYear ? (
+        {dashboardSummariesByYear.length > 0 ? (
           <CsvButtonDownload
             filename={`${dashboardYearSelection}_${countrySelected}_dashboard_summary_data.csv`}
             data={dashboardSummariesByYear ?? []}
@@ -150,7 +150,7 @@ export const Dashboard = () => {
       {openCountryInfo &&
         countrySelected &&
         (() => {
-          const countryInfo = dashboardSummariesByYear?.find(
+          const countryInfo = dashboardSummariesByYear.find(
             (country) => country?.countryIso == countrySelected
           );
           if (!countryInfo) return null;
