@@ -110,7 +110,7 @@ export const calculateColor = ({
   arrayData: DashboardSummary[];
   dashboardKeySelection: keyof DashboardSummary;
 }) => {
-  if (!Array.isArray(arrayData) || arrayData.length === 0) return {};
+  if (arrayData.length === 0) return {};
 
   const entries = arrayData.filter(Boolean);
 

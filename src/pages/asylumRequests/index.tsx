@@ -66,17 +66,25 @@ export const AsylumRequests = () => {
     },
   });
 
+  const asylumRequestsByYearAndCountry: AsylumRequest[] = useMemo(
+    () =>
+      data?.asylumRequestsByYearAndCountry?.filter(
+        (item): item is AsylumRequest => !!item
+      ) ?? [],
+    [data]
+  );
+
   if (error) {
     console.warn("Error fetching asylum request data");
   }
 
   const getColourForMap = useMemo(() => {
-    if (!data?.asylumRequestsByYearAndCountry) return {};
+    if (asylumRequestsByYearAndCountry.length > 0) return {};
 
-    const entries = data.asylumRequestsByYearAndCountry.filter(Boolean);
+    const entries = asylumRequestsByYearAndCountry.filter(Boolean);
 
     const values: number[] = entries
-      .map((asylumRequest) => asylumRequest?.[metricSelected])
+      .map((asylumRequest: AsylumRequest) => asylumRequest?.[metricSelected])
       .filter((value) => isNumber(value));
 
     if (values.length === 0) return {};
@@ -105,7 +113,12 @@ export const AsylumRequests = () => {
     colours[countrySelected.toString()] = "#333";
 
     return { scale, colours };
-  }, [data, countrySelected, directionSelected, metricSelected]);
+  }, [
+    asylumRequestsByYearAndCountry,
+    countrySelected,
+    directionSelected,
+    metricSelected,
+  ]);
 
   const centroids = useMemo(() => {
     const countryCenter: Record<string, [number, number]> = {};
@@ -117,7 +130,7 @@ export const AsylumRequests = () => {
   }, []);
 
   useEffect(() => {
-    const isThereAny: boolean = !!data?.asylumRequestsByYearAndCountry?.some(
+    const isThereAny: boolean = asylumRequestsByYearAndCountry.some(
       (asylumRequest) => asylumRequest?.appPc === true
     );
     if (isThereAny) {
@@ -125,17 +138,17 @@ export const AsylumRequests = () => {
     } else {
       setShowInfo(false);
     }
-  }, [data]);
+  }, [asylumRequestsByYearAndCountry]);
 
   return (
     <MapComponent>
       <GeoJSONLayer geoColourForMap={getColourForMap} />
-      {data && (
+      {asylumRequestsByYearAndCountry.length > 0 && (
         <CountryAsylumMetricLayer
           key={directionSelected}
           centroids={centroids}
           originOrAsylum={String(directionSelected)}
-          asylumRequests={data?.asylumRequestsByYearAndCountry ?? []}
+          asylumRequests={asylumRequestsByYearAndCountry ?? []}
           metricSelected={metricSelected}
         />
       )}
@@ -156,14 +169,10 @@ export const AsylumRequests = () => {
             <AiOutlinePercentage size="1.5rem" />
           )}
         </IconSpan>
-        {data ? (
+        {asylumRequestsByYearAndCountry.length > 0 ? (
           <CsvButtonDownload
             filename={`${dashboardYearSelection}_${directionSelected}_${countrySelected}_asylum_request_data.csv`}
-            data={
-              data.asylumRequestsByYearAndCountry?.filter(
-                (item): item is AsylumRequest => !!item
-              ) ?? []
-            }
+            data={asylumRequestsByYearAndCountry}
           >
             <HiOutlineDocumentDownload size="1.5rem" />
           </CsvButtonDownload>
