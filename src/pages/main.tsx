@@ -9,6 +9,7 @@ const client = new ApolloClient({
 });
 
 createRoot(document.getElementById("root")!).render(
+  <QueryClientProvider client={queryClient}>
     <ApolloProvider client={client}>
       <AppRoutes />
     </ApolloProvider>

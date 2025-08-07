@@ -8,7 +8,7 @@ import {
   useGetAsylumRequestsByYearAndCountryQuery,
   type AsylumRequest,
 } from "@/gql/graphql";
-import { dashboardYearOptions, useCountryColor } from "../auxliar";
+import { dashboardYearOptions } from "../auxliar";
 import { GeoJSONLayer } from "@/components/mapUsableComponents/geoJSONLayer";
 import { CountryAsylumMetricLayer } from "./countryMetricLayer";
 import { ColourLegend } from "@/components/colourLegend";
@@ -24,6 +24,7 @@ import { HiOutlineDocumentDownload } from "react-icons/hi";
 import { DisplayError } from "@/components/error";
 import { Loading } from "@/components/loading";
 import { useCentroids } from "@/hooks/useCentroids";
+import { useCountryColor } from "@/hooks/useCountryColor";
 
 const isoNameRawTyped: isoNameType[] = isoNameRaw as isoNameType[];
 

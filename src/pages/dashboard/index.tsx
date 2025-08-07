@@ -11,7 +11,6 @@ import {
   dashboardKeyOptions,
   dashboardYearOptions,
   INDICATOR_INFO,
-  useCountryColor,
 } from "../auxliar";
 import { IoInformationCircle } from "react-icons/io5";
 import { RxEyeOpen } from "react-icons/rx";
@@ -30,6 +29,7 @@ import { HiOutlineDocumentDownload } from "react-icons/hi";
 import { Loading } from "@/components/loading";
 import { DisplayError } from "@/components/error";
 import { useCentroids } from "@/hooks/useCentroids";
+import { useCountryColor } from "@/hooks/useCountryColor";
 
 export const Dashboard = () => {
   const [dashboardKeySelection, setDashboardKeySelection] =
