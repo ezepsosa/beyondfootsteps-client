@@ -13,7 +13,6 @@ query GetAsylumDecisions {
     decTotal
     acceptanceRate
     decPc
-    intakeDate
   }
 }
 
@@ -40,6 +39,5 @@ query GetAsylumDecisionsByYearAndCountry(
     decTotal
     acceptanceRate
     decPc
-    intakeDate
   }
 }

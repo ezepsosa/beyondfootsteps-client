@@ -6,3 +6,8 @@ export type TextSpanProps = {
   $fontColor?: string;
   $fontSizeMD?: string;
 };
+
+export type isoNameType = {
+  name: string;
+  iso: string;
+};

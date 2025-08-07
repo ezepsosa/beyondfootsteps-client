@@ -1,15 +1,9 @@
 import { MapComponent } from "@/components/mapUsableComponents/mapComponent";
-import { LowerContainer } from "./style";
 import { SelectorBar } from "@/components/selectorBar";
 import { useEffect, useMemo, useState } from "react";
 import isoNameRaw from "@assets/iso-country.json";
-import {
-  useGetAsylumRequestsByYearAndCountryQuery,
-  type AsylumRequest,
-} from "@/gql/graphql";
 import { dashboardYearOptions } from "../auxliar";
 import { GeoJSONLayer } from "@/components/mapUsableComponents/geoJSONLayer";
-import { CountryAsylumMetricLayer } from "./countryMetricLayer";
 import { ColourLegend } from "@/components/colourLegend";
 import { InfoKPIModal } from "@/components/mapUsableComponents/infoKPIModal";
 import {
@@ -17,22 +11,24 @@ import {
   IconSpan,
   TopButtomContainer,
 } from "@/styles/styles";
-import { TbNumbers } from "react-icons/tb";
-import { AiOutlinePercentage } from "react-icons/ai";
 import { HiOutlineDocumentDownload } from "react-icons/hi";
 import { DisplayError } from "@/components/error";
 import { Loading } from "@/components/loading";
 import { useCentroids } from "@/hooks/useCentroids";
-import { useCountryColor } from "@/hooks/useCountryColor";
+import { useCountryColorForPercentage } from "@/hooks/useCountryColor";
 import type { isoNameType } from "@/types/types";
+import {
+  useGetAsylumDecisionsByYearAndCountryQuery,
+  type AsylumDecision,
+} from "@/gql/graphql";
+import { LowerContainer } from "./styles";
+import { CountryAsylumMetricLayer } from "./countryMetricLayer";
 
 const isoNameRawTyped: isoNameType[] = isoNameRaw as isoNameType[];
 
-export const AsylumRequests = () => {
+export const AsylumDecisions = () => {
   const [countrySelected, setCountrySelected] = useState<string>("ESP");
   const [directionSelected, setDirectionSelected] = useState<string>("origin");
-  const [metricSelected, setMetricSelected] =
-    useState<keyof AsylumRequest>("applied");
   const [showInfo, setShowInfo] = useState<boolean>(false);
   const [dashboardYearSelection, setDashboardYearSelection] =
     useState<number>(2024);
@@ -45,7 +41,7 @@ export const AsylumRequests = () => {
     return { label: element.name, value: element.iso };
   });
 
-  const { data, error, loading } = useGetAsylumRequestsByYearAndCountryQuery({
+  const { data, error, loading } = useGetAsylumDecisionsByYearAndCountryQuery({
     variables: {
       year: Number(dashboardYearSelection),
       countryOfAsylumIso:
@@ -55,37 +51,38 @@ export const AsylumRequests = () => {
     },
   });
 
-  const asylumRequestsByYearAndCountry: AsylumRequest[] = useMemo(
+  const asylumDecisionsByYearAndCountry: AsylumDecision[] = useMemo(
     () =>
-      data?.asylumRequestsByYearAndCountry?.filter(
-        (item): item is AsylumRequest => !!item
+      data?.asylumDecisionsByYearAndCountry?.filter(
+        (item): item is AsylumDecision => !!item
       ) ?? [],
     [data]
   );
 
   if (error) {
-    console.warn("Error fetching asylum request data");
+    console.warn("Error fetching asylum data data");
   }
 
-  const getColourForMap = useCountryColor({
-    arrayData: asylumRequestsByYearAndCountry,
-    metricSelected,
+  const getColourForMap = useCountryColorForPercentage({
+    arrayData: asylumDecisionsByYearAndCountry,
+    metricSelected: "acceptanceRate",
     directionSelected,
     countrySelected,
+    colorsOnlyPositive: ["#c40000ff", "#00e626ff"],
   });
 
   const centroids = useCentroids();
 
   useEffect(() => {
-    const isThereAny: boolean = asylumRequestsByYearAndCountry.some(
-      (asylumRequest) => asylumRequest?.appPc === true
+    const isThereAny: boolean = asylumDecisionsByYearAndCountry.some(
+      (asylumDecisions) => asylumDecisions?.decPc === true
     );
     if (isThereAny) {
       setShowInfo(true);
     } else {
       setShowInfo(false);
     }
-  }, [asylumRequestsByYearAndCountry]);
+  }, [asylumDecisionsByYearAndCountry]);
 
   return (
     <>
@@ -105,40 +102,24 @@ export const AsylumRequests = () => {
         return (
           <MapComponent>
             <GeoJSONLayer geoColourForMap={getColourForMap} />
-            {asylumRequestsByYearAndCountry.length > 0 && (
+            /** TODO: REFACTOR AND CREATE A GENERAL METHOD FOR ALL MAPS */
+            {asylumDecisionsByYearAndCountry.length > 0 && (
               <CountryAsylumMetricLayer
                 key={directionSelected}
                 centroids={centroids}
                 originOrAsylum={String(directionSelected)}
-                asylumRequests={asylumRequestsByYearAndCountry ?? []}
-                metricSelected={metricSelected}
+                asylumDecisions={asylumDecisionsByYearAndCountry ?? []}
+                metricSelected={"acceptanceRate"}
               />
             )}
           </MapComponent>
         );
       })()}
-
       <TopButtomContainer>
-        <IconSpan
-          onClick={() =>
-            setMetricSelected(
-              (value) =>
-                (value === "applied"
-                  ? "appliedPer100k"
-                  : "applied") as keyof AsylumRequest
-            )
-          }
-        >
-          {metricSelected === ("appliedPer100k" as keyof AsylumRequest) ? (
-            <TbNumbers size="1.5rem" />
-          ) : (
-            <AiOutlinePercentage size="1.5rem" />
-          )}
-        </IconSpan>
-        {asylumRequestsByYearAndCountry.length > 0 ? (
+        {asylumDecisionsByYearAndCountry.length > 0 ? (
           <CsvButtonDownload
-            filename={`${dashboardYearSelection}_${directionSelected}_${countrySelected}_asylum_request_data.csv`}
-            data={asylumRequestsByYearAndCountry}
+            filename={`${dashboardYearSelection}_${directionSelected}_${countrySelected}_asylum_data_data.csv`}
+            data={asylumDecisionsByYearAndCountry}
           >
             <HiOutlineDocumentDownload size="1.5rem" />
           </CsvButtonDownload>
@@ -148,7 +129,7 @@ export const AsylumRequests = () => {
           </IconSpan>
         )}
       </TopButtomContainer>
-
+      /** TODO: SHARED WITH ASYLUM REQUESTS */
       <LowerContainer>
         <SelectorBar
           defaultValue={dashboardYearSelection}

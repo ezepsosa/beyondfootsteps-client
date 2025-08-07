@@ -31,7 +31,6 @@ export type AsylumDecision = {
   decRejected?: Maybe<Scalars['Int']['output']>;
   decTotal?: Maybe<Scalars['Int']['output']>;
   id: Scalars['ID']['output'];
-  intakeDate?: Maybe<Scalars['Int']['output']>;
   year?: Maybe<Scalars['Int']['output']>;
 };
 
@@ -169,7 +168,7 @@ export type ResettlementSummary = {
 export type GetAsylumDecisionsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetAsylumDecisionsQuery = { __typename?: 'Query', asylumDecisions?: Array<{ __typename?: 'AsylumDecision', id: string, year?: number | null, countryOfOrigin?: string | null, countryOfOriginIso?: string | null, countryOfAsylum?: string | null, countryOfAsylumIso?: string | null, decRecognized?: number | null, decOther?: number | null, decRejected?: number | null, decClosed?: number | null, decTotal?: number | null, acceptanceRate?: number | null, decPc?: boolean | null, intakeDate?: number | null } | null> | null };
+export type GetAsylumDecisionsQuery = { __typename?: 'Query', asylumDecisions?: Array<{ __typename?: 'AsylumDecision', id: string, year?: number | null, countryOfOrigin?: string | null, countryOfOriginIso?: string | null, countryOfAsylum?: string | null, countryOfAsylumIso?: string | null, decRecognized?: number | null, decOther?: number | null, decRejected?: number | null, decClosed?: number | null, decTotal?: number | null, acceptanceRate?: number | null, decPc?: boolean | null } | null> | null };
 
 export type GetAsylumDecisionsByYearAndCountryQueryVariables = Exact<{
   year: Scalars['Int']['input'];
@@ -178,7 +177,7 @@ export type GetAsylumDecisionsByYearAndCountryQueryVariables = Exact<{
 }>;
 
 
-export type GetAsylumDecisionsByYearAndCountryQuery = { __typename?: 'Query', asylumDecisionsByYearAndCountry?: Array<{ __typename?: 'AsylumDecision', id: string, year?: number | null, countryOfOrigin?: string | null, countryOfOriginIso?: string | null, countryOfAsylum?: string | null, countryOfAsylumIso?: string | null, decRecognized?: number | null, decOther?: number | null, decRejected?: number | null, decClosed?: number | null, decTotal?: number | null, acceptanceRate?: number | null, decPc?: boolean | null, intakeDate?: number | null } | null> | null };
+export type GetAsylumDecisionsByYearAndCountryQuery = { __typename?: 'Query', asylumDecisionsByYearAndCountry?: Array<{ __typename?: 'AsylumDecision', id: string, year?: number | null, countryOfOrigin?: string | null, countryOfOriginIso?: string | null, countryOfAsylum?: string | null, countryOfAsylumIso?: string | null, decRecognized?: number | null, decOther?: number | null, decRejected?: number | null, decClosed?: number | null, decTotal?: number | null, acceptanceRate?: number | null, decPc?: boolean | null } | null> | null };
 
 export type GetAsylumRequestsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -252,7 +251,6 @@ export const GetAsylumDecisionsDocument = gql`
     decTotal
     acceptanceRate
     decPc
-    intakeDate
   }
 }
     `;
@@ -308,7 +306,6 @@ export const GetAsylumDecisionsByYearAndCountryDocument = gql`
     decTotal
     acceptanceRate
     decPc
-    intakeDate
   }
 }
     `;
