@@ -24,6 +24,8 @@ import {
 import { TbNumbers } from "react-icons/tb";
 import { AiOutlinePercentage } from "react-icons/ai";
 import { HiOutlineDocumentDownload } from "react-icons/hi";
+import { DisplayError } from "@/components/error";
+import { Loading } from "@/components/loading";
 
 const isoNameRawTyped: isoNameType[] = isoNameRaw as isoNameType[];
 
@@ -33,18 +35,13 @@ const geoData: FeatureCollection =
     : { type: "FeatureCollection", features: [] };
 
 export const AsylumRequests = () => {
-  const [countrySelected, setCountrySelected] = useState<string>(
-    "ESP"
-  );
-  const [directionSelected, setDirectionSelected] = useState<string>(
-    "origin"
-  );
+  const [countrySelected, setCountrySelected] = useState<string>("ESP");
+  const [directionSelected, setDirectionSelected] = useState<string>("origin");
   const [metricSelected, setMetricSelected] =
     useState<keyof AsylumRequest>("applied");
   const [showInfo, setShowInfo] = useState<boolean>(false);
-  const [dashboardYearSelection, setDashboardYearSelection] = useState<
-    number
-  >(2024);
+  const [dashboardYearSelection, setDashboardYearSelection] =
+    useState<number>(2024);
   const asylumDirectional = [
     { label: "Country of Origin", value: "origin" },
     { label: "Country of Asylum", value: "asylum" },
@@ -54,13 +51,13 @@ export const AsylumRequests = () => {
     return { label: element.name, value: element.iso };
   });
 
-  const { data, error } = useGetAsylumRequestsByYearAndCountryQuery({
+  const { data, error, loading } = useGetAsylumRequestsByYearAndCountryQuery({
     variables: {
       year: Number(dashboardYearSelection),
       countryOfAsylumIso:
-        directionSelected == "asylum" ? (countrySelected) : null,
+        directionSelected == "asylum" ? countrySelected : null,
       countryOfOriginIso:
-        directionSelected == "origin" ? (countrySelected) : null,
+        directionSelected == "origin" ? countrySelected : null,
     },
   });
 
@@ -83,7 +80,8 @@ export const AsylumRequests = () => {
       directionSelected,
       countrySelected,
     });
-  }, [asylumRequestsByYearAndCountry,
+  }, [
+    asylumRequestsByYearAndCountry,
     countrySelected,
     directionSelected,
     metricSelected,
@@ -110,17 +108,36 @@ export const AsylumRequests = () => {
   }, [asylumRequestsByYearAndCountry]);
 
   return (
-    <MapComponent>
-      <GeoJSONLayer geoColourForMap={getColourForMap} />
-      {asylumRequestsByYearAndCountry.length > 0 && (
-        <CountryAsylumMetricLayer
-          key={directionSelected}
-          centroids={centroids}
-          originOrAsylum={String(directionSelected)}
-          asylumRequests={asylumRequestsByYearAndCountry ?? []}
-          metricSelected={metricSelected}
-        />
-      )}
+    <>
+      {(() => {
+        if (error)
+          return (
+            <MapComponent>
+              <DisplayError />
+            </MapComponent>
+          );
+        if (loading)
+          return (
+            <MapComponent>
+              <Loading />
+            </MapComponent>
+          );
+        return (
+          <MapComponent>
+            <GeoJSONLayer geoColourForMap={getColourForMap} />
+            {asylumRequestsByYearAndCountry.length > 0 && (
+              <CountryAsylumMetricLayer
+                key={directionSelected}
+                centroids={centroids}
+                originOrAsylum={String(directionSelected)}
+                asylumRequests={asylumRequestsByYearAndCountry ?? []}
+                metricSelected={metricSelected}
+              />
+            )}
+          </MapComponent>
+        );
+      })()}
+
       <TopButtomContainer>
         <IconSpan
           onClick={() =>
@@ -175,6 +192,6 @@ export const AsylumRequests = () => {
         openInfo={showInfo}
         setOpenInfo={setShowInfo}
       />
-    </MapComponent>
+    </>
   );
 };

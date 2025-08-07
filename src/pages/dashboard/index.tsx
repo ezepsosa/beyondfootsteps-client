@@ -30,6 +30,8 @@ import {
   TopButtomContainer,
 } from "@/styles/styles";
 import { HiOutlineDocumentDownload } from "react-icons/hi";
+import { Loading } from "@/components/loading";
+import { DisplayError } from "@/components/error";
 
 const geoData: FeatureCollection =
   geoDataRaw && typeof geoDataRaw === "object" && "type" in geoDataRaw
@@ -37,19 +39,17 @@ const geoData: FeatureCollection =
     : { type: "FeatureCollection", features: [] };
 
 export const Dashboard = () => {
-  const [dashboardKeySelection, setDashboardKeySelection] = useState<
-    string
-  >("coverageRate");
-  const [dashboardYearSelection, setDashboardYearSelection] = useState<
-    number
-  >(2024);
+  const [dashboardKeySelection, setDashboardKeySelection] =
+    useState<string>("coverageRate");
+  const [dashboardYearSelection, setDashboardYearSelection] =
+    useState<number>(2024);
   const [info, setInfo] = useState<string>();
   const [countrySelected, setCountrySelected] = useState<string>();
   const [openInfo, setOpenInfo] = useState<boolean>(false);
   const [showMetric, setShowMetric] = useState<boolean>(true);
   const [openCountryInfo, setOpenCountryInfo] = useState<boolean>(true);
 
-  const { data, error } = useGetDashboardSummaryByYearQuery({
+  const { data, error, loading } = useGetDashboardSummaryByYearQuery({
     variables: { year: Number(dashboardYearSelection) },
   });
 
@@ -87,35 +87,53 @@ export const Dashboard = () => {
 
   return (
     <>
-      <MapComponent>
-        <GeoJSONLayer geoColourForMap={getColourForMap} />
-        {showMetric && dashboardSummariesByYear.length > 0 && (
-          <CountryDashboardMetricLayer
-            centroids={centroids}
-            dashboardKeySelection={
-              dashboardKeySelection as keyof DashboardSummary
-            }
-            setCountrySelected={setCountrySelected}
-            setOpenCountryInfo={setOpenCountryInfo}
-            dashboardSummariesByYear={dashboardSummariesByYear ?? []}
-          />
-        )}
-        <LowerContainer>
-          <SelectorBar
-            defaultValue={dashboardYearSelection}
-            selectors={dashboardYearOptions}
-            setOption={(value) => setDashboardYearSelection(value as number)}
-          />
-          <SelectorBar
-            defaultValue={dashboardKeySelection}
-            selectors={dashboardKeyOptions}
-            setOption={(value) => setDashboardKeySelection(value as string)}
-          />
-        </LowerContainer>
-        {getColourForMap.scale && (
-          <ColourLegend scale={getColourForMap.scale}></ColourLegend>
-        )}
-      </MapComponent>
+      {(() => {
+        if (error)
+          return (
+            <MapComponent>
+              <DisplayError />
+            </MapComponent>
+          );
+        if (loading)
+          return (
+            <MapComponent>
+              <Loading />
+            </MapComponent>
+          );
+        return (
+          <MapComponent>
+            <GeoJSONLayer geoColourForMap={getColourForMap} />
+            {showMetric && dashboardSummariesByYear.length > 0 && (
+              <CountryDashboardMetricLayer
+                centroids={centroids}
+                dashboardKeySelection={
+                  dashboardKeySelection as keyof DashboardSummary
+                }
+                setCountrySelected={setCountrySelected}
+                setOpenCountryInfo={setOpenCountryInfo}
+                dashboardSummariesByYear={dashboardSummariesByYear ?? []}
+              />
+            )}
+            <LowerContainer>
+              <SelectorBar
+                defaultValue={dashboardYearSelection}
+                selectors={dashboardYearOptions}
+                setOption={(value) =>
+                  setDashboardYearSelection(value as number)
+                }
+              />
+              <SelectorBar
+                defaultValue={dashboardKeySelection}
+                selectors={dashboardKeyOptions}
+                setOption={(value) => setDashboardKeySelection(value as string)}
+              />
+            </LowerContainer>
+            {getColourForMap.scale && (
+              <ColourLegend scale={getColourForMap.scale}></ColourLegend>
+            )}
+          </MapComponent>
+        );
+      })()}
       <TopButtomContainer>
         <IconSpan onClick={() => setOpenInfo((value) => !value)}>
           <IoInformationCircle size="1.5rem" />
