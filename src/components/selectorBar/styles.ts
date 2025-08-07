@@ -5,51 +5,48 @@ export const Selector = styled.select<{
   $paddingDesktop?: string;
   $paddingMobile?: string;
 }>`
-  background: transparent;
-  border-radius: 1rem;
-  background-color: #f5f5f5;
-  padding: ${({ $paddingMobile }) => $paddingMobile || "0.5rem 0.4rem"};
-  opacity: 1;
-  text-align: center;
+  background-color: #fafafa;
+  border: 1px solid #b0b0b0;
+  border-radius: 0.5rem;
+  padding: ${({ $paddingMobile }) => $paddingMobile || "0.4rem 1rem"};
   font-family: "Inter", sans-serif;
-  font-optical-sizing: auto;
-  font-weight: 500;
-  font-style: normal;
-  font-size: 0.6rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #333333;
+  text-align: left;
+  white-space: nowrap;
+  overflow: hidden;
+  text-align: center;
+  text-overflow: ellipsis;
   appearance: none;
   -webkit-appearance: none;
   -moz-appearance: none;
   cursor: pointer;
+  width: 12vh;
+  transition: border-color 0.25s ease, box-shadow 0.25s ease;
 
-  /* Sin flecha en móvil */
-  background-image: none;
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  background-size: 0.9em;
 
-  border: 2px solid #8d8d8dff;
-  box-shadow: 0 2px 8px rgba(224, 192, 151, 0.15);
+  &:hover {
+    border-color: #888888;
+  }
 
   &:focus {
     outline: none;
-    border-color: #b68973;
-    box-shadow: 0 0 0 2px #e0c09755;
-  }
-
-  &:hover {
-    border-color: #b68973;
+    border-color: #666666;
+    box-shadow: 0 0 6px rgba(102, 102, 102, 0.3);
   }
 
   @media (min-width: ${breakpoints.md}) {
-    font-size: 1.2rem;
-    font-weight: 500;
-    padding: ${({ $paddingDesktop }) => $paddingDesktop || "0.75rem 3rem"};
+    width: 30vh;
+    font-size: 1rem;
+    padding: ${({ $paddingDesktop }) => $paddingDesktop || "0.5rem 2.5rem"};
 
-    /* Flecha solo a partir de breakpoints.md */
-    background-image: url('data:image/svg+xml;utf8,<svg fill="none" stroke="%23777" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M6 9l6 6 6-6" stroke-linecap="round" stroke-linejoin="round"/></svg>');
-    background-repeat: no-repeat;
-    background-position: right 0.8rem center;
-    background-size: 1.2em;
+    background-image: url("data:image/svg+xml;utf8,<svg fill='none' stroke='%23666' stroke-width='2' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'><path d='M6 9l6 6 6-6' stroke-linecap='round' stroke-linejoin='round'/></svg>");
   }
 `;
-
 
 export const BarBackground = styled.div`
   width: 100vw;
@@ -76,4 +73,5 @@ export const BarBackground = styled.div`
   }
 `;
 
-export const Option = styled.option``;
+export const Option = styled.option`
+`;

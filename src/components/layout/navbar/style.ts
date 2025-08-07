@@ -31,6 +31,7 @@ export const LogoLayout = styled.img`
 export const MenuLayout = styled.div`
   font-size: 2rem;
   cursor: pointer;
+  color: white;
   
   @media (min-width: ${breakpoints.lg}) {
     display: none;
@@ -45,7 +46,7 @@ export const AuxiliarMenu = styled.div`
     flex-direction: row;
     gap: 2rem;
     border-radius: 2rem;
-    background-color: #111111ff;
+    background-color: #111111c4;
     padding: 0.75rem 0.4rem;
   }
 `;
@@ -73,7 +74,7 @@ export const MenuElement = styled.ul<{ open: boolean }>`
     background: transparent;
     gap: 2rem;
     border-radius: 2rem;
-    background-color: #f5f5f5;
+    background-color: #f5f5f5be;
     padding: 0.75rem 0.4rem;
     transform: none;
     opacity: 1;

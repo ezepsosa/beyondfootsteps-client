@@ -8,7 +8,7 @@ export const Container = styled.div`
   width: fit-content;
   background-color: white;
   z-index: 1000;
-  padding: 1rem;
+  padding: 0.25rem;
   border-radius: 1.5rem;
   background-color: #f5f5f5b7;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);

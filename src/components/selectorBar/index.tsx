@@ -18,17 +18,19 @@ export const SelectorBar = ({
   return (
     <Selector
       key={selectors[0].label}
+      id={`selector-bar-${defaultValue}`}
+      name={`selector-bar-${defaultValue}`}
       $paddingDesktop={paddingDesktop || undefined}
       $paddingMobile={paddingMobile || undefined}
       value={defaultValue}
       onChange={(e) => {
-        setOption(e.target.value);
+      setOption(e.target.value);
       }}
     >
       {selectors?.map((entry) => (
-        <Option key={entry.value} value={entry.value}>
-          {entry.label}
-        </Option>
+      <Option key={entry.value} value={entry.value} id={`0${entry.value}`}>
+        {entry.label}
+      </Option>
       ))}
     </Selector>
   );

@@ -42,8 +42,8 @@ export const InfoCountryModal = ({ setOpenModal, countryInfo }: Props) => {
             const value = (countryInfo[entry.value] as number) ?? 0;
             return (
               <LabelValueContainer key={entry.value}>
-                <TextSpan $fontSizeMD="1rem;" $fontWeight="700">{entry.label}:</TextSpan>
-                <TextSpan $fontSizeMD="1rem;">{humanize(value)}</TextSpan>
+                <TextSpan $fontSizeMD="1rem;" $fontSize="0.6rem" $fontWeight="700">{entry.label}:</TextSpan>
+                <TextSpan $fontSizeMD="1rem;" $fontSize="0.6rem">{humanize(value)}</TextSpan>
               </LabelValueContainer>
             );
           })}
