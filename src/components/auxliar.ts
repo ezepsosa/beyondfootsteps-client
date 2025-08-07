@@ -1,4 +1,4 @@
-import type { DashboardSummary } from "@/gql/graphql";
+import type { AsylumDecision, DashboardSummary } from "@/gql/graphql";
 export const INDICATOR_INFO: Record<string, string> = {
   coverageRate:
     "Coverage Rate: the percentage of people identified as being in need of protection or assistance who actually received it. High values indicate strong humanitarian reach or resource availability. Formula: (people assisted ÷ people in need) × 100.",
@@ -75,6 +75,17 @@ export const dashboardKeyOptions: {
   { label: "Realization Rate", value: "realizationRate" },
 ];
 
+export const asylumDecisionKeyOptions: {
+  label: string;
+  value: keyof AsylumDecision;
+}[] = [
+  { label: "Acceptance Rate", value: "acceptanceRate" },
+  { label: "Decisions Closed", value: "decClosed" },
+  { label: "Other Decisions", value: "decOther" },
+  { label: "Recognized Decisions", value: "decRecognized" },
+  { label: "Rejected Decisions", value: "decRejected" },
+  { label: "Total Decisions", value: "decTotal" },
+];
 export const dashboardYearOptions: { label: number; value: string }[] = [
   { label: 2024, value: "2024" },
   { label: 2023, value: "2023" },

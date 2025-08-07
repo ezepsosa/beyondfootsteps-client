@@ -6,7 +6,7 @@ import {
   useGetAsylumRequestsByYearAndCountryQuery,
   type AsylumRequest,
 } from "@/gql/graphql";
-import { dashboardYearOptions } from "../auxliar";
+import { dashboardYearOptions } from "../../components/auxliar";
 import { ColourLegend } from "@/components/colourLegend";
 import {
   CsvButtonDownload,

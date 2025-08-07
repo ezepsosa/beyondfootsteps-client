@@ -1,7 +1,7 @@
 import { SelectorBar } from "@/components/selectorBar";
 import { useEffect, useMemo, useState } from "react";
 import isoNameRaw from "@assets/iso-country.json";
-import { dashboardYearOptions } from "../auxliar";
+import { dashboardYearOptions } from "../../components/auxliar";
 import { ColourLegend } from "@/components/colourLegend";
 import {
   CsvButtonDownload,

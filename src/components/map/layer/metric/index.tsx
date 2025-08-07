@@ -4,7 +4,7 @@ import { isNumber } from "chart.js/helpers";
 import L from "leaflet";
 import { renderToStaticMarkup } from "react-dom/server";
 import { KpiSpan } from "./style";
-import { humanize } from "@/pages/auxliar";
+import { humanize } from "@/components/auxliar";
 
 export const MetricLayer = ({
   centroids,

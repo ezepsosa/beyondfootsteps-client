@@ -11,11 +11,10 @@ import {
   dashboardKeyOptions,
   dashboardYearOptions,
   INDICATOR_INFO,
-} from "../auxliar";
+} from "../../components/auxliar";
 import { IoInformationCircle } from "react-icons/io5";
 import { RxEyeOpen } from "react-icons/rx";
 import { GoEyeClosed } from "react-icons/go";
-import { InfoCountryModal } from "./infoCountryModal";
 
 import {
   CsvButtonDownload,
@@ -31,6 +30,7 @@ import { MapComponent } from "@/components/map/container";
 import { GeoJSONLayer } from "@/components/map/layer/geoJSON";
 import { InfoKPIModal } from "@/components/map/modal/kpi";
 import { MetricLayer } from "@/components/map/layer/metric";
+import { InfoCountryModal } from "@/components/map/modal/country";
 
 export const Dashboard = () => {
   const [dashboardKeySelection, setDashboardKeySelection] =
@@ -161,6 +161,7 @@ export const Dashboard = () => {
             <InfoCountryModal
               setOpenModal={setOpenCountryInfo}
               countryInfo={countryInfo}
+              optionsToDisplay={dashboardKeyOptions}
             />
           );
         })()}
