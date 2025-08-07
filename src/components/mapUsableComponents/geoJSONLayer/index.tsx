@@ -1,12 +1,13 @@
 import { GeoJSON } from "react-leaflet";
 import type { Props } from "./types";
-import geoDataRaw from "@assets/countries.geojson.json";
+import { useCountriesJSON } from "@/hooks/useCountriesJSON";
 import type { FeatureCollection } from "geojson";
 
 export const GeoJSONLayer = ({ geoColourForMap }: Props) => {
+  const {jsonData} = useCountriesJSON();
   const geoData: FeatureCollection =
-    geoDataRaw && typeof geoDataRaw === "object" && "type" in geoDataRaw
-      ? (geoDataRaw as FeatureCollection)
+    jsonData && typeof jsonData === "object" && "type" in jsonData
+      ? (jsonData as FeatureCollection)
       : { type: "FeatureCollection", features: [] };
   return (
     <GeoJSON
