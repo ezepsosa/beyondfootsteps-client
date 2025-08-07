@@ -1,11 +1,8 @@
-import { MapComponent } from "@/components/mapUsableComponents/mapComponent";
 import { SelectorBar } from "@/components/selectorBar";
 import { useEffect, useMemo, useState } from "react";
 import isoNameRaw from "@assets/iso-country.json";
 import { dashboardYearOptions } from "../auxliar";
-import { GeoJSONLayer } from "@/components/mapUsableComponents/geoJSONLayer";
 import { ColourLegend } from "@/components/colourLegend";
-import { InfoKPIModal } from "@/components/mapUsableComponents/infoKPIModal";
 import {
   CsvButtonDownload,
   IconSpan,
@@ -23,6 +20,9 @@ import {
 } from "@/gql/graphql";
 import { LowerContainer } from "./styles";
 import { CountryAsylumMetricLayer } from "./countryMetricLayer";
+import { MapComponent } from "@/components/map/container";
+import { GeoJSONLayer } from "@/components/map/layer/geoJSONLayer";
+import { InfoKPIModal } from "@/components/map/modal/kpi";
 
 const isoNameRawTyped: isoNameType[] = isoNameRaw as isoNameType[];
 

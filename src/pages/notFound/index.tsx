@@ -9,7 +9,7 @@ import {
   IllustrationContainer,
   FootstepsIllustration,
 } from "./style";
-import { MapComponent } from "@/components/mapUsableComponents/mapComponent";
+import { MapComponent } from "@/components/map/container";
 
 export const NotFound = () => {
   return (

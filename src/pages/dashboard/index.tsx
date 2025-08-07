@@ -16,9 +16,6 @@ import { IoInformationCircle } from "react-icons/io5";
 import { RxEyeOpen } from "react-icons/rx";
 import { GoEyeClosed } from "react-icons/go";
 import { InfoCountryModal } from "./infoCountryModal";
-import { InfoKPIModal } from "../../components/mapUsableComponents/infoKPIModal";
-import { MapComponent } from "@/components/mapUsableComponents/mapComponent";
-import { GeoJSONLayer } from "@/components/mapUsableComponents/geoJSONLayer";
 import { CountryDashboardMetricLayer } from "./countryDashboardMetricLayer";
 import {
   CsvButtonDownload,
@@ -30,6 +27,9 @@ import { Loading } from "@/components/loading";
 import { DisplayError } from "@/components/error";
 import { useCentroids } from "@/hooks/useCentroids";
 import { useCountryColor } from "@/hooks/useCountryColor";
+import { MapComponent } from "@/components/map/container";
+import { GeoJSONLayer } from "@/components/map/layer/geoJSONLayer";
+import { InfoKPIModal } from "@/components/map/modal/kpi";
 
 export const Dashboard = () => {
   const [dashboardKeySelection, setDashboardKeySelection] =

@@ -1,4 +1,3 @@
-import { MapComponent } from "@/components/mapUsableComponents/mapComponent";
 import { LowerContainer } from "./style";
 import { SelectorBar } from "@/components/selectorBar";
 import { useEffect, useMemo, useState } from "react";
@@ -8,10 +7,8 @@ import {
   type AsylumRequest,
 } from "@/gql/graphql";
 import { dashboardYearOptions } from "../auxliar";
-import { GeoJSONLayer } from "@/components/mapUsableComponents/geoJSONLayer";
 import { CountryAsylumMetricLayer } from "./countryMetricLayer";
 import { ColourLegend } from "@/components/colourLegend";
-import { InfoKPIModal } from "@/components/mapUsableComponents/infoKPIModal";
 import {
   CsvButtonDownload,
   IconSpan,
@@ -25,6 +22,9 @@ import { Loading } from "@/components/loading";
 import { useCentroids } from "@/hooks/useCentroids";
 import { useCountryColor } from "@/hooks/useCountryColor";
 import type { isoNameType } from "@/types/types";
+import { MapComponent } from "@/components/map/container";
+import { GeoJSONLayer } from "@/components/map/layer/geoJSONLayer";
+import { InfoKPIModal } from "@/components/map/modal/kpi";
 
 const isoNameRawTyped: isoNameType[] = isoNameRaw as isoNameType[];
 
