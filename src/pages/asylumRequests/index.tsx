@@ -8,14 +8,9 @@ import {
   useGetAsylumRequestsByYearAndCountryQuery,
   type AsylumRequest,
 } from "@/gql/graphql";
-import { dashboardYearOptions } from "../dashboard/auxliar";
-import { isNumber } from "chart.js/helpers";
-import { scaleLinear } from "d3-scale";
+import { dashboardYearOptions } from "../auxliar";
 import { GeoJSONLayer } from "@/components/mapUsableComponents/geoJSONLayer";
 import { CountryAsylumMetricLayer } from "./countryMetricLayer";
-import type { Feature, FeatureCollection, Geometry } from "geojson";
-import geoDataRaw from "@assets/countries.geojson.json";
-import { geoCentroid } from "d3-geo";
 import { ColourLegend } from "@/components/colourLegend";
 import { InfoKPIModal } from "@/components/mapUsableComponents/infoKPIModal";
 import {
@@ -26,27 +21,21 @@ import {
 import { TbNumbers } from "react-icons/tb";
 import { AiOutlinePercentage } from "react-icons/ai";
 import { HiOutlineDocumentDownload } from "react-icons/hi";
+import { DisplayError } from "@/components/error";
+import { Loading } from "@/components/loading";
+import { useCentroids } from "@/hooks/useCentroids";
+import { useCountryColor } from "@/hooks/useCountryColor";
 
 const isoNameRawTyped: isoNameType[] = isoNameRaw as isoNameType[];
 
-const geoData: FeatureCollection =
-  geoDataRaw && typeof geoDataRaw === "object" && "type" in geoDataRaw
-    ? (geoDataRaw as FeatureCollection)
-    : { type: "FeatureCollection", features: [] };
-
 export const AsylumRequests = () => {
-  const [countrySelected, setCountrySelected] = useState<number | string>(
-    "ESP"
-  );
-  const [directionSelected, setDirectionSelected] = useState<number | string>(
-    "origin"
-  );
+  const [countrySelected, setCountrySelected] = useState<string>("ESP");
+  const [directionSelected, setDirectionSelected] = useState<string>("origin");
   const [metricSelected, setMetricSelected] =
     useState<keyof AsylumRequest>("applied");
   const [showInfo, setShowInfo] = useState<boolean>(false);
-  const [dashboardYearSelection, setDashboardYearSelection] = useState<
-    number | string
-  >(2024);
+  const [dashboardYearSelection, setDashboardYearSelection] =
+    useState<number>(2024);
   const asylumDirectional = [
     { label: "Country of Origin", value: "origin" },
     { label: "Country of Asylum", value: "asylum" },
@@ -56,68 +45,39 @@ export const AsylumRequests = () => {
     return { label: element.name, value: element.iso };
   });
 
-  const { data, error } = useGetAsylumRequestsByYearAndCountryQuery({
+  const { data, error, loading } = useGetAsylumRequestsByYearAndCountryQuery({
     variables: {
       year: Number(dashboardYearSelection),
       countryOfAsylumIso:
-        directionSelected == "asylum" ? (countrySelected as string) : null,
+        directionSelected == "asylum" ? countrySelected : null,
       countryOfOriginIso:
-        directionSelected == "origin" ? (countrySelected as string) : null,
+        directionSelected == "origin" ? countrySelected : null,
     },
   });
+
+  const asylumRequestsByYearAndCountry: AsylumRequest[] = useMemo(
+    () =>
+      data?.asylumRequestsByYearAndCountry?.filter(
+        (item): item is AsylumRequest => !!item
+      ) ?? [],
+    [data]
+  );
 
   if (error) {
     console.warn("Error fetching asylum request data");
   }
 
-  const getColourForMap = useMemo(() => {
-    if (!data?.asylumRequestsByYearAndCountry) return {};
+  const getColourForMap = useCountryColor({
+    arrayData: asylumRequestsByYearAndCountry,
+    metricSelected,
+    directionSelected,
+    countrySelected,
+  });
 
-    const entries = data.asylumRequestsByYearAndCountry.filter(Boolean);
-
-    const values: number[] = entries
-      .map((asylumRequest) => asylumRequest?.[metricSelected])
-      .filter((value) => isNumber(value));
-
-    if (values.length === 0) return {};
-
-    const min = Math.min(...values);
-    const max = Math.max(...values);
-
-    const scale = scaleLinear<string>()
-      .domain([min, max])
-      .range(["#00478f", "#a8e600"])
-      .clamp(true);
-    const colours = Object.fromEntries(
-      entries.map((entry) => {
-        const appliedValue = entry?.[metricSelected];
-        const countryIso =
-          directionSelected === "origin"
-            ? entry?.countryOfAsylumIso
-            : entry?.countryOfOriginIso;
-
-        return [
-          countryIso,
-          typeof appliedValue === "number" ? scale(appliedValue) : "#ccc",
-        ];
-      })
-    );
-    colours[countrySelected.toString()] = "#333";
-
-    return { scale, colours };
-  }, [data, countrySelected, directionSelected, metricSelected]);
-
-  const centroids = useMemo(() => {
-    const countryCenter: Record<string, [number, number]> = {};
-    geoData.features?.forEach((f: Feature<Geometry>) => {
-      const iso = f.properties?.["ISO3166-1-Alpha-3"];
-      countryCenter[iso] = geoCentroid(f);
-    });
-    return countryCenter;
-  }, []);
+  const centroids = useCentroids();
 
   useEffect(() => {
-    const isThereAny: boolean = !!data?.asylumRequestsByYearAndCountry?.some(
+    const isThereAny: boolean = asylumRequestsByYearAndCountry.some(
       (asylumRequest) => asylumRequest?.appPc === true
     );
     if (isThereAny) {
@@ -125,20 +85,39 @@ export const AsylumRequests = () => {
     } else {
       setShowInfo(false);
     }
-  }, [data]);
+  }, [asylumRequestsByYearAndCountry]);
 
   return (
-    <MapComponent>
-      <GeoJSONLayer geoColourForMap={getColourForMap} />
-      {data && (
-        <CountryAsylumMetricLayer
-          key={directionSelected}
-          centroids={centroids}
-          originOrAsylum={String(directionSelected)}
-          asylumRequests={data?.asylumRequestsByYearAndCountry ?? []}
-          metricSelected={metricSelected}
-        />
-      )}
+    <>
+      {(() => {
+        if (error)
+          return (
+            <MapComponent>
+              <DisplayError />
+            </MapComponent>
+          );
+        if (loading)
+          return (
+            <MapComponent>
+              <Loading />
+            </MapComponent>
+          );
+        return (
+          <MapComponent>
+            <GeoJSONLayer geoColourForMap={getColourForMap} />
+            {asylumRequestsByYearAndCountry.length > 0 && (
+              <CountryAsylumMetricLayer
+                key={directionSelected}
+                centroids={centroids}
+                originOrAsylum={String(directionSelected)}
+                asylumRequests={asylumRequestsByYearAndCountry ?? []}
+                metricSelected={metricSelected}
+              />
+            )}
+          </MapComponent>
+        );
+      })()}
+
       <TopButtomContainer>
         <IconSpan
           onClick={() =>
@@ -156,14 +135,10 @@ export const AsylumRequests = () => {
             <AiOutlinePercentage size="1.5rem" />
           )}
         </IconSpan>
-        {data ? (
+        {asylumRequestsByYearAndCountry.length > 0 ? (
           <CsvButtonDownload
             filename={`${dashboardYearSelection}_${directionSelected}_${countrySelected}_asylum_request_data.csv`}
-            data={
-              data.asylumRequestsByYearAndCountry?.filter(
-                (item): item is AsylumRequest => !!item
-              ) ?? []
-            }
+            data={asylumRequestsByYearAndCountry}
           >
             <HiOutlineDocumentDownload size="1.5rem" />
           </CsvButtonDownload>
@@ -178,17 +153,17 @@ export const AsylumRequests = () => {
         <SelectorBar
           defaultValue={dashboardYearSelection}
           selectors={dashboardYearOptions}
-          setOption={setDashboardYearSelection}
+          setOption={(value) => setDashboardYearSelection(value as number)}
         />
         <SelectorBar
           defaultValue={directionSelected}
           selectors={asylumDirectional}
-          setOption={setDirectionSelected}
+          setOption={(value) => setDirectionSelected(value as string)}
         />
         <SelectorBar
           defaultValue={countrySelected}
           selectors={countryOptions}
-          setOption={setCountrySelected}
+          setOption={(value) => setCountrySelected(value as string)}
         />
       </LowerContainer>
       {getColourForMap.scale && <ColourLegend scale={getColourForMap.scale} />}
@@ -197,6 +172,6 @@ export const AsylumRequests = () => {
         openInfo={showInfo}
         setOpenInfo={setShowInfo}
       />
-    </MapComponent>
+    </>
   );
 };

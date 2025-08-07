@@ -1,13 +1,9 @@
 import "leaflet/dist/leaflet.css";
-import geoDataRaw from "@assets/countries.geojson.json";
-import type { Feature, FeatureCollection, Geometry } from "geojson";
 import {
   useGetDashboardSummaryByYearQuery,
   type DashboardSummary,
 } from "@/gql/graphql";
 import { useMemo, useState } from "react";
-import { scaleLinear } from "d3-scale";
-import { isNumber } from "chart.js/helpers";
 import { SelectorBar } from "@/components/selectorBar";
 import { LowerContainer } from "./styles";
 import { ColourLegend } from "@/components/colourLegend";
@@ -15,9 +11,8 @@ import {
   dashboardKeyOptions,
   dashboardYearOptions,
   INDICATOR_INFO,
-} from "./auxliar";
+} from "../auxliar";
 import { IoInformationCircle } from "react-icons/io5";
-import { geoCentroid } from "d3-geo";
 import { RxEyeOpen } from "react-icons/rx";
 import { GoEyeClosed } from "react-icons/go";
 import { InfoCountryModal } from "./infoCountryModal";
@@ -31,26 +26,23 @@ import {
   TopButtomContainer,
 } from "@/styles/styles";
 import { HiOutlineDocumentDownload } from "react-icons/hi";
-
-const geoData: FeatureCollection =
-  geoDataRaw && typeof geoDataRaw === "object" && "type" in geoDataRaw
-    ? (geoDataRaw as FeatureCollection)
-    : { type: "FeatureCollection", features: [] };
+import { Loading } from "@/components/loading";
+import { DisplayError } from "@/components/error";
+import { useCentroids } from "@/hooks/useCentroids";
+import { useCountryColor } from "@/hooks/useCountryColor";
 
 export const Dashboard = () => {
-  const [dashboardKeySelection, setDashboardKeySelection] = useState<
-    number | string
-  >("coverageRate");
-  const [dashboardYearSelection, setDashboardYearSelection] = useState<
-    number | string
-  >(2024);
+  const [dashboardKeySelection, setDashboardKeySelection] =
+    useState<string>("coverageRate");
+  const [dashboardYearSelection, setDashboardYearSelection] =
+    useState<number>(2024);
   const [info, setInfo] = useState<string>();
   const [countrySelected, setCountrySelected] = useState<string>();
   const [openInfo, setOpenInfo] = useState<boolean>(false);
   const [showMetric, setShowMetric] = useState<boolean>(true);
   const [openCountryInfo, setOpenCountryInfo] = useState<boolean>(true);
 
-  const { data, error } = useGetDashboardSummaryByYearQuery({
+  const { data, error, loading } = useGetDashboardSummaryByYearQuery({
     variables: { year: Number(dashboardYearSelection) },
   });
 
@@ -58,85 +50,74 @@ export const Dashboard = () => {
     console.warn("Error fetching dashboard data");
   }
 
-  const getColourForMap = useMemo(() => {
-    if (!data?.dashboardSummariesByYear) return {};
+  const centroids = useCentroids();
 
-    const entries = data.dashboardSummariesByYear.filter(Boolean);
+  const dashboardSummariesByYear: DashboardSummary[] = useMemo(
+    () =>
+      data?.dashboardSummariesByYear?.filter(
+        (item): item is DashboardSummary => !!item
+      ) ?? [],
+    [data]
+  );
 
-    const values: number[] = entries
-      .map(
-        (dashboardElement) =>
-          dashboardElement?.[dashboardKeySelection as keyof DashboardSummary]
-      )
-      .filter((value) => isNumber(value));
+  const getColourForMap = useCountryColor({
+    arrayData: dashboardSummariesByYear ?? [],
+    metricSelected: dashboardKeySelection as keyof DashboardSummary,
+  });
 
+  useMemo(() => {
     setInfo(INDICATOR_INFO[dashboardKeySelection]);
-
-    if (values.length === 0) return {};
-
-    const min = Math.min(...values);
-    const max = Math.max(...values);
-
-    const scale = scaleLinear<string>()
-      .domain([min, max])
-      .range(["#00478f", "#a8e600"])
-
-      .clamp(true);
-
-    const colours = Object.fromEntries(
-      entries.map((entry) => {
-        const country =
-          entry?.[dashboardKeySelection as keyof DashboardSummary];
-        return [
-          entry!.countryIso,
-          typeof country === "number" ? scale(country) : "#ccc",
-        ];
-      })
-    );
-    return { scale, colours };
-  }, [data, dashboardKeySelection]);
-
-  const centroids = useMemo(() => {
-    const countryCenter: Record<string, [number, number]> = {};
-    geoData.features?.forEach((f: Feature<Geometry>) => {
-      const iso = f.properties?.["ISO3166-1-Alpha-3"];
-      countryCenter[iso] = geoCentroid(f);
-    });
-    return countryCenter;
-  }, []);
+  }, [dashboardKeySelection]);
 
   return (
     <>
-      <MapComponent>
-        <GeoJSONLayer geoColourForMap={getColourForMap} />
-        {showMetric && data && (
-          <CountryDashboardMetricLayer
-            centroids={centroids}
-            dashboardKeySelection={
-              dashboardKeySelection as keyof DashboardSummary
-            }
-            setCountrySelected={setCountrySelected}
-            setOpenCountryInfo={setOpenCountryInfo}
-            dashboardSummariesByYear={data?.dashboardSummariesByYear ?? []}
-          />
-        )}
-        <LowerContainer>
-          <SelectorBar
-            defaultValue={dashboardYearSelection}
-            selectors={dashboardYearOptions}
-            paddingMobile="0.4rem 2.5rem;"
-            setOption={setDashboardYearSelection}
-          />
-          <SelectorBar
-            defaultValue={dashboardKeySelection}
-            selectors={dashboardKeyOptions}
-            setOption={setDashboardKeySelection}
-          />
-        </LowerContainer>
-        {getColourForMap.scale && (
-          <ColourLegend scale={getColourForMap.scale}></ColourLegend>
-        )}
-      </MapComponent>
+      {(() => {
+        if (error)
+          return (
+            <MapComponent>
+              <DisplayError />
+            </MapComponent>
+          );
+        if (loading)
+          return (
+            <MapComponent>
+              <Loading />
+            </MapComponent>
+          );
+        return (
+          <MapComponent>
+            <GeoJSONLayer geoColourForMap={getColourForMap} />
+            {showMetric && dashboardSummariesByYear.length > 0 && (
+              <CountryDashboardMetricLayer
+                centroids={centroids}
+                dashboardKeySelection={
+                  dashboardKeySelection as keyof DashboardSummary
+                }
+                setCountrySelected={setCountrySelected}
+                setOpenCountryInfo={setOpenCountryInfo}
+                dashboardSummariesByYear={dashboardSummariesByYear ?? []}
+              />
+            )}
+            <LowerContainer>
+              <SelectorBar
+                defaultValue={dashboardYearSelection}
+                selectors={dashboardYearOptions}
+                setOption={(value) =>
+                  setDashboardYearSelection(value as number)
+                }
+              />
+              <SelectorBar
+                defaultValue={dashboardKeySelection}
+                selectors={dashboardKeyOptions}
+                setOption={(value) => setDashboardKeySelection(value as string)}
+              />
+            </LowerContainer>
+            {getColourForMap.scale && (
+              <ColourLegend scale={getColourForMap.scale}></ColourLegend>
+            )}
+          </MapComponent>
+        );
+      })()}
       <TopButtomContainer>
         <IconSpan onClick={() => setOpenInfo((value) => !value)}>
           <IoInformationCircle size="1.5rem" />
@@ -148,14 +129,10 @@ export const Dashboard = () => {
             <GoEyeClosed size="1.5rem" />
           )}
         </IconSpan>
-        {data ? (
+        {dashboardSummariesByYear.length > 0 ? (
           <CsvButtonDownload
             filename={`${dashboardYearSelection}_${countrySelected}_dashboard_summary_data.csv`}
-            data={
-              data.dashboardSummariesByYear?.filter(
-                (item): item is DashboardSummary => !!item
-              ) ?? []
-            }
+            data={dashboardSummariesByYear ?? []}
           >
             <HiOutlineDocumentDownload size="1.5rem" />
           </CsvButtonDownload>
@@ -175,7 +152,7 @@ export const Dashboard = () => {
       {openCountryInfo &&
         countrySelected &&
         (() => {
-          const countryInfo = data?.dashboardSummariesByYear?.find(
+          const countryInfo = dashboardSummariesByYear.find(
             (country) => country?.countryIso == countrySelected
           );
           if (!countryInfo) return null;

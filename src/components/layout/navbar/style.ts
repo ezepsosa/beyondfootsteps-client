@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { breakpoints } from "@styles/breakpoints";
 import { Link } from "react-router-dom";
+import type { LinkElementProps } from "./types";
 
 export const LayoutNavbar = styled.nav`
   position: fixed;
@@ -12,10 +13,11 @@ export const LayoutNavbar = styled.nav`
   padding: 1rem 1rem;
   box-sizing: border-box;
   justify-content: space-between;
-  background-color: transparent;
+  background-color: #00000050;
 
   @media (min-width: ${breakpoints.lg}) {
     justify-content: flex-start;
+    background-color: transparent;
   }
 `;
 
@@ -31,7 +33,8 @@ export const LogoLayout = styled.img`
 export const MenuLayout = styled.div`
   font-size: 2rem;
   cursor: pointer;
-  
+  color: white;
+
   @media (min-width: ${breakpoints.lg}) {
     display: none;
   }
@@ -45,7 +48,7 @@ export const AuxiliarMenu = styled.div`
     flex-direction: row;
     gap: 2rem;
     border-radius: 2rem;
-    background-color: #111111ff;
+    background-color: #111111c4;
     padding: 0.75rem 0.4rem;
   }
 `;
@@ -54,8 +57,6 @@ export const MenuElement = styled.ul<{ open: boolean }>`
   display: ${({ open }) => (open ? "flex" : "none")};
   flex-direction: column;
   width: 100%;
-  background: rgba(14, 14, 14, 0.9);
-
   transform: translateY(${({ open }) => (open ? "0" : "-20px")})
     scale(${({ open }) => (open ? "1" : "0.95")});
   opacity: ${({ open }) => (open ? "1" : "0")};
@@ -73,7 +74,7 @@ export const MenuElement = styled.ul<{ open: boolean }>`
     background: transparent;
     gap: 2rem;
     border-radius: 2rem;
-    background-color: #f5f5f5;
+    background-color: #f5f5f5be;
     padding: 0.75rem 0.4rem;
     transform: none;
     opacity: 1;
@@ -83,11 +84,8 @@ export const MenuElement = styled.ul<{ open: boolean }>`
   }
 `;
 
-export const LinkElement = styled(Link)<{ 
-  color?: string; 
-  active: boolean; 
-  linearGradient?: string;
-}>`
+
+export const LinkElement = styled(Link)<LinkElementProps>`
   position: relative;
   text-decoration: none;
   transition: color 0.4s ease;
@@ -106,7 +104,7 @@ export const LinkElement = styled(Link)<{
     position: absolute;
     bottom: 0.5rem;
     left: 50%;
-    width: ${({ active }) => (active ? "80%" : "0")};
+    width: ${({ $active }) => ($active ? "80%" : "0")};
     height: 2px;
     background: linear-gradient(90deg, #d1d1d1ff, #ffffffff);
     border-radius: 2px;
@@ -123,9 +121,9 @@ export const LinkElement = styled(Link)<{
     padding: 1.2rem;
 
     &::after {
-      width: ${({ active }) => (active ? "80%" : "0")};
-      background: ${({ linearGradient }) => 
-        linearGradient || "linear-gradient(90deg, #d1d1d1ff, #ffffffff)"};
+      width: ${({ $active }) => ($active ? "80%" : "0")};
+      background: ${({ $linearGradient }) =>
+        $linearGradient || "linear-gradient(90deg, #d1d1d1ff, #ffffffff)"};
       bottom: 0;
     }
 

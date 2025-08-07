@@ -51,8 +51,8 @@ export const TopButtomContainer = styled.span`
 
 export const IconSpan = styled.span`
   background-color: #f5f5f5;
-  border-radius: 8px;
-  padding: 0.5rem 0.5rem;
+  border-radius: 0.2rem;
+  padding: 0.25rem 0.25rem;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
 `;
 
@@ -62,5 +62,6 @@ export const CsvButtonDownload = styled(CsvDownload)`
   padding: 0.5rem 0.5rem;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
   border: none;
+
   
 `;
