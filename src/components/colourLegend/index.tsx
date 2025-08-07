@@ -6,7 +6,7 @@ import {
   LegendNumberContainers,
   SimpleDiv,
 } from "./style";
-import { humanize } from "@/pages/dashboard/auxliar";
+import { humanize, roundTwoDigits } from "@/pages/auxliar";
 
 type Props = {
   scale: ScaleLinear<string, string, never>;
@@ -16,12 +16,14 @@ export const ColourLegend = ({ scale }: Props) => {
   const scaleHeight = 300;
   const numSteps = 10;
 
-  const [minValue, maxValue] = scale.domain();
+  const domain = scale.domain();
+  const minValue = domain[0];
+  const maxValue = domain[domain.length - 1];
 
-  const scaleValues = Array.from(
-    { length: numSteps },
-    (_, index) => maxValue + (index * (minValue - maxValue)) / (numSteps - 1)
-  );
+  const scaleValues = Array.from({ length: numSteps }, (_, i) => {
+    const t = i / (numSteps - 1);
+    return roundTwoDigits(maxValue * (1 - t) + minValue * t);
+  });
 
   return (
     <LegendContainer>
@@ -30,7 +32,7 @@ export const ColourLegend = ({ scale }: Props) => {
           const colour = scale(value);
           return (
             <CustomRect
-              key={index}
+              key={value}
               x="0"
               y={(index * scaleHeight) / numSteps}
               width="50"
@@ -46,7 +48,7 @@ export const ColourLegend = ({ scale }: Props) => {
       <LegendNumberContainers style={{ marginLeft: "10px" }}>
         {scaleValues.map((value, index) => (
           <SimpleDiv
-            key={index}
+            key={value}
             style={{
               height: scaleHeight / numSteps,
               display: "flex",
@@ -54,7 +56,9 @@ export const ColourLegend = ({ scale }: Props) => {
               fontSize: "12px",
             }}
           >
-            {index == scaleValues.length -1 ? Math.round(value) : humanize(value, 1)}
+            {index === scaleValues.length - 1
+              ? Math.round(value)
+              : humanize(value, 1)}
           </SimpleDiv>
         ))}
       </LegendNumberContainers>

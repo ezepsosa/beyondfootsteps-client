@@ -1,8 +1,8 @@
-import type { ScaleLinear } from "d3-scale";
+import type { ScaleDiverging, ScaleLinear } from "d3-scale";
 
 export type Props = {
   geoColourForMap: {
-    scale?: ScaleLinear<string, string, never>;
+    scale?:  ScaleLinear<string, string, never> | ScaleDiverging<string, never>;
     colours?: Record<string, string>;
   };
 };

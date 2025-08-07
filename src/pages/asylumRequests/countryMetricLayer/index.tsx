@@ -4,7 +4,7 @@ import type { Props } from "./types";
 import L from "leaflet";
 import ReactDOMServer from "react-dom/server";
 import { KpiSpan } from "./style";
-import { humanize } from "@/pages/dashboard/auxliar";
+import { humanize } from "@/pages/auxliar";
 
 export const CountryAsylumMetricLayer = ({
   asylumRequests,
