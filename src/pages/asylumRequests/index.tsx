@@ -23,7 +23,7 @@ import { useCentroids } from "@/hooks/useCentroids";
 import { useCountryColor } from "@/hooks/useCountryColor";
 import type { isoNameType } from "@/types/types";
 import { MapComponent } from "@/components/map/container";
-import { GeoJSONLayer } from "@/components/map/layer/geoJSONLayer";
+import { GeoJSONLayer } from "@/components/map/layer/geoJSON";
 import { InfoKPIModal } from "@/components/map/modal/kpi";
 
 const isoNameRawTyped: isoNameType[] = isoNameRaw as isoNameType[];
