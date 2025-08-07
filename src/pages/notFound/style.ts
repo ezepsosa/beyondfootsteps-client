@@ -25,10 +25,12 @@ const bounce = keyframes`
 
 export const NotFoundContainer = styled.div`
     min-height: 100vh;
+    Z-index: 1000;
     display: flex;
+    position: relative;
     align-items: center;
     justify-content: center;
-    background: linear-gradient(135deg, #56c596 0%, #3a8dde 100%);
+    background: linear-gradient(135deg, #56c5973b 0%, #3a8dde 100%);
     padding: 2rem;
 `;
 

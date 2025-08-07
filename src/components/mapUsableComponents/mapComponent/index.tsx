@@ -1,12 +1,12 @@
 import { MapContainer, TileLayer } from "react-leaflet";
 
-export const MapComponent = ({ children }: { children?: React.ReactNode }) => {
+export const MapComponent = ({ children, zoom = 2, center = [20, 0] }: { children?: React.ReactNode, zoom?: number, center?: [number, number] }) => {
     const mapStyle = { width: "100%", height: "100%" };
 
     return (
         <MapContainer
-            center={[20, 0]}
-            zoom={2}
+            center={center}
+            zoom={zoom}
             style={mapStyle}
             maxZoom={6}
             minZoom={3}
