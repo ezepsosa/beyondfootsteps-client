@@ -8,7 +8,7 @@ export const Selector = styled.select<{
   background-color: #fafafa;
   border: 1px solid #b0b0b0;
   border-radius: 0.5rem;
-  padding: ${({ $paddingMobile }) => $paddingMobile || "0.4rem 1rem"};
+  padding: ${({ $paddingMobile }) => $paddingMobile || "0.4rem 0"};
   font-family: "Inter", sans-serif;
   font-size: 0.9rem;
   font-weight: 600;
@@ -22,7 +22,7 @@ export const Selector = styled.select<{
   -webkit-appearance: none;
   -moz-appearance: none;
   cursor: pointer;
-  width: 12vh;
+  width: 15vh;
   transition: border-color 0.25s ease, box-shadow 0.25s ease;
 
   background-repeat: no-repeat;
@@ -42,7 +42,7 @@ export const Selector = styled.select<{
   @media (min-width: ${breakpoints.md}) {
     width: 30vh;
     font-size: 1rem;
-    padding: ${({ $paddingDesktop }) => $paddingDesktop || "0.5rem 2.5rem"};
+    padding: ${({ $paddingDesktop }) => $paddingDesktop || "0.5rem 0"};
 
     background-image: url("data:image/svg+xml;utf8,<svg fill='none' stroke='%23666' stroke-width='2' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'><path d='M6 9l6 6 6-6' stroke-linecap='round' stroke-linejoin='round'/></svg>");
   }

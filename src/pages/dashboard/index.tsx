@@ -124,7 +124,6 @@ export const Dashboard = () => {
           <SelectorBar
             defaultValue={dashboardYearSelection}
             selectors={dashboardYearOptions}
-            paddingMobile="0.4rem 2.5rem;"
             setOption={setDashboardYearSelection}
           />
           <SelectorBar

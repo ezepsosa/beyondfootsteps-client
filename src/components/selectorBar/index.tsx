@@ -20,8 +20,8 @@ export const SelectorBar = ({
       key={selectors[0].label}
       id={`selector-bar-${defaultValue}`}
       name={`selector-bar-${defaultValue}`}
-      $paddingDesktop={paddingDesktop || undefined}
-      $paddingMobile={paddingMobile || undefined}
+      $paddingDesktop={paddingDesktop}
+      $paddingMobile={paddingMobile}
       value={defaultValue}
       onChange={(e) => {
       setOption(e.target.value);

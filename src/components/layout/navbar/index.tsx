@@ -18,12 +18,10 @@ export const Navbar = () => {
   const location = useLocation();
   const currentPath = location.pathname;
 
-  // Cerrar menú cuando cambia la ruta
   useEffect(() => {
     setShowInMobile(false);
   }, [location.pathname]);
 
-  // Función para manejar clic en enlaces
   const handleLinkClick = () => {
     setShowInMobile(false);
   };
