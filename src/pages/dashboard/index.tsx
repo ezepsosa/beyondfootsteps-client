@@ -6,12 +6,11 @@ import {
   type DashboardSummary,
 } from "@/gql/graphql";
 import { useMemo, useState } from "react";
-import { scaleLinear} from "d3-scale";
-import { isNumber } from "chart.js/helpers";
 import { SelectorBar } from "@/components/selectorBar";
 import { LowerContainer } from "./styles";
 import { ColourLegend } from "@/components/colourLegend";
 import {
+  calculateColor,
   dashboardKeyOptions,
   dashboardYearOptions,
   INDICATOR_INFO,
@@ -58,43 +57,24 @@ export const Dashboard = () => {
     console.warn("Error fetching dashboard data");
   }
 
+  const dashboardSummariesByYear: DashboardSummary[] = useMemo(
+    () =>
+      data?.dashboardSummariesByYear?.filter(
+        (item): item is DashboardSummary => !!item
+      ) ?? [],
+    [data]
+  );
+
   const getColourForMap = useMemo(() => {
-    if (!data?.dashboardSummariesByYear) return {};
+    return calculateColor({
+      arrayData: dashboardSummariesByYear ?? [],
+      dashboardKeySelection: dashboardKeySelection as keyof DashboardSummary,
+    });
+  }, [dashboardSummariesByYear, dashboardKeySelection]);
 
-    const entries = data.dashboardSummariesByYear.filter(Boolean);
-
-    const values: number[] = entries
-      .map(
-        (dashboardElement) =>
-          dashboardElement?.[dashboardKeySelection as keyof DashboardSummary]
-      )
-      .filter((value) => isNumber(value));
-
+  useMemo(() => {
     setInfo(INDICATOR_INFO[dashboardKeySelection]);
-
-    if (values.length === 0) return {};
-
-    const min = Math.min(...values);
-    const max = Math.max(...values);
-
-    const scale = scaleLinear<string>()
-      .domain([min, max])
-      .range(["#00478f", "#a8e600"])
-
-      .clamp(true);
-
-    const colours = Object.fromEntries(
-      entries.map((entry) => {
-        const country =
-          entry?.[dashboardKeySelection as keyof DashboardSummary];
-        return [
-          entry!.countryIso,
-          typeof country === "number" ? scale(country) : "#ccc",
-        ];
-      })
-    );
-    return { scale, colours };
-  }, [data, dashboardKeySelection]);
+  }, [dashboardKeySelection]);
 
   const centroids = useMemo(() => {
     const countryCenter: Record<string, [number, number]> = {};
@@ -109,7 +89,7 @@ export const Dashboard = () => {
     <>
       <MapComponent>
         <GeoJSONLayer geoColourForMap={getColourForMap} />
-        {showMetric && data && (
+        {showMetric && dashboardSummariesByYear && (
           <CountryDashboardMetricLayer
             centroids={centroids}
             dashboardKeySelection={
@@ -117,7 +97,7 @@ export const Dashboard = () => {
             }
             setCountrySelected={setCountrySelected}
             setOpenCountryInfo={setOpenCountryInfo}
-            dashboardSummariesByYear={data?.dashboardSummariesByYear ?? []}
+            dashboardSummariesByYear={dashboardSummariesByYear ?? []}
           />
         )}
         <LowerContainer>
@@ -147,14 +127,10 @@ export const Dashboard = () => {
             <GoEyeClosed size="1.5rem" />
           )}
         </IconSpan>
-        {data ? (
+        {dashboardSummariesByYear ? (
           <CsvButtonDownload
             filename={`${dashboardYearSelection}_${countrySelected}_dashboard_summary_data.csv`}
-            data={
-              data.dashboardSummariesByYear?.filter(
-                (item): item is DashboardSummary => !!item
-              ) ?? []
-            }
+            data={dashboardSummariesByYear ?? []}
           >
             <HiOutlineDocumentDownload size="1.5rem" />
           </CsvButtonDownload>
@@ -174,7 +150,7 @@ export const Dashboard = () => {
       {openCountryInfo &&
         countrySelected &&
         (() => {
-          const countryInfo = data?.dashboardSummariesByYear?.find(
+          const countryInfo = dashboardSummariesByYear?.find(
             (country) => country?.countryIso == countrySelected
           );
           if (!countryInfo) return null;

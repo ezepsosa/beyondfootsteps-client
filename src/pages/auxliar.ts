@@ -1,4 +1,6 @@
 import type { DashboardSummary } from "@/gql/graphql";
+import { isNumber } from "chart.js/helpers";
+import { scaleLinear } from "d3-scale";
 export const INDICATOR_INFO: Record<string, string> = {
   coverageRate:
     "Coverage Rate: the percentage of people identified as being in need of protection or assistance who actually received it. High values indicate strong humanitarian reach or resource availability. Formula: (people assisted ÷ people in need) × 100.",
@@ -98,5 +100,43 @@ export function roundTwoDigits(number: number): number {
   const cifras = Math.floor(Math.log10(Math.abs(number))) - 1;
   const factor = Math.pow(10, cifras);
   const redondeado = Math.round(number / factor) * factor;
-  return +redondeado.toPrecision(10).replace(/\.?0+$/, '');
+  return +redondeado.toPrecision(10).replace(/\.?0+$/, "");
 }
+
+export const calculateColor = ({
+  arrayData,
+  dashboardKeySelection,
+}: {
+  arrayData: DashboardSummary[];
+  dashboardKeySelection: keyof DashboardSummary;
+}) => {
+  if (!Array.isArray(arrayData) || arrayData.length === 0) return {};
+
+  const entries = arrayData.filter(Boolean);
+
+  const values: number[] = entries
+    .map((element: DashboardSummary) => element?.[dashboardKeySelection])
+    .filter((value): value is number => isNumber(value));
+
+  if (values.length === 0) return {};
+
+  const min = Math.min(...values);
+  const max = Math.max(...values);
+
+  const scale = scaleLinear<string>()
+    .domain([min, max])
+    .range(["#00478f", "#a8e600"])
+
+    .clamp(true);
+
+  const colours = Object.fromEntries(
+    entries.map((entry: DashboardSummary) => {
+      const country = entry?.[dashboardKeySelection];
+      return [
+        entry.countryIso,
+        typeof country === "number" ? scale(country) : "#ccc",
+      ];
+    })
+  );
+  return { scale, colours };
+};
