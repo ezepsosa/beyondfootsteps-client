@@ -15,3 +15,29 @@ query GetAsylumDecisions {
     intakeDate
   }
 }
+
+query GetAsylumDecisionsByYearAndCountry(
+  $year: Int!
+  $countryOfOriginIso: String
+  $countryOfAsylumIso: String
+) {
+  asylumDecisionsByYearAndCountry(
+    year: $year
+    countryOfOriginIso: $countryOfOriginIso
+    countryOfAsylumIso: $countryOfAsylumIso
+  ) {
+    id
+    year
+    countryOfOrigin
+    countryOfOriginIso
+    countryOfAsylum
+    countryOfAsylumIso
+    decRecognized
+    decOther
+    decRejected
+    decClosed
+    decTotal
+    acceptanceRate
+    intakeDate
+  }
+}
