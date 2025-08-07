@@ -13,14 +13,16 @@ export const Selector = styled.select<{
   font-size: 0.9rem;
   font-weight: 600;
   color: #333333;
-  text-align: left;
+  text-align: center;
   white-space: nowrap;
   overflow: hidden;
-  text-align: center;
   text-overflow: ellipsis;
   appearance: none;
   -webkit-appearance: none;
   -moz-appearance: none;
+  -webkit-border-radius: 0.5rem;
+  -webkit-tap-highlight-color: transparent;
+
   cursor: pointer;
   width: 15vh;
   transition: border-color 0.25s ease, box-shadow 0.25s ease;
@@ -43,7 +45,6 @@ export const Selector = styled.select<{
     width: 30vh;
     font-size: 1rem;
     padding: ${({ $paddingDesktop }) => $paddingDesktop || "0.5rem 0"};
-
     background-image: url("data:image/svg+xml;utf8,<svg fill='none' stroke='%23666' stroke-width='2' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'><path d='M6 9l6 6 6-6' stroke-linecap='round' stroke-linejoin='round'/></svg>");
   }
 `;
