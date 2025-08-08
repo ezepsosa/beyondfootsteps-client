@@ -28,6 +28,11 @@ export const TextSpan = styled.span<TextSpanProps>`
 export const LabelValueContainer = styled.div`
   display: flex;
   gap: 0.2rem;
+  justify-content: space-between;
+
+  @media (min-width: ${breakpoints.md}) {
+  justify-content: flex-start;
+  }
 `;
 
 export const CloseModal = styled.div`

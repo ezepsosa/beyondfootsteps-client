@@ -27,7 +27,7 @@ export const LoadingIllustration = styled(AiOutlineLoading)`
 `;
 
 export const LoadingContainer = styled.div`
-  min-height: 100vh;
+  min-height: 100%;
   z-index: 1000;
   display: flex;
   position: relative;
