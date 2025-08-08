@@ -37,12 +37,12 @@ export const AsylumRequests = () => {
   const [dashboardYearSelection, setDashboardYearSelection] =
     useState<number>(2024);
   const asylumDirectional = [
-    { label: "Country of Origin", value: "origin" },
-    { label: "Country of Asylum", value: "asylum" },
+    { key: "Country of Origin", value: "origin" },
+    { key: "Country of Asylum", value: "asylum" },
   ];
 
   const countryOptions = isoNameRawTyped.map((element) => {
-    return { label: element.name, value: element.iso };
+    return { key: element.name, value: element.iso };
   });
 
   const { data, error, loading } = useGetAsylumRequestsByYearAndCountryQuery({

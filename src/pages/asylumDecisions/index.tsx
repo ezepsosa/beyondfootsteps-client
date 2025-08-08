@@ -193,7 +193,7 @@ export const AsylumDecisions = () => {
                 }
               )}
               countryInfo={{
-                name: (directionSelected === "asylum" ? countryInfo.countryOfOriginIso : countryInfo.countryOfAsylumIso) ?? "",
+                name: (directionSelected === "asylum" ? countryInfo.countryOfOrigin : countryInfo.countryOfAsylum) ?? "",
                 iso: (directionSelected === "asylum" ? countryInfo.countryOfOriginIso : countryInfo.countryOfAsylumIso) ?? "",
               }}
             />

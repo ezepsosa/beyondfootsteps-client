@@ -160,9 +160,9 @@ export const Dashboard = () => {
               setOpenModal={setOpenCountryInfo}
               optionsToDisplay={dashboardKeyOptions.map((option) => {
                 return {
-                  key: option.value,
+                  key: option.key,
                   value:
-                    countryInfo[option.key as keyof DashboardSummary] ?? "N/A",
+                    countryInfo[option.value as keyof DashboardSummary] ?? "N/A",
                 };
               })}
               countryInfo={{
