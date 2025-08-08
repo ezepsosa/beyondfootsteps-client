@@ -13,7 +13,7 @@ export const Selector = styled.select<{
   font-size: 0.9rem;
   font-weight: 600;
   color: #333333;
-  text-align: center;
+  text-align-last: center;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
