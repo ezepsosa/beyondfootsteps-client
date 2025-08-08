@@ -9,8 +9,7 @@ import {
 import type { Props } from "./types";
 import flagData from "@assets/iso-flags.json";
 import { CloseModal, LabelValueContainer, TextSpan } from "@/styles/styles";
-import { humanize } from "../../../auxliar";
-import type { AsylumDecision, DashboardSummary } from "@/gql/graphql";
+import { humanize } from "@/components/auxliar";
 import { isNumber } from "chart.js/helpers";
 
 type isoFlag = {
@@ -25,63 +24,35 @@ type isoFlag = {
 
 export const InfoCountryModal = ({
   setOpenModal,
-  countryInfo,
   optionsToDisplay,
+  countryInfo,
 }: Props) => {
-  const typedFlagData = flagData as isoFlag[];
+    const typedFlagData = flagData as isoFlag[];
 
   return (
     <Container>
       <InfoContainer>
         <TopData>
-          <FlagImage
-            src={
-              typedFlagData.find(
-                (country) =>
-                  country.cca3 ===
-                  ("countryIso" in countryInfo
-                    ? countryInfo.countryIso
-                    : (countryInfo as AsylumDecision).countryOfAsylumIso)
-              )?.flags.png
-            }
-          />
-          <TextSpan $fontWeight="bold">
-            {"country" in countryInfo
-              ? countryInfo.country
-              : (countryInfo as AsylumDecision).countryOfAsylum}
-          </TextSpan>
+          <FlagImage src={typedFlagData.find(flag => flag.cca3 === countryInfo.iso)?.flags.png} />
+          <TextSpan $fontWeight="bold">{countryInfo.name}</TextSpan>
         </TopData>
         <BodyData>
-          {optionsToDisplay.map(
-            (
-              entry:
-                | { label: string; value: keyof DashboardSummary }
-                | { label: string; value: keyof AsylumDecision }
-            ) => {
-              let value: string | number | boolean = 0;
-
-              if ("countryIso" in countryInfo) {
-                value = countryInfo[entry.value as keyof DashboardSummary] ?? 0;
-              } else if ("countryOfAsylumIso" in countryInfo) {
-                value = countryInfo[entry.value as keyof AsylumDecision] ?? 0;
-              }
-
-              return (
-                <LabelValueContainer key={entry.value}>
-                  <TextSpan
-                    $fontSizeMD="1rem"
-                    $fontSize="0.6rem"
-                    $fontWeight="700"
-                  >
-                    {entry.label}:
-                  </TextSpan>
-                  <TextSpan $fontSizeMD="1rem;" $fontSize="0.6rem">
-                    {isNumber(value) ? humanize(value) : "N/A"}
-                  </TextSpan>
-                </LabelValueContainer>
-              );
-            }
-          )}
+          {optionsToDisplay.map((entry) => {
+            return (
+              <LabelValueContainer key={entry.key}>
+                <TextSpan
+                  $fontSizeMD="1rem"
+                  $fontSize="0.6rem"
+                  $fontWeight="700"
+                >
+                  {entry.key}:
+                </TextSpan>
+                <TextSpan $fontSizeMD="1rem;" $fontSize="0.6rem">
+                  {isNumber(entry.value) ? humanize(entry.value) : entry.value}
+                </TextSpan>
+              </LabelValueContainer>
+            );
+          })}
         </BodyData>
       </InfoContainer>
 

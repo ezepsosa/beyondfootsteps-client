@@ -1,4 +1,3 @@
-import type { AsylumDecision, DashboardSummary } from "@/gql/graphql";
 export const INDICATOR_INFO: Record<string, string> = {
   coverageRate:
     "Coverage Rate: the percentage of people identified as being in need of protection or assistance who actually received it. High values indicate strong humanitarian reach or resource availability. Formula: (people assisted ÷ people in need) × 100.",
@@ -51,47 +50,46 @@ export const INDICATOR_INFO: Record<string, string> = {
   realizationRate:
     "Realization Rate: proportion of individuals who were resettled (departed) out of the total number submitted. Useful to assess conversion of intent into actual movement. Formula: (departures ÷ submissions) × 100.",
 };
-
 export const dashboardKeyOptions: {
-  label: string;
-  value: keyof DashboardSummary;
+  key: string;
+  value: string;
 }[] = [
-  { label: "Coverage Rate", value: "coverageRate" },
-  { label: "Applied per 100k", value: "appliedPer100k" },
-  { label: "Acceptance Rate", value: "acceptanceRate" },
-  { label: "Internal Displacement", value: "internalDisplacementTotal" },
-  { label: "Displacement Rate per 100k", value: "displacementRatePer100k" },
-  { label: "IDP Returnees", value: "idpReturnees" },
-  { label: "Refugee Returnees", value: "refugeesReturnees" },
-  { label: "Naturalizations Total", value: "naturalizationsTotal" },
-  { label: "Naturalization Change", value: "naturalizationChange" },
-  { label: "Resettlement Requests", value: "resettlementRequests" },
-  { label: "Resettlement Departures", value: "resettlementDepartures" },
-  { label: "Resettlement Submissions", value: "resettlementSubmissions" },
-  { label: "Resettlement Needs", value: "resettlementNeeds" },
-  { label: "Resettlement Gap", value: "resettlementGap" },
-  { label: "Request vs Needs Ratio", value: "requestVsNeedsRatio" },
-  { label: "Submissions Efficiency", value: "submissionsEfficiency" },
-  { label: "Realization Rate", value: "realizationRate" },
+  { key: "coverageRate", value: "Coverage Rate" },
+  { key: "appliedPer100k", value: "Applied per 100k" },
+  { key: "acceptanceRate", value: "Acceptance Rate" },
+  { key: "internalDisplacementTotal", value: "Internal Displacement" },
+  { key: "displacementRatePer100k", value: "Displacement Rate per 100k" },
+  { key: "idpReturnees", value: "IDP Returnees" },
+  { key: "refugeesReturnees", value: "Refugee Returnees" },
+  { key: "naturalizationsTotal", value: "Naturalizations Total" },
+  { key: "naturalizationChange", value: "Naturalization Change" },
+  { key: "resettlementRequests", value: "Resettlement Requests" },
+  { key: "resettlementDepartures", value: "Resettlement Departures" },
+  { key: "resettlementSubmissions", value: "Resettlement Submissions" },
+  { key: "resettlementNeeds", value: "Resettlement Needs" },
+  { key: "resettlementGap", value: "Resettlement Gap" },
+  { key: "requestVsNeedsRatio", value: "Request vs Needs Ratio" },
+  { key: "submissionsEfficiency", value: "Submissions Efficiency" },
+  { key: "realizationRate", value: "Realization Rate" },
 ];
 
 export const asylumDecisionKeyOptions: {
-  label: string;
-  value: keyof AsylumDecision;
+  key: string;
+  value: string
 }[] = [
-  { label: "Acceptance Rate", value: "acceptanceRate" },
-  { label: "Decisions Closed", value: "decClosed" },
-  { label: "Other Decisions", value: "decOther" },
-  { label: "Recognized Decisions", value: "decRecognized" },
-  { label: "Rejected Decisions", value: "decRejected" },
-  { label: "Total Decisions", value: "decTotal" },
+  { key: "acceptanceRate", value: "acceptanceRate" },
+  { key: "decClosed", value: "decClosed" },
+  { key: "decOther", value: "decOther" },
+  { key: "decRecognized", value: "decRecognized" },
+  { key: "decRejected", value: "decRejected" },
+  { key: "decTotal", value: "decTotal" },
 ];
-export const dashboardYearOptions: { label: number; value: string }[] = [
-  { label: 2024, value: "2024" },
-  { label: 2023, value: "2023" },
-  { label: 2022, value: "2022" },
-  { label: 2021, value: "2021" },
-  { label: 2020, value: "2020" },
+export const dashboardYearOptions: { key: number; value: string }[] = [
+  { key: 2024, value: "2024" },
+  { key: 2023, value: "2023" },
+  { key: 2022, value: "2022" },
+  { key: 2021, value: "2021" },
+  { key: 2020, value: "2020" },
 ];
 
 export function humanize(n: number, decimals = 2): string {

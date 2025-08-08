@@ -91,9 +91,7 @@ export const Dashboard = () => {
             {showMetric && dashboardSummariesByYear.length > 0 && (
               <MetricLayer
                 centroids={centroids}
-                metricSelected={
-                  dashboardKeySelection as keyof DashboardSummary
-                }
+                metricSelected={dashboardKeySelection as keyof DashboardSummary}
                 setToggleCountry={setCountrySelected}
                 setToggleInfo={setOpenCountryInfo}
                 arrayData={dashboardSummariesByYear ?? []}
@@ -160,8 +158,17 @@ export const Dashboard = () => {
           return (
             <InfoCountryModal
               setOpenModal={setOpenCountryInfo}
-              countryInfo={countryInfo}
-              optionsToDisplay={dashboardKeyOptions}
+              optionsToDisplay={dashboardKeyOptions.map((option) => {
+                return {
+                  key: option.value,
+                  value:
+                    countryInfo[option.key as keyof DashboardSummary] ?? "N/A",
+                };
+              })}
+              countryInfo={{
+                name: countryInfo.country ?? "",
+                iso: countryInfo.countryIso ?? "",
+              }}
             />
           );
         })()}

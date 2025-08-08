@@ -1,7 +1,10 @@
 import { SelectorBar } from "@/components/selectorBar";
 import { useEffect, useMemo, useState } from "react";
 import isoNameRaw from "@assets/iso-country.json";
-import { dashboardYearOptions } from "../../components/auxliar";
+import {
+  asylumDecisionKeyOptions,
+  dashboardYearOptions,
+} from "../../components/auxliar";
 import { ColourLegend } from "@/components/colourLegend";
 import {
   CsvButtonDownload,
@@ -23,22 +26,27 @@ import { MapComponent } from "@/components/map/container";
 import { GeoJSONLayer } from "@/components/map/layer/geoJSON";
 import { InfoKPIModal } from "@/components/map/modal/kpi";
 import { MetricLayer } from "@/components/map/layer/metric";
+import { InfoCountryModal } from "@/components/map/modal/country";
 
 const isoNameRawTyped: isoNameType[] = isoNameRaw as isoNameType[];
 
 export const AsylumDecisions = () => {
   const [countrySelected, setCountrySelected] = useState<string>("ESP");
+  const [countryToShow, setCountryToShow] = useState<string>("ESP");
   const [directionSelected, setDirectionSelected] = useState<string>("origin");
   const [showInfo, setShowInfo] = useState<boolean>(false);
   const [dashboardYearSelection, setDashboardYearSelection] =
     useState<number>(2024);
+
+  const [openCountryInfo, setOpenCountryInfo] = useState<boolean>(false);
+
   const asylumDirectional = [
-    { label: "Country of Origin", value: "origin" },
-    { label: "Country of Asylum", value: "asylum" },
+    { key: "Country of Origin", value: "origin" },
+    { key: "Country of Asylum", value: "asylum" },
   ];
 
   const countryOptions = isoNameRawTyped.map((element) => {
-    return { label: element.name, value: element.iso };
+    return { key: element.name, value: element.iso };
   });
 
   const { data, error, loading } = useGetAsylumDecisionsByYearAndCountryQuery({
@@ -109,6 +117,8 @@ export const AsylumDecisions = () => {
                 originOrAsylum={String(directionSelected)}
                 arrayData={asylumDecisionsByYearAndCountry ?? []}
                 metricSelected={"acceptanceRate"}
+                setToggleCountry={setCountryToShow}
+                setToggleInfo={setOpenCountryInfo}
               />
             )}
           </MapComponent>
@@ -152,6 +162,43 @@ export const AsylumDecisions = () => {
         openInfo={showInfo}
         setOpenInfo={setShowInfo}
       />
+      {openCountryInfo &&
+        countryToShow &&
+        (() => {
+          const countryInfo = asylumDecisionsByYearAndCountry.find(
+            (country) => directionSelected === "asylum" ? country?.countryOfOriginIso == countryToShow : country?.countryOfAsylumIso == countryToShow
+          );
+          if (!countryInfo) return null;
+          return (
+            <InfoCountryModal
+              setOpenModal={setOpenCountryInfo}
+              optionsToDisplay={asylumDecisionKeyOptions.map(
+                (option): { key: string; value: string | number } => {
+                  const rawValue =
+                    countryInfo[option.key as keyof AsylumDecision];
+
+                  let value: string | number;
+                  if (typeof rawValue === "number") {
+                    value = rawValue;
+                  } else if (typeof rawValue === "string") {
+                    value = rawValue;
+                  } else {
+                    value = "N/A";
+                  }
+
+                  return {
+                    key: option.value,
+                    value,
+                  };
+                }
+              )}
+              countryInfo={{
+                name: (directionSelected === "asylum" ? countryInfo.countryOfOriginIso : countryInfo.countryOfAsylumIso) ?? "",
+                iso: (directionSelected === "asylum" ? countryInfo.countryOfOriginIso : countryInfo.countryOfAsylumIso) ?? "",
+              }}
+            />
+          );
+        })()}
     </>
   );
 };
