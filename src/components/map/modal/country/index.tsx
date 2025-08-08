@@ -33,7 +33,7 @@ export const InfoCountryModal = ({
     <Container>
       <InfoContainer>
         <TopData>
-          <FlagImage src={typedFlagData.find(flag => flag.cca3 === countryInfo.iso)?.flags.png} />
+          <FlagImage src={typedFlagData.find(flag => flag.cca3 === countryInfo.iso)?.flags.svg} />
           <TextSpan $fontWeight="bold">{countryInfo.name}</TextSpan>
         </TopData>
         <BodyData>

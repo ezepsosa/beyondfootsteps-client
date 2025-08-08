@@ -7,6 +7,7 @@ export const Container = styled.div`
   left: 2rem;
   width: fit-content;
   background-color: white;
+  width: 30vh;
   z-index: 1000;
   padding: 0.25rem;
   border-radius: 1.5rem;
@@ -35,11 +36,12 @@ export const InfoContainer = styled.div`
 
 export const TopData = styled.div`
   display: flex;
-  flex-direction: row;
+  justify-content: space-evenly;
   align-items: center;
+  text-align: center;
   width: 100%;
   padding: 1rem 0;
-  justify-content: space-around;
+  gap: 1rem;
 `;
 
 export const BodyData = styled.div`
@@ -48,6 +50,8 @@ export const BodyData = styled.div`
   height: 100%;
   border-radius: 1rem;
   padding: 0.5rem 1rem;
+  justify-content: center;
+  align-items: center;
 
   @media (min-width: ${breakpoints.md}) {
     gap: 0.8rem 1.5rem;

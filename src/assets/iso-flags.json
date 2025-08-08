@@ -361,8 +361,8 @@
   },
   {
     "flags": {
-      "png": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/Flag_of_the_Taliban.svg/320px-Flag_of_the_Taliban.svg.png",
-      "svg": "https://upload.wikimedia.org/wikipedia/commons/5/5c/Flag_of_the_Taliban.svg",
+      "png": "https://upload.wikimedia.org/wikipedia/commons/c/cd/Flag_of_Afghanistan_(2013–2021).svg",
+      "svg": "https://upload.wikimedia.org/wikipedia/commons/c/cd/Flag_of_Afghanistan_(2013–2021).svg",
       "alt": "The flag of the Islamic Emirate of Afghanistan has a white field with Arabic inscriptions — the Shahada — in black across its center."
     },
     "cca2": "AF",
@@ -1981,8 +1981,8 @@
   },
   {
     "flags": {
-      "png": "https://flagcdn.com/w320/ir.png",
-      "svg": "https://flagcdn.com/ir.svg",
+      "png": "https://upload.wikimedia.org/wikipedia/commons/0/04/Civil_flag_of_Iran_(1964–1980).svg",
+      "svg": "https://upload.wikimedia.org/wikipedia/commons/0/04/Civil_flag_of_Iran_(1964–1980).svg",
       "alt": "The flag of Iran is composed of three equal horizontal bands of green, white and red. A red emblem of Iran is centered in the white band and Arabic inscriptions in white span the bottom edge of the green band and the top edge of the red band."
     },
     "cca2": "IR",

@@ -22,7 +22,6 @@ export const LayoutNavbar = styled.nav`
 `;
 
 export const LogoLayout = styled.img`
-  margin-left: 3vh;
   height: 3.5rem;
 
   @media (min-width: ${breakpoints.lg}) {
