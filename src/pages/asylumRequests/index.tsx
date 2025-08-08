@@ -25,6 +25,7 @@ import { MapComponent } from "@/components/map/container";
 import { GeoJSONLayer } from "@/components/map/layer/geoJSON";
 import { InfoKPIModal } from "@/components/map/modal/kpi";
 import { MetricLayer } from "@/components/map/layer/metric";
+import { ShowHide } from "@/components/icons/showHide";
 
 const isoNameRawTyped: isoNameType[] = isoNameRaw as isoNameType[];
 
@@ -34,6 +35,8 @@ export const AsylumRequests = () => {
   const [metricSelected, setMetricSelected] =
     useState<keyof AsylumRequest>("applied");
   const [showInfo, setShowInfo] = useState<boolean>(false);
+  const [showMetric, setShowMetric] = useState<boolean>(true);
+
   const [dashboardYearSelection, setDashboardYearSelection] =
     useState<number>(2024);
   const asylumDirectional = [
@@ -105,7 +108,7 @@ export const AsylumRequests = () => {
         return (
           <MapComponent>
             <GeoJSONLayer geoColourForMap={getColourForMap} />
-            {asylumRequestsByYearAndCountry.length > 0 && (
+            {asylumRequestsByYearAndCountry.length > 0 && showMetric && (
               <MetricLayer
                 key={directionSelected}
                 centroids={centroids}
@@ -119,6 +122,7 @@ export const AsylumRequests = () => {
       })()}
 
       <TopButtomContainer>
+        <ShowHide setToggle={setShowMetric} toggleStatus={showMetric} />
         <IconSpan
           onClick={() =>
             setMetricSelected(

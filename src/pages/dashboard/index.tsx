@@ -13,9 +13,6 @@ import {
   INDICATOR_INFO,
 } from "../../components/auxliar";
 import { IoInformationCircle } from "react-icons/io5";
-import { RxEyeOpen } from "react-icons/rx";
-import { GoEyeClosed } from "react-icons/go";
-
 import {
   CsvButtonDownload,
   IconSpan,
@@ -31,6 +28,7 @@ import { GeoJSONLayer } from "@/components/map/layer/geoJSON";
 import { InfoKPIModal } from "@/components/map/modal/kpi";
 import { MetricLayer } from "@/components/map/layer/metric";
 import { InfoCountryModal } from "@/components/map/modal/country";
+import { ShowHide } from "@/components/icons/showHide";
 
 export const Dashboard = () => {
   const [dashboardKeySelection, setDashboardKeySelection] =
@@ -121,13 +119,7 @@ export const Dashboard = () => {
         <IconSpan onClick={() => setOpenInfo((value) => !value)}>
           <IoInformationCircle size="1.5rem" />
         </IconSpan>
-        <IconSpan onClick={() => setShowMetric((value) => !value)}>
-          {showMetric ? (
-            <RxEyeOpen size="1.5rem" />
-          ) : (
-            <GoEyeClosed size="1.5rem" />
-          )}
-        </IconSpan>
+        <ShowHide setToggle={setShowMetric} toggleStatus={showMetric} />
         {dashboardSummariesByYear.length > 0 ? (
           <CsvButtonDownload
             filename={`${dashboardYearSelection}_${countrySelected}_dashboard_summary_data.csv`}

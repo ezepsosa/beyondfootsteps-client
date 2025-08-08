@@ -61,7 +61,6 @@ export const CsvButtonDownload = styled(CsvDownload)`
   border-radius: 8px;
   padding: 0.5rem 0.5rem;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
-  border: none;
-
-  
+  border: none;  
 `;
+

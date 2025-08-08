@@ -27,6 +27,7 @@ import { GeoJSONLayer } from "@/components/map/layer/geoJSON";
 import { InfoKPIModal } from "@/components/map/modal/kpi";
 import { MetricLayer } from "@/components/map/layer/metric";
 import { InfoCountryModal } from "@/components/map/modal/country";
+import { ShowHide } from "@/components/icons/showHide";
 
 const isoNameRawTyped: isoNameType[] = isoNameRaw as isoNameType[];
 
@@ -35,6 +36,7 @@ export const AsylumDecisions = () => {
   const [countryToShow, setCountryToShow] = useState<string>("ESP");
   const [directionSelected, setDirectionSelected] = useState<string>("origin");
   const [showInfo, setShowInfo] = useState<boolean>(false);
+  const [showMetric, setShowMetric] = useState<boolean>(true);
   const [dashboardYearSelection, setDashboardYearSelection] =
     useState<number>(2024);
 
@@ -110,7 +112,7 @@ export const AsylumDecisions = () => {
         return (
           <MapComponent>
             <GeoJSONLayer geoColourForMap={getColourForMap} />
-            {asylumDecisionsByYearAndCountry.length > 0 && (
+            {asylumDecisionsByYearAndCountry.length > 0 && showMetric && (
               <MetricLayer
                 key={directionSelected}
                 centroids={centroids}
@@ -125,6 +127,8 @@ export const AsylumDecisions = () => {
         );
       })()}
       <TopButtomContainer>
+        <ShowHide setToggle={setShowMetric} toggleStatus={showMetric} />
+
         {asylumDecisionsByYearAndCountry.length > 0 ? (
           <CsvButtonDownload
             filename={`${dashboardYearSelection}_${directionSelected}_${countrySelected}_asylum_data_data.csv`}
@@ -165,8 +169,10 @@ export const AsylumDecisions = () => {
       {openCountryInfo &&
         countryToShow &&
         (() => {
-          const countryInfo = asylumDecisionsByYearAndCountry.find(
-            (country) => directionSelected === "asylum" ? country?.countryOfOriginIso == countryToShow : country?.countryOfAsylumIso == countryToShow
+          const countryInfo = asylumDecisionsByYearAndCountry.find((country) =>
+            directionSelected === "asylum"
+              ? country?.countryOfOriginIso == countryToShow
+              : country?.countryOfAsylumIso == countryToShow
           );
           if (!countryInfo) return null;
           return (
@@ -193,8 +199,14 @@ export const AsylumDecisions = () => {
                 }
               )}
               countryInfo={{
-                name: (directionSelected === "asylum" ? countryInfo.countryOfOrigin : countryInfo.countryOfAsylum) ?? "",
-                iso: (directionSelected === "asylum" ? countryInfo.countryOfOriginIso : countryInfo.countryOfAsylumIso) ?? "",
+                name:
+                  (directionSelected === "asylum"
+                    ? countryInfo.countryOfOrigin
+                    : countryInfo.countryOfAsylum) ?? "",
+                iso:
+                  (directionSelected === "asylum"
+                    ? countryInfo.countryOfOriginIso
+                    : countryInfo.countryOfAsylumIso) ?? "",
               }}
             />
           );
