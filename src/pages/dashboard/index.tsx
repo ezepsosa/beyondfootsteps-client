@@ -11,15 +11,8 @@ import {
   dashboardKeyOptions,
   dashboardYearOptions,
   INDICATOR_INFO,
-} from "../auxliar";
+} from "../../components/auxliar";
 import { IoInformationCircle } from "react-icons/io5";
-import { RxEyeOpen } from "react-icons/rx";
-import { GoEyeClosed } from "react-icons/go";
-import { InfoCountryModal } from "./infoCountryModal";
-import { InfoKPIModal } from "../../components/mapUsableComponents/infoKPIModal";
-import { MapComponent } from "@/components/mapUsableComponents/mapComponent";
-import { GeoJSONLayer } from "@/components/mapUsableComponents/geoJSONLayer";
-import { CountryDashboardMetricLayer } from "./countryDashboardMetricLayer";
 import {
   CsvButtonDownload,
   IconSpan,
@@ -30,6 +23,13 @@ import { Loading } from "@/components/loading";
 import { DisplayError } from "@/components/error";
 import { useCentroids } from "@/hooks/useCentroids";
 import { useCountryColor } from "@/hooks/useCountryColor";
+import { MapComponent } from "@/components/map/container";
+import { GeoJSONLayer } from "@/components/map/layer/geoJSON";
+import { InfoKPIModal } from "@/components/map/modal/kpi";
+import { MetricLayer } from "@/components/map/layer/metric";
+import { InfoCountryModal } from "@/components/map/modal/country";
+import { ShowHide } from "@/components/icons/showHide";
+import { MdLegendToggle } from "react-icons/md";
 
 export const Dashboard = () => {
   const [dashboardKeySelection, setDashboardKeySelection] =
@@ -41,6 +41,7 @@ export const Dashboard = () => {
   const [openInfo, setOpenInfo] = useState<boolean>(false);
   const [showMetric, setShowMetric] = useState<boolean>(true);
   const [openCountryInfo, setOpenCountryInfo] = useState<boolean>(true);
+  const [showLegend, setShowLegend] = useState<boolean>(true);
 
   const { data, error, loading } = useGetDashboardSummaryByYearQuery({
     variables: { year: Number(dashboardYearSelection) },
@@ -88,16 +89,38 @@ export const Dashboard = () => {
           <MapComponent>
             <GeoJSONLayer geoColourForMap={getColourForMap} />
             {showMetric && dashboardSummariesByYear.length > 0 && (
-              <CountryDashboardMetricLayer
+              <MetricLayer
                 centroids={centroids}
-                dashboardKeySelection={
-                  dashboardKeySelection as keyof DashboardSummary
-                }
-                setCountrySelected={setCountrySelected}
-                setOpenCountryInfo={setOpenCountryInfo}
-                dashboardSummariesByYear={dashboardSummariesByYear ?? []}
+                metricSelected={dashboardKeySelection as keyof DashboardSummary}
+                setToggleCountry={setCountrySelected}
+                setToggleInfo={setOpenCountryInfo}
+                arrayData={dashboardSummariesByYear ?? []}
               />
             )}
+            <TopButtomContainer>
+              <IconSpan onClick={() => setOpenInfo((value) => !value)}>
+                <IoInformationCircle size="1.5rem" />
+              </IconSpan>
+              <IconSpan>
+                <MdLegendToggle
+                  size="1.5rem"
+                  onClick={() => setShowLegend((value) => !value)}
+                />
+              </IconSpan>
+              <ShowHide setToggle={setShowMetric} toggleStatus={showMetric} />
+              {dashboardSummariesByYear.length > 0 ? (
+                <CsvButtonDownload
+                  filename={`${dashboardYearSelection}_${countrySelected}_dashboard_summary_data.csv`}
+                  data={dashboardSummariesByYear ?? []}
+                >
+                  <HiOutlineDocumentDownload size="1.5rem" />
+                </CsvButtonDownload>
+              ) : (
+                <IconSpan>
+                  <HiOutlineDocumentDownload size="1.5rem" color="gray" />
+                </IconSpan>
+              )}
+            </TopButtomContainer>
             <LowerContainer>
               <SelectorBar
                 defaultValue={dashboardYearSelection}
@@ -112,36 +135,12 @@ export const Dashboard = () => {
                 setOption={(value) => setDashboardKeySelection(value as string)}
               />
             </LowerContainer>
-            {getColourForMap.scale && (
-              <ColourLegend scale={getColourForMap.scale}></ColourLegend>
+            {getColourForMap.scale && showLegend && (
+              <ColourLegend scale={getColourForMap.scale} />
             )}
           </MapComponent>
         );
       })()}
-      <TopButtomContainer>
-        <IconSpan onClick={() => setOpenInfo((value) => !value)}>
-          <IoInformationCircle size="1.5rem" />
-        </IconSpan>
-        <IconSpan onClick={() => setShowMetric((value) => !value)}>
-          {showMetric ? (
-            <RxEyeOpen size="1.5rem" />
-          ) : (
-            <GoEyeClosed size="1.5rem" />
-          )}
-        </IconSpan>
-        {dashboardSummariesByYear.length > 0 ? (
-          <CsvButtonDownload
-            filename={`${dashboardYearSelection}_${countrySelected}_dashboard_summary_data.csv`}
-            data={dashboardSummariesByYear ?? []}
-          >
-            <HiOutlineDocumentDownload size="1.5rem" />
-          </CsvButtonDownload>
-        ) : (
-          <IconSpan>
-            <HiOutlineDocumentDownload size="1.5rem" color="gray" />
-          </IconSpan>
-        )}
-      </TopButtomContainer>
 
       <InfoKPIModal
         info={info ?? ""}
@@ -159,7 +158,18 @@ export const Dashboard = () => {
           return (
             <InfoCountryModal
               setOpenModal={setOpenCountryInfo}
-              countryInfo={countryInfo}
+              optionsToDisplay={dashboardKeyOptions.map((option) => {
+                return {
+                  key: option.key,
+                  value:
+                    countryInfo[option.value as keyof DashboardSummary] ??
+                    "N/A",
+                };
+              })}
+              countryInfo={{
+                name: countryInfo.country ?? "",
+                iso: countryInfo.countryIso ?? "",
+              }}
             />
           );
         })()}

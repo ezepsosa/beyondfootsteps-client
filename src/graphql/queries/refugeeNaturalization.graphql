@@ -11,3 +11,25 @@ query GetAllRefugeeNaturalization {
     naturalizationChange
   }
 }
+
+query GetNaturalizationRefugeeByYearAndCountry(
+  $year: Int!
+  $countryOfOriginIso: String
+  $countryOfAsylumIso: String
+) {
+  refugeeNaturalizationsByYearAndCountry(
+    year: $year
+    countryOfOriginIso: $countryOfOriginIso
+    countryOfAsylumIso: $countryOfAsylumIso
+  ) {
+    id
+    year
+    countryOfOrigin
+    countryOfOriginIso
+    countryOfAsylum
+    countryOfAsylumIso
+    total
+    intakeDate
+    naturalizationChange
+  }
+}

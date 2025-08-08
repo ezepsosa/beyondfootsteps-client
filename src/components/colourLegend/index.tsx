@@ -6,7 +6,7 @@ import {
   LegendNumberContainers,
   SimpleDiv,
 } from "./style";
-import { humanize, roundTwoDigits } from "@/pages/auxliar";
+import { humanize, roundTwoDigits } from "@/components/auxliar";
 
 type Props = {
   scale: ScaleLinear<string, string, never>;

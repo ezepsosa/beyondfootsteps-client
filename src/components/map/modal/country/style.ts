@@ -7,6 +7,7 @@ export const Container = styled.div`
   left: 2rem;
   width: fit-content;
   background-color: white;
+  width: 25vh;
   z-index: 1000;
   padding: 0.25rem;
   border-radius: 1.5rem;
@@ -14,8 +15,8 @@ export const Container = styled.div`
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
 
   @media (min-width: ${breakpoints.md}) {
-    left: 2rem;
     top: 14.5rem;
+    width: 30vh;
   }
 `;
 
@@ -35,19 +36,25 @@ export const InfoContainer = styled.div`
 
 export const TopData = styled.div`
   display: flex;
-  flex-direction: row;
+  justify-content: space-evenly;
   align-items: center;
+  text-align: center;
   width: 100%;
   padding: 1rem 0;
-  justify-content: space-around;
+  flex-direction: column;
+  gap: 1rem;
+  @media (min-width: ${breakpoints.md}) {
+    flex-direction: row;
+  }
 `;
 
 export const BodyData = styled.div`
   display: grid;
   gap: 0.5rem 1rem;
   height: 100%;
-  border-radius: 1rem;
   padding: 0.5rem 1rem;
+  justify-content: center;
+  align-items: center;
 
   @media (min-width: ${breakpoints.md}) {
     gap: 0.8rem 1.5rem;

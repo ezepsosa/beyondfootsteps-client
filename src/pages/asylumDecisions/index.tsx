@@ -1,46 +1,49 @@
-import { LowerContainer } from "./style";
 import { SelectorBar } from "@/components/selectorBar";
 import { useEffect, useMemo, useState } from "react";
 import isoNameRaw from "@assets/iso-country.json";
 import {
-  useGetAsylumRequestsByYearAndCountryQuery,
-  type AsylumRequest,
-} from "@/gql/graphql";
-import { dashboardYearOptions } from "../../components/auxliar";
+  asylumDecisionKeyOptions,
+  dashboardYearOptions,
+} from "../../components/auxliar";
 import { ColourLegend } from "@/components/colourLegend";
 import {
   CsvButtonDownload,
   IconSpan,
   TopButtomContainer,
 } from "@/styles/styles";
-import { TbNumbers } from "react-icons/tb";
-import { AiOutlinePercentage } from "react-icons/ai";
 import { HiOutlineDocumentDownload } from "react-icons/hi";
 import { DisplayError } from "@/components/error";
 import { Loading } from "@/components/loading";
 import { useCentroids } from "@/hooks/useCentroids";
-import { useCountryColor } from "@/hooks/useCountryColor";
+import { useCountryColorForPercentage } from "@/hooks/useCountryColor";
 import type { isoNameType } from "@/types/types";
+import {
+  useGetAsylumDecisionsByYearAndCountryQuery,
+  type AsylumDecision,
+} from "@/gql/graphql";
+import { LowerContainer } from "./styles";
 import { MapComponent } from "@/components/map/container";
 import { GeoJSONLayer } from "@/components/map/layer/geoJSON";
 import { InfoKPIModal } from "@/components/map/modal/kpi";
 import { MetricLayer } from "@/components/map/layer/metric";
+import { InfoCountryModal } from "@/components/map/modal/country";
 import { ShowHide } from "@/components/icons/showHide";
 import { MdLegendToggle } from "react-icons/md";
 
 const isoNameRawTyped: isoNameType[] = isoNameRaw as isoNameType[];
 
-export const AsylumRequests = () => {
+export const AsylumDecisions = () => {
   const [countrySelected, setCountrySelected] = useState<string>("ESP");
+  const [countryToShow, setCountryToShow] = useState<string>("ESP");
   const [directionSelected, setDirectionSelected] = useState<string>("origin");
-  const [metricSelected, setMetricSelected] =
-    useState<keyof AsylumRequest>("applied");
   const [showInfo, setShowInfo] = useState<boolean>(false);
   const [showMetric, setShowMetric] = useState<boolean>(true);
   const [showLegend, setShowLegend] = useState<boolean>(true);
-
   const [dashboardYearSelection, setDashboardYearSelection] =
     useState<number>(2024);
+
+  const [openCountryInfo, setOpenCountryInfo] = useState<boolean>(false);
+
   const asylumDirectional = [
     { key: "Country of Origin", value: "origin" },
     { key: "Country of Asylum", value: "asylum" },
@@ -50,7 +53,7 @@ export const AsylumRequests = () => {
     return { key: element.name, value: element.iso };
   });
 
-  const { data, error, loading } = useGetAsylumRequestsByYearAndCountryQuery({
+  const { data, error, loading } = useGetAsylumDecisionsByYearAndCountryQuery({
     variables: {
       year: Number(dashboardYearSelection),
       countryOfAsylumIso:
@@ -60,37 +63,38 @@ export const AsylumRequests = () => {
     },
   });
 
-  const asylumRequestsByYearAndCountry: AsylumRequest[] = useMemo(
+  const asylumDecisionsByYearAndCountry: AsylumDecision[] = useMemo(
     () =>
-      data?.asylumRequestsByYearAndCountry?.filter(
-        (item): item is AsylumRequest => !!item
+      data?.asylumDecisionsByYearAndCountry?.filter(
+        (item): item is AsylumDecision => !!item
       ) ?? [],
     [data]
   );
 
   if (error) {
-    console.warn("Error fetching asylum request data");
+    console.warn("Error fetching asylum data data");
   }
 
-  const getColourForMap = useCountryColor({
-    arrayData: asylumRequestsByYearAndCountry,
-    metricSelected,
+  const getColourForMap = useCountryColorForPercentage({
+    arrayData: asylumDecisionsByYearAndCountry,
+    metricSelected: "acceptanceRate",
     directionSelected,
     countrySelected,
+    colorsOnlyPositive: ["#c40000ff", "#00e626ff"],
   });
 
   const centroids = useCentroids();
 
   useEffect(() => {
-    const isThereAny: boolean = asylumRequestsByYearAndCountry.some(
-      (asylumRequest) => asylumRequest?.appPc === true
+    const isThereAny: boolean = asylumDecisionsByYearAndCountry.some(
+      (asylumDecisions) => asylumDecisions?.decPc === true
     );
     if (isThereAny) {
       setShowInfo(true);
     } else {
       setShowInfo(false);
     }
-  }, [asylumRequestsByYearAndCountry]);
+  }, [asylumDecisionsByYearAndCountry]);
 
   return (
     <>
@@ -110,13 +114,15 @@ export const AsylumRequests = () => {
         return (
           <MapComponent>
             <GeoJSONLayer geoColourForMap={getColourForMap} />
-            {asylumRequestsByYearAndCountry.length > 0 && showMetric && (
+            {asylumDecisionsByYearAndCountry.length > 0 && showMetric && (
               <MetricLayer
                 key={directionSelected}
                 centroids={centroids}
                 originOrAsylum={String(directionSelected)}
-                arrayData={asylumRequestsByYearAndCountry ?? []}
-                metricSelected={metricSelected}
+                arrayData={asylumDecisionsByYearAndCountry ?? []}
+                metricSelected={"acceptanceRate"}
+                setToggleCountry={setCountryToShow}
+                setToggleInfo={setOpenCountryInfo}
               />
             )}
             <TopButtomContainer>
@@ -127,27 +133,10 @@ export const AsylumRequests = () => {
                   onClick={() => setShowLegend((value) => !value)}
                 />
               </IconSpan>
-              <IconSpan
-                onClick={() =>
-                  setMetricSelected(
-                    (value) =>
-                      (value === "applied"
-                        ? "appliedPer100k"
-                        : "applied") as keyof AsylumRequest
-                  )
-                }
-              >
-                {metricSelected ===
-                ("appliedPer100k" as keyof AsylumRequest) ? (
-                  <TbNumbers size="1.5rem" />
-                ) : (
-                  <AiOutlinePercentage size="1.5rem" />
-                )}
-              </IconSpan>
-              {asylumRequestsByYearAndCountry.length > 0 ? (
+              {asylumDecisionsByYearAndCountry.length > 0 ? (
                 <CsvButtonDownload
-                  filename={`${dashboardYearSelection}_${directionSelected}_${countrySelected}_asylum_request_data.csv`}
-                  data={asylumRequestsByYearAndCountry}
+                  filename={`${dashboardYearSelection}_${directionSelected}_${countrySelected}_asylum_data_data.csv`}
+                  data={asylumDecisionsByYearAndCountry}
                 >
                   <HiOutlineDocumentDownload size="1.5rem" />
                 </CsvButtonDownload>
@@ -157,7 +146,6 @@ export const AsylumRequests = () => {
                 </IconSpan>
               )}
             </TopButtomContainer>
-
             <LowerContainer>
               <SelectorBar
                 defaultValue={dashboardYearSelection}
@@ -189,6 +177,51 @@ export const AsylumRequests = () => {
         openInfo={showInfo}
         setOpenInfo={setShowInfo}
       />
+      {openCountryInfo &&
+        countryToShow &&
+        (() => {
+          const countryInfo = asylumDecisionsByYearAndCountry.find((country) =>
+            directionSelected === "asylum"
+              ? country?.countryOfOriginIso == countryToShow
+              : country?.countryOfAsylumIso == countryToShow
+          );
+          if (!countryInfo) return null;
+          return (
+            <InfoCountryModal
+              setOpenModal={setOpenCountryInfo}
+              optionsToDisplay={asylumDecisionKeyOptions.map(
+                (option): { key: string; value: string | number } => {
+                  const rawValue =
+                    countryInfo[option.key as keyof AsylumDecision];
+
+                  let value: string | number;
+                  if (typeof rawValue === "number") {
+                    value = rawValue;
+                  } else if (typeof rawValue === "string") {
+                    value = rawValue;
+                  } else {
+                    value = "N/A";
+                  }
+
+                  return {
+                    key: option.value,
+                    value,
+                  };
+                }
+              )}
+              countryInfo={{
+                name:
+                  (directionSelected === "asylum"
+                    ? countryInfo.countryOfOrigin
+                    : countryInfo.countryOfAsylum) ?? "",
+                iso:
+                  (directionSelected === "asylum"
+                    ? countryInfo.countryOfOriginIso
+                    : countryInfo.countryOfAsylumIso) ?? "",
+              }}
+            />
+          );
+        })()}
     </>
   );
 };
