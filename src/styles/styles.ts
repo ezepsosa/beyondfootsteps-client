@@ -10,7 +10,16 @@ export const TextSpan = styled.span<TextSpanProps>`
   font-weight: ${({ $fontWeight }) => $fontWeight || "normal"};
   font-style: ${({ $fontStyle }) => $fontStyle || "normal"};
   color: ${({ $fontColor }) => $fontColor || "black"};
-
+  ${({ $allowEllipsis }) =>
+    $allowEllipsis
+      ? `
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: inline-block;
+        max-width: 100%;
+      `
+      : ""}
   @media (min-width: ${breakpoints.md}) {
     font-size: ${({ $fontSizeMD }) => $fontSizeMD || "1rem"};
   }
@@ -62,6 +71,4 @@ export const CsvButtonDownload = styled(CsvDownload)`
   padding: 0.5rem 0.5rem;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
   border: none;
-
-  
 `;

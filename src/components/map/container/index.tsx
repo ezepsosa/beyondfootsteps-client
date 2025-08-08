@@ -10,6 +10,7 @@ export const MapComponent = ({ children, zoom = 3, center = [30, 0] }: { childre
             style={mapStyle}
             maxZoom={9}
             minZoom={2.5}
+            zoomControl={false}
             maxBounds={[
                 [-85, -170],
                 [85, 180],
