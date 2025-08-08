@@ -95,12 +95,30 @@ export const Dashboard = () => {
                 arrayData={dashboardSummariesByYear ?? []}
               />
             )}
+            <TopButtomContainer>
+              <IconSpan onClick={() => setOpenInfo((value) => !value)}>
+                <IoInformationCircle size="1.5rem" />
+              </IconSpan>
+              <ShowHide setToggle={setShowMetric} toggleStatus={showMetric} />
+              {dashboardSummariesByYear.length > 0 ? (
+                <CsvButtonDownload
+                  filename={`${dashboardYearSelection}_${countrySelected}_dashboard_summary_data.csv`}
+                  data={dashboardSummariesByYear ?? []}
+                >
+                  <HiOutlineDocumentDownload size="1.5rem" />
+                </CsvButtonDownload>
+              ) : (
+                <IconSpan>
+                  <HiOutlineDocumentDownload size="1.5rem" color="gray" />
+                </IconSpan>
+              )}
+            </TopButtomContainer>
             <LowerContainer>
               <SelectorBar
                 defaultValue={dashboardYearSelection}
                 selectors={dashboardYearOptions}
                 setOption={(value) =>
-                setDashboardYearSelection(value as number)
+                  setDashboardYearSelection(value as number)
                 }
               />
               <SelectorBar
@@ -115,24 +133,6 @@ export const Dashboard = () => {
           </MapComponent>
         );
       })()}
-      <TopButtomContainer>
-        <IconSpan onClick={() => setOpenInfo((value) => !value)}>
-          <IoInformationCircle size="1.5rem" />
-        </IconSpan>
-        <ShowHide setToggle={setShowMetric} toggleStatus={showMetric} />
-        {dashboardSummariesByYear.length > 0 ? (
-          <CsvButtonDownload
-            filename={`${dashboardYearSelection}_${countrySelected}_dashboard_summary_data.csv`}
-            data={dashboardSummariesByYear ?? []}
-          >
-            <HiOutlineDocumentDownload size="1.5rem" />
-          </CsvButtonDownload>
-        ) : (
-          <IconSpan>
-            <HiOutlineDocumentDownload size="1.5rem" color="gray" />
-          </IconSpan>
-        )}
-      </TopButtomContainer>
 
       <InfoKPIModal
         info={info ?? ""}
@@ -154,7 +154,8 @@ export const Dashboard = () => {
                 return {
                   key: option.key,
                   value:
-                    countryInfo[option.value as keyof DashboardSummary] ?? "N/A",
+                    countryInfo[option.value as keyof DashboardSummary] ??
+                    "N/A",
                 };
               })}
               countryInfo={{

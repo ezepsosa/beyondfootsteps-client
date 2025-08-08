@@ -5,7 +5,7 @@ import { AppRoutes } from "@/routes/AppRoutes";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 const client = new ApolloClient({
-  uri: "http://localhost:808/graphql",
+  uri: "http://localhost:8080/graphql",
   cache: new InMemoryCache(),
 });
 

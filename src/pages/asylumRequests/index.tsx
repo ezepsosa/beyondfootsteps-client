@@ -117,59 +117,62 @@ export const AsylumRequests = () => {
                 metricSelected={metricSelected}
               />
             )}
+            <TopButtomContainer>
+              <ShowHide setToggle={setShowMetric} toggleStatus={showMetric} />
+              <IconSpan
+                onClick={() =>
+                  setMetricSelected(
+                    (value) =>
+                      (value === "applied"
+                        ? "appliedPer100k"
+                        : "applied") as keyof AsylumRequest
+                  )
+                }
+              >
+                {metricSelected ===
+                ("appliedPer100k" as keyof AsylumRequest) ? (
+                  <TbNumbers size="1.5rem" />
+                ) : (
+                  <AiOutlinePercentage size="1.5rem" />
+                )}
+              </IconSpan>
+              {asylumRequestsByYearAndCountry.length > 0 ? (
+                <CsvButtonDownload
+                  filename={`${dashboardYearSelection}_${directionSelected}_${countrySelected}_asylum_request_data.csv`}
+                  data={asylumRequestsByYearAndCountry}
+                >
+                  <HiOutlineDocumentDownload size="1.5rem" />
+                </CsvButtonDownload>
+              ) : (
+                <IconSpan>
+                  <HiOutlineDocumentDownload size="1.5rem" color="gray" />
+                </IconSpan>
+              )}
+            </TopButtomContainer>
+
+            <LowerContainer>
+              <SelectorBar
+                defaultValue={dashboardYearSelection}
+                selectors={dashboardYearOptions}
+                setOption={(value) =>
+                  setDashboardYearSelection(value as number)
+                }
+              />
+              <SelectorBar
+                defaultValue={directionSelected}
+                selectors={asylumDirectional}
+                setOption={(value) => setDirectionSelected(value as string)}
+              />
+              <SelectorBar
+                defaultValue={countrySelected}
+                selectors={countryOptions}
+                setOption={(value) => setCountrySelected(value as string)}
+              />
+            </LowerContainer>
           </MapComponent>
         );
       })()}
 
-      <TopButtomContainer>
-        <ShowHide setToggle={setShowMetric} toggleStatus={showMetric} />
-        <IconSpan
-          onClick={() =>
-            setMetricSelected(
-              (value) =>
-                (value === "applied"
-                  ? "appliedPer100k"
-                  : "applied") as keyof AsylumRequest
-            )
-          }
-        >
-          {metricSelected === ("appliedPer100k" as keyof AsylumRequest) ? (
-            <TbNumbers size="1.5rem" />
-          ) : (
-            <AiOutlinePercentage size="1.5rem" />
-          )}
-        </IconSpan>
-        {asylumRequestsByYearAndCountry.length > 0 ? (
-          <CsvButtonDownload
-            filename={`${dashboardYearSelection}_${directionSelected}_${countrySelected}_asylum_request_data.csv`}
-            data={asylumRequestsByYearAndCountry}
-          >
-            <HiOutlineDocumentDownload size="1.5rem" />
-          </CsvButtonDownload>
-        ) : (
-          <IconSpan>
-            <HiOutlineDocumentDownload size="1.5rem" color="gray" />
-          </IconSpan>
-        )}
-      </TopButtomContainer>
-
-      <LowerContainer>
-        <SelectorBar
-          defaultValue={dashboardYearSelection}
-          selectors={dashboardYearOptions}
-          setOption={(value) => setDashboardYearSelection(value as number)}
-        />
-        <SelectorBar
-          defaultValue={directionSelected}
-          selectors={asylumDirectional}
-          setOption={(value) => setDirectionSelected(value as string)}
-        />
-        <SelectorBar
-          defaultValue={countrySelected}
-          selectors={countryOptions}
-          setOption={(value) => setCountrySelected(value as string)}
-        />
-      </LowerContainer>
       {getColourForMap.scale && <ColourLegend scale={getColourForMap.scale} />}
       <InfoKPIModal
         info="The symbol * indicates the total number of applications where more people have been grouped together. In other words, the number may be significantly higher than the actual number of people who have applied."
