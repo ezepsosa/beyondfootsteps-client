@@ -27,14 +27,25 @@ export const InfoCountryModal = ({
   optionsToDisplay,
   countryInfo,
 }: Props) => {
-    const typedFlagData = flagData as isoFlag[];
+  const typedFlagData = flagData as isoFlag[];
 
   return (
     <Container>
       <InfoContainer>
         <TopData>
-          <FlagImage src={typedFlagData.find(flag => flag.cca3 === countryInfo.iso)?.flags.svg} />
-          <TextSpan $fontWeight="bold">{countryInfo.name}</TextSpan>
+          <FlagImage
+            src={
+              typedFlagData.find((flag) => flag.cca3 === countryInfo.iso)?.flags
+                .svg
+            }
+          />
+          <TextSpan
+            $allowEllipsis={true}
+            $fontWeight="bold"
+            $fontSize="0.8rem"
+          >
+            {countryInfo.name}
+          </TextSpan>
         </TopData>
         <BodyData>
           {optionsToDisplay.map((entry) => {

@@ -5,6 +5,7 @@ export type TextSpanProps = {
   $fontStyle?: string;
   $fontColor?: string;
   $fontSizeMD?: string;
+  $allowEllipsis?: boolean;
 };
 
 export type isoNameType = {

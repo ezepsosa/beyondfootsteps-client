@@ -10,12 +10,16 @@ export const TextSpan = styled.span<TextSpanProps>`
   font-weight: ${({ $fontWeight }) => $fontWeight || "normal"};
   font-style: ${({ $fontStyle }) => $fontStyle || "normal"};
   color: ${({ $fontColor }) => $fontColor || "black"};
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  display: inline-block;
-  max-width: 100%;
-
+  ${({ $allowEllipsis }) =>
+    $allowEllipsis
+      ? `
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: inline-block;
+        max-width: 100%;
+      `
+      : ""}
   @media (min-width: ${breakpoints.md}) {
     font-size: ${({ $fontSizeMD }) => $fontSizeMD || "1rem"};
   }
