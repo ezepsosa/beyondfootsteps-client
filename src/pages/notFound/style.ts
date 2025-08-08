@@ -25,7 +25,7 @@ const pulsate = keyframes`
 `;
 
 export const NotFoundContainer = styled.div`
-    min-height: 100vh;
+    min-height: 100%;
     Z-index: 1000;
     display: flex;
     position: relative;
