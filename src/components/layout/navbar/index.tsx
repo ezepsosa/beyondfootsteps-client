@@ -73,7 +73,7 @@ export const Navbar = () => {
           <AuxiliarMenu>
             <LinkElement
               color="white"
-              $active={currentPath === "/aboutUs"}
+              $active={currentPath === "/aboutus"}
               to="/aboutUs"
               onClick={handleLinkClick}
             >

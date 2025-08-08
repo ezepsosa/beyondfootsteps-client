@@ -11,11 +11,11 @@ export const MapComponent = ({ children, zoom = 3, center = [30, 0] }: { childre
             maxZoom={9}
             minZoom={2.5}
             zoomControl={false}
-            maxBounds={[
-                [-85, -170],
-                [85, 180],
-            ]}
+            worldCopyJump={true}
+            preferCanvas={true}
             maxBoundsViscosity={1.0}
+            
+            
         >
             <TileLayer
                 url="https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png"
