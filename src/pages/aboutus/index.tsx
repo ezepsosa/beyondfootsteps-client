@@ -131,7 +131,7 @@ export const AboutUs = () => {
             <ContactItem>
               <FaGithub size={20} />
               <ContactLink
-                href="https://github.com/ezepsosa"
+                href="https://github.com/ezepsosa/beyondfootsteps-client"
                 target="_blank"
                 rel="noopener noreferrer"
               >

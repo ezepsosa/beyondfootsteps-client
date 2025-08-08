@@ -70,7 +70,7 @@ export const Navbar = () => {
               Resettlements
             </LinkElement>
           </MenuElement>
-          <AuxiliarMenu>
+          <AuxiliarMenu open={showInMobile}>
             <LinkElement
               color="white"
               $active={currentPath === "/aboutus"}
@@ -80,12 +80,13 @@ export const Navbar = () => {
               About Us
             </LinkElement>
             <LinkElement
+            hidden={true}
               color="white"
-              $active={currentPath === "/linkedin"}
+              $active={currentPath === "/portfolio"}
               to="/linkedin"
               onClick={handleLinkClick}
             >
-              Linkedin
+              Portfolio
             </LinkElement>
           </AuxiliarMenu>
         </LinkMenu>
