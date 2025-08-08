@@ -9,15 +9,17 @@ export const LegendContainer = styled.div`
   padding: 1rem 0.4rem 0.75rem 1rem;
   border-radius: 1rem;
   height: min-content;
-  top: 10vh;
+  top: 15vh;
   right: 1rem;
   z-index: 1000;
+  width: 6vh;
 
   @media (min-width: ${breakpoints.md}) {
     padding-right: 0.25rem;
     justify-content: flex-start;
     top: 55vh;
     bottom: 0;
+    width: 5vh;
   }
 `;
 

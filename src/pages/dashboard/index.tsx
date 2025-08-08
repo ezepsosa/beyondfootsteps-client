@@ -29,6 +29,7 @@ import { InfoKPIModal } from "@/components/map/modal/kpi";
 import { MetricLayer } from "@/components/map/layer/metric";
 import { InfoCountryModal } from "@/components/map/modal/country";
 import { ShowHide } from "@/components/icons/showHide";
+import { MdLegendToggle } from "react-icons/md";
 
 export const Dashboard = () => {
   const [dashboardKeySelection, setDashboardKeySelection] =
@@ -40,6 +41,7 @@ export const Dashboard = () => {
   const [openInfo, setOpenInfo] = useState<boolean>(false);
   const [showMetric, setShowMetric] = useState<boolean>(true);
   const [openCountryInfo, setOpenCountryInfo] = useState<boolean>(true);
+  const [showLegend, setShowLegend] = useState<boolean>(true);
 
   const { data, error, loading } = useGetDashboardSummaryByYearQuery({
     variables: { year: Number(dashboardYearSelection) },
@@ -99,6 +101,12 @@ export const Dashboard = () => {
               <IconSpan onClick={() => setOpenInfo((value) => !value)}>
                 <IoInformationCircle size="1.5rem" />
               </IconSpan>
+              <IconSpan>
+                <MdLegendToggle
+                  size="1.5rem"
+                  onClick={() => setShowLegend((value) => !value)}
+                />
+              </IconSpan>
               <ShowHide setToggle={setShowMetric} toggleStatus={showMetric} />
               {dashboardSummariesByYear.length > 0 ? (
                 <CsvButtonDownload
@@ -127,8 +135,8 @@ export const Dashboard = () => {
                 setOption={(value) => setDashboardKeySelection(value as string)}
               />
             </LowerContainer>
-            {getColourForMap.scale && (
-              <ColourLegend scale={getColourForMap.scale}></ColourLegend>
+            {getColourForMap.scale && showLegend && (
+              <ColourLegend scale={getColourForMap.scale} />
             )}
           </MapComponent>
         );

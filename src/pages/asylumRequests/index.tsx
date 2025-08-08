@@ -26,6 +26,7 @@ import { GeoJSONLayer } from "@/components/map/layer/geoJSON";
 import { InfoKPIModal } from "@/components/map/modal/kpi";
 import { MetricLayer } from "@/components/map/layer/metric";
 import { ShowHide } from "@/components/icons/showHide";
+import { MdLegendToggle } from "react-icons/md";
 
 const isoNameRawTyped: isoNameType[] = isoNameRaw as isoNameType[];
 
@@ -36,6 +37,7 @@ export const AsylumRequests = () => {
     useState<keyof AsylumRequest>("applied");
   const [showInfo, setShowInfo] = useState<boolean>(false);
   const [showMetric, setShowMetric] = useState<boolean>(true);
+  const [showLegend, setShowLegend] = useState<boolean>(true);
 
   const [dashboardYearSelection, setDashboardYearSelection] =
     useState<number>(2024);
@@ -119,6 +121,12 @@ export const AsylumRequests = () => {
             )}
             <TopButtomContainer>
               <ShowHide setToggle={setShowMetric} toggleStatus={showMetric} />
+              <IconSpan>
+                <MdLegendToggle
+                  size="1.5rem"
+                  onClick={() => setShowLegend((value) => !value)}
+                />
+              </IconSpan>
               <IconSpan
                 onClick={() =>
                   setMetricSelected(
@@ -173,7 +181,9 @@ export const AsylumRequests = () => {
         );
       })()}
 
-      {getColourForMap.scale && <ColourLegend scale={getColourForMap.scale} />}
+      {getColourForMap.scale && showLegend && (
+        <ColourLegend scale={getColourForMap.scale} />
+      )}
       <InfoKPIModal
         info="The symbol * indicates the total number of applications where more people have been grouped together. In other words, the number may be significantly higher than the actual number of people who have applied."
         openInfo={showInfo}
