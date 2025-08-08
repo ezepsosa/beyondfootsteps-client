@@ -1,4 +1,5 @@
 import { MainLayout } from "@/components/layout";
+import AboutUs from "@/pages/aboutus";
 import { AsylumDecisions } from "@/pages/asylumDecisions";
 import { AsylumRequests } from "@/pages/asylumRequests";
 import { Dashboard } from "@/pages/dashboard";
@@ -13,8 +14,9 @@ export const AppRoutes = () => {
           <Route path="/" element={<Dashboard />} />
           <Route path="/requests" element={<AsylumRequests />} />
           <Route path="/decisions" element={<AsylumDecisions />} />
-          <Route path="*" element={<NotFound />} />
         </Route>
+          <Route path="/aboutus" element={<AboutUs />} />
+          <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>
   );

@@ -39,8 +39,11 @@ export const MenuLayout = styled.div`
   }
 `;
 
-export const AuxiliarMenu = styled.div`
-  display: none;
+export const AuxiliarMenu = styled.div<{ open: boolean }>`
+  display: ${({ open }) => (open ? "flex" : "none")};
+  flex-direction: column;
+  width: 100%;
+  opacity: ${({ open }) => (open ? "1" : "0")};
 
   @media (min-width: ${breakpoints.lg}) {
     display: flex;
@@ -49,6 +52,14 @@ export const AuxiliarMenu = styled.div`
     border-radius: 2rem;
     background-color: #111111c4;
     padding: 0.75rem 0.4rem;
+
+    width: auto;
+    transform: none;
+    opacity: 1;
+    transition: none;
+    transform-origin: initial;
+    position: static;
+    visibility: visible;
   }
 `;
 
@@ -82,7 +93,6 @@ export const MenuElement = styled.ul<{ open: boolean }>`
     backdrop-filter: none;
   }
 `;
-
 
 export const LinkElement = styled(Link)<LinkElementProps>`
   position: relative;
