@@ -54,35 +54,35 @@ export const dashboardKeyOptions: {
   key: string;
   value: string;
 }[] = [
-  { key: "coverageRate", value: "Coverage Rate" },
-  { key: "appliedPer100k", value: "Applied per 100k" },
-  { key: "acceptanceRate", value: "Acceptance Rate" },
-  { key: "internalDisplacementTotal", value: "Internal Displacement" },
-  { key: "displacementRatePer100k", value: "Displacement Rate per 100k" },
-  { key: "idpReturnees", value: "IDP Returnees" },
-  { key: "refugeesReturnees", value: "Refugee Returnees" },
-  { key: "naturalizationsTotal", value: "Naturalizations Total" },
-  { key: "naturalizationChange", value: "Naturalization Change" },
-  { key: "resettlementRequests", value: "Resettlement Requests" },
-  { key: "resettlementDepartures", value: "Resettlement Departures" },
-  { key: "resettlementSubmissions", value: "Resettlement Submissions" },
-  { key: "resettlementNeeds", value: "Resettlement Needs" },
-  { key: "resettlementGap", value: "Resettlement Gap" },
-  { key: "requestVsNeedsRatio", value: "Request vs Needs Ratio" },
-  { key: "submissionsEfficiency", value: "Submissions Efficiency" },
-  { key: "realizationRate", value: "Realization Rate" },
+  { key: "Coverage Rate", value: "coverageRate" },
+  { key: "Applied per 100k", value: "appliedPer100k" },
+  { key: "Acceptance Rate", value: "acceptanceRate" },
+  { key: "Internal Displacement", value: "internalDisplacementTotal" },
+  { key: "Displacement Rate per 100k", value: "displacementRatePer100k" },
+  { key: "IDP Returnees", value: "idpReturnees" },
+  { key: "Refugee Returnees", value: "refugeesReturnees" },
+  { key: "Naturalizations Total", value: "naturalizationsTotal" },
+  { key: "Naturalization Change", value: "naturalizationChange" },
+  { key: "Resettlement Requests", value: "resettlementRequests" },
+  { key: "Resettlement Departures", value: "resettlementDepartures" },
+  { key: "Resettlement Submissions", value: "resettlementSubmissions" },
+  { key: "Resettlement Needs", value: "resettlementNeeds" },
+  { key: "Resettlement Gap", value: "resettlementGap" },
+  { key: "Request vs Needs Ratio", value: "requestVsNeedsRatio" },
+  { key: "Submissions Efficiency", value: "submissionsEfficiency" },
+  { key: "Realization Rate", value: "realizationRate" },
 ];
 
 export const asylumDecisionKeyOptions: {
   key: string;
   value: string
 }[] = [
-  { key: "acceptanceRate", value: "acceptanceRate" },
-  { key: "decClosed", value: "decClosed" },
-  { key: "decOther", value: "decOther" },
-  { key: "decRecognized", value: "decRecognized" },
-  { key: "decRejected", value: "decRejected" },
-  { key: "decTotal", value: "decTotal" },
+  { key: "acceptanceRate", value: "Acceptance Rate" },
+  { key: "decClosed", value: "Decision Closed" },
+  { key: "decOther", value: "Decision Other" },
+  { key: "decRecognized", value: "Decision Recognized" },
+  { key: "decRejected", value: "Decision Rejected" },
+  { key: "decTotal", value: "Decision Total" },
 ];
 export const dashboardYearOptions: { key: number; value: string }[] = [
   { key: 2024, value: "2024" },

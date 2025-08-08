@@ -102,7 +102,7 @@ export const Dashboard = () => {
                 defaultValue={dashboardYearSelection}
                 selectors={dashboardYearOptions}
                 setOption={(value) =>
-                  setDashboardYearSelection(value as number)
+                setDashboardYearSelection(value as number)
                 }
               />
               <SelectorBar
