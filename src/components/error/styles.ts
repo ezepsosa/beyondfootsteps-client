@@ -18,7 +18,7 @@ export const ErrorIllustration = styled(MdErrorOutline)`
 `;
 
 export const ErrorContainer = styled.div`
-  min-height: 100vh;
+  min-height: 100%;
   z-index: 1000;
   display: flex;
   position: relative;

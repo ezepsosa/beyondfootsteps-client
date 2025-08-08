@@ -5,8 +5,8 @@ export const KpiSpan = styled(TextSpan)`
   display: flex;
   z-index: 1001;
   width: max-content;
-  padding: 2vh;
-  margin-left: -2vh;
-  margin-top: -2vh;
+  padding: 1rem;
+  margin-left: -1rem;
+  margin-top: -1rem;
   position: relative;
 `;

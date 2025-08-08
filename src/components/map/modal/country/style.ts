@@ -7,7 +7,7 @@ export const Container = styled.div`
   left: 1rem;
   width: fit-content;
   background-color: white;
-  width: 45vh;
+  width: 14rem;
   z-index: 1000;
   padding: 0.25rem;
   border-radius: 1.5rem;
@@ -17,7 +17,7 @@ export const Container = styled.div`
   @media (min-width: ${breakpoints.md}) {
     left: 2rem;
     top: 14.5rem;
-    width: 30vh;
+    width: 23rem;
   }
 `;
 
@@ -56,7 +56,6 @@ export const BodyData = styled.div`
   justify-content: center;
   align-items: center;
   grid-template-columns: 1fr 1fr;
-  
 
   @media (min-width: ${breakpoints.md}) {
     gap: 0.8rem 1.5rem;

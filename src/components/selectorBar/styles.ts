@@ -24,7 +24,7 @@ export const Selector = styled.select<{
   -webkit-tap-highlight-color: transparent;
 
   cursor: pointer;
-  width: 15vh;
+  width: 7rem;
   transition: border-color 0.25s ease, box-shadow 0.25s ease;
 
   background-repeat: no-repeat;
@@ -42,7 +42,7 @@ export const Selector = styled.select<{
   }
 
   @media (min-width: ${breakpoints.md}) {
-    width: 30vh;
+    width: 15rem;
     font-size: 1rem;
     padding: ${({ $paddingDesktop }) => $paddingDesktop || "0.5rem 0"};
     background-image: url("data:image/svg+xml;utf8,<svg fill='none' stroke='%23666' stroke-width='2' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'><path d='M6 9l6 6 6-6' stroke-linecap='round' stroke-linejoin='round'/></svg>");
