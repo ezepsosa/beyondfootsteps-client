@@ -85,6 +85,7 @@ export const MenuElement = styled.ul<{ open: boolean }>`
     gap: 2rem;
     border-radius: 2rem;
     background-color: #f5f5f5be;
+    padding: 0.75rem 0.4rem;
     transform: none;
     opacity: 1;
     visibility: visible;
