@@ -58,21 +58,27 @@ This is a single-developer portfolio project designed to showcase end‑to‑end
 
 ---
 
+
 ## Architecture Overview
 
 ```mermaid
 flowchart LR
-    A[UNHCR Statistics Portal] --> B[ETL: ingest • clean • normalize • derive metrics]
+    A([UNHCR Statistics Portal]) --> B{{ETL: ingest • clean • normalize • derive metrics}}
     B --> C[(DB)]
-    C --> D[GraphQL API\nTyped schema & resolvers]
-    D --> E[Client (React)\nMaps • Dashboards • Modals]
+    C --> D([GraphQL API<br/>Typed schema & resolvers])
+    D --> E([Client React<br/>Maps • Dashboards • Modals])
+
 ```
 
-- ETL standardizes raw UNHCR data, computes derived metrics (e.g., acceptanceRate, per‑100k rates), and stores clean tables.
-- GraphQL API exposes strongly-typed queries for the client.
-- Client renders maps, legends, and country info modals.
+If you can’t see the diagram (e.g., local preview), here’s a text fallback:
+```text
+UNHCR Statistics Portal
+   └─> ETL (ingest • clean • normalize • derive metrics)
+         └─> DB
+               └─> GraphQL API (typed schema & resolvers)
+                     └─> Client (React: maps • dashboards • modals)
+```
 
----
 
 ## Data Sources & Licensing
 
