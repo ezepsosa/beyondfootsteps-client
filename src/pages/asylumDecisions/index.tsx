@@ -3,7 +3,7 @@ import { useEffect, useMemo, useState } from "react";
 import isoNameRaw from "@assets/iso-country.json";
 import {
   asylumDecisionKeyOptions,
-  dashboardYearOptions,
+  yearOptions,
 } from "../../components/auxliar";
 import { ColourLegend } from "@/components/colourLegend";
 import {
@@ -149,7 +149,7 @@ export const AsylumDecisions = () => {
             <LowerContainer>
               <SelectorBar
                 defaultValue={dashboardYearSelection}
-                selectors={dashboardYearOptions}
+                selectors={yearOptions}
                 setOption={(value) =>
                   setDashboardYearSelection(value as number)
                 }

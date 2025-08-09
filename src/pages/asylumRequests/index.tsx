@@ -6,7 +6,7 @@ import {
   useGetAsylumRequestsByYearAndCountryQuery,
   type AsylumRequest,
 } from "@/gql/graphql";
-import { dashboardYearOptions } from "../../components/auxliar";
+import { yearOptions } from "../../components/auxliar";
 import { ColourLegend } from "@/components/colourLegend";
 import {
   CsvButtonDownload,
@@ -161,7 +161,7 @@ export const AsylumRequests = () => {
             <LowerContainer>
               <SelectorBar
                 defaultValue={dashboardYearSelection}
-                selectors={dashboardYearOptions}
+                selectors={yearOptions}
                 setOption={(value) =>
                   setDashboardYearSelection(value as number)
                 }
