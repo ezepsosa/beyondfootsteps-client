@@ -1,69 +1,262 @@
-# React + TypeScript + Vite
+# Beyond Footsteps — Migration Data Explorer (Client)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+<p align="center">
+  <img src="src/assets/beyondfootsteps_transparent_logo.svg" alt="Beyond Footsteps" width="220" />
+</p>
+<p align="center">
+  <a href="https://github.com/ezepsosa/beyondfootsteps-client/blob/main/LICENSE">
+    <img alt="License" src="https://img.shields.io/badge/license-MIT-blue.svg" />
+  </a>
+  <a href="https://github.com/ezepsosa/beyondfootsteps-client">
+    <img alt="Stars" src="https://img.shields.io/github/stars/ezepsosa/beyondfootsteps-client?style=social" />
+  </a>
+  <img alt="Node" src="https://img.shields.io/badge/node-%E2%89%A518-brightgreen?logo=node.js" />
+  <img alt="Portfolio" src="https://img.shields.io/badge/Portfolio-Project-black?logo=github" />
+</p>
 
-Currently, two official plugins are available:
+Beyond Footsteps is a portfolio project that makes global migration and refugee data from the United Nations High Commissioner for Refugees (UNHCR) easier to explore through interactive maps and clear visual summaries. The goal is to help users quickly understand patterns of human mobility (applications, decisions, displacement) without digging through complex datasets.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+This repository contains the web client (frontend). The project also includes:
+- ETL pipeline: https://github.com/ezepsosa/beyondfootsteps-api
+- GraphQL API: https://github.com/ezepsosa/beyondfootsteps-api
 
-## Expanding the ESLint configuration
+> This project is not affiliated with UNHCR. It is intended for educational and portfolio purposes.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+---
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## Table of Contents
 
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
+- Problem & Goals
+- Architecture Overview
+- Data Sources & Licensing
+- ETL Overview
+- GraphQL API Overview
+- Client (this repo)
+  - Features
+  - Tech Stack
+  - Requirements
+  - Environment Variables
+  - Install & Run
+  - Project Structure
+  - Maps & Attribution
+- Design & Implementation Notes
+- About & Branding
+- Roadmap
+- Acknowledgements
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+---
+
+## Problem & Goals
+
+Migration statistics are often fragmented, technical, and hard to visualize. This project:
+- Aggregates UNHCR datasets into a consistent, queryable model
+- Visualizes indicators on an interactive world map (Leaflet)
+- Provides country-level summaries and CSV export
+- Focuses on clarity and usability over exhaustive analytics
+
+This is a single-developer portfolio project designed to showcase end‑to‑end implementation: ETL → API → Client.
+
+---
+
+## Architecture Overview
+
+```mermaid
+flowchart LR
+    A[UNHCR Statistics Portal] --> B[ETL: ingest • clean • normalize • derive metrics]
+    B --> C[(DB)]
+    C --> D[GraphQL API\nTyped schema & resolvers]
+    D --> E[Client (React)\nMaps • Dashboards • Modals]
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+- ETL standardizes raw UNHCR data, computes derived metrics (e.g., acceptanceRate, per‑100k rates), and stores clean tables.
+- GraphQL API exposes strongly-typed queries for the client.
+- Client renders maps, legends, and country info modals.
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+---
 
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## Data Sources & Licensing
+
+- Primary data: UNHCR (United Nations High Commissioner for Refugees)
+- Always review and comply with the source terms of use and attribution requirements.
+
+Map tiles and attribution (HOT/OSM):
+- Tiles: https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png
+- Required attribution shown in the app:
+```html
+&copy; <a href="https://www.hotosm.org/">Humanitarian OpenStreetMap Team</a>
+&copy; <a href="https://osm.org/copyright">OpenStreetMap</a> contributors
 ```
+
+---
+
+## ETL Overview
+
+Scope (portfolio‑scale, pragmatic):
+- Ingestion: periodic extraction from UNHCR statistics portal
+- Normalization:
+  - Country code alignment (ISO 3166, CCA3) for stable joins and mapping
+  - Type normalization (numbers/percentages/flags)
+  - Harmonized field names across datasets
+- Derived metrics:
+  - acceptanceRate, appliedPer100k, displacementRatePer100k, etc.
+- Data quality:
+  - Missing values handled explicitly (“N/A” or nulls)
+  - Flags for aggregated counts (e.g., `decPc`)
+  - Year ranges and duplicates validated
+
+References (placeholders):
+- ETL repository: https://github.com/ezepsosa/beyondfootsteps-etl
+- ETL docs (pipeline, schemas, schedules): Not available yet.
+
+---
+
+## GraphQL API Overview
+
+Client consumes a GraphQL endpoint and uses generated TypeScript types (`src/gql/graphql.ts`).
+
+GraphQL endpoint (placeholder):
+```
+https://api.example.com/graphql
+```
+
+Example query:
+```graphql
+query GetAsylumDecisionsByYearAndCountry(
+  $year: Int!,
+  $countryOfAsylumIso: String,
+  $countryOfOriginIso: String
+) {
+  asylumDecisionsByYearAndCountry(
+    year: $year,
+    countryOfAsylumIso: $countryOfAsylumIso,
+    countryOfOriginIso: $countryOfOriginIso
+  ) {
+    id
+    year
+    acceptanceRate
+    decRecognized
+    decRejected
+    countryOfAsylumIso
+    countryOfOriginIso
+  }
+}
+```
+
+API repository:
+- GraphQL API: https://github.com/ezepsosa/beyondfootsteps-api
+
+---
+
+## Client (this repo)
+
+### Features
+
+- World map with color scales and metric markers (Leaflet)
+- Country info modal with key indicators
+- Year and direction (origin/asylum) selectors
+- CSV export for the current filtered dataset
+- 404 and About pages with non‑interactive background map
+
+### Tech Stack
+
+- React + TypeScript
+- react‑leaflet (Leaflet)
+- Styled Components
+- Chart.js (for charts where applicable)
+- GraphQL codegen types (local TS types from schema)
+
+### Requirements
+
+- Node.js ≥ 18
+- npm / pnpm / yarn (examples below use npm)
+
+### Environment Variables
+
+If you use path aliases (`@/`), ensure they are configured in `tsconfig.json` and your bundler config.
+
+### Install & Run
+
+```bash
+# Install dependencies
+npm install
+
+# Start dev server
+npm run dev
+
+# Production build
+npm run build
+
+# Preview production build
+npm run preview
+```
+
+### Project Structure (excerpt)
+
+```
+src/
+├─ components/
+│  ├─ map/
+│  │  ├─ container/           # MapComponent (MapContainer + TileLayer)
+│  │  ├─ layer/               # GeoJSONLayer, MetricLayer, etc.
+│  │  └─ modal/               # Country/KPI modals
+│  ├─ selectorBar/
+│  ├─ colourLegend/
+│  └─ ...
+├─ gql/                        # GraphQL generated types
+├─ pages/
+│  ├─ dashboard/
+│  ├─ asylumDecisions/
+│  ├─ asylumRequests/         # if present
+│  ├─ notFound/
+│  └─ aboutus/
+├─ styles/
+└─ assets/
+```
+
+### Maps & Attribution
+
+Default tiles in use:
+```tsx
+<TileLayer
+  url="https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png"
+  attribution='&copy; <a href="https://www.hotosm.org/">Humanitarian OpenStreetMap Team</a> &copy; <a href="https://osm.org/copyright">OpenStreetMap</a> contributors'
+  maxZoom={18}
+/>
+```
+
+To render a non‑interactive background map (e.g., About or 404 pages), disable interactions on the Leaflet `MapContainer` (or in your wrapper):
+- dragging={false}
+- scrollWheelZoom={false}
+- doubleClickZoom={false}
+- touchZoom={false}
+- keyboard={false}
+
+This allows the page to scroll normally while the map is visible in the background.
+
+---
+
+## Design & Implementation Notes
+
+- Country markers are positioned using precomputed centroids keyed by ISO‑3.
+- Color scales are exposed with a legend component for quick interpretation.
+- Numeric values are humanized for readability (“44”, “0.63”, “0.08”, or “N/A”).
+- Path aliases (`@/...`) simplify imports; ensure `tsconfig.json` and bundler alias match.
+- The client uses generated GraphQL types in `src/gql/graphql.ts` for strong typing.
+
+---
+
+## About & Branding
+
+- The About page includes a non‑interactive background map and logos for Beyond Footsteps and UNHCR (with an external link to UNHCR).
+- Branding and copy are aligned with the project’s purpose as a personal portfolio.
+- The project explicitly states it is not affiliated with UNHCR.
+
+---
+
+## Acknowledgements
+
+- Data: © UNHCR (ACNUR) — https://www.unhcr.org/
+- Map tiles: © Humanitarian OpenStreetMap Team — https://www.hotosm.org/
+- Map data: © OpenStreetMap contributors — https://www.openstreetmap.org/copyright
+
+This project is not affiliated with UNHCR. It is intended for educational and portfolio purposes.
