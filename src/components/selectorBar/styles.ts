@@ -75,4 +75,5 @@ export const BarBackground = styled.div`
 `;
 
 export const Option = styled.option`
+  text-align: center;
 `;
