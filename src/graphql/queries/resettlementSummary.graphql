@@ -2,12 +2,41 @@ query GetResettlementSummaries {
   resettlementSummaries {
     id
     year
-    countryIso
-    totalRequests
-    totalDepartures
-    totalSubmissions
+    countryOfOriginIso
+    countryOfOrigin
+    countryOfAsylumIso
+    countryOfAsylum
+    countryOfResettlementIso
+    countryOfResettlement
+    cases
+    persons
+    departuresTotal
     totalNeeds
-    totalGaps
+    submissionsTotal
+    resettlementGap
+    coverageRate
+    requestVsNeedsRatio
+    submissionsEfficiency
+    realizationRate
+  }
+}
+
+query GetResettlementSummariesByYear($year: Int!) {
+  resettlementSummariesByYear(year: $year) {
+    id
+    year
+    countryOfOriginIso
+    countryOfOrigin
+    countryOfAsylumIso
+    countryOfAsylum
+    countryOfResettlementIso
+    countryOfResettlement
+    cases
+    persons
+    departuresTotal
+    totalNeeds
+    submissionsTotal
+    resettlementGap
     coverageRate
     requestVsNeedsRatio
     submissionsEfficiency
