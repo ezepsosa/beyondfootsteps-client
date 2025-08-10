@@ -22,6 +22,7 @@ import {
 import { CoverageRate } from "./coverage";
 import { ResettlementPipeline } from "./Pipeline";
 import { ScatterEfficiency } from "./scatter";
+import { ResettlementGap } from "./gap";
 
 ChartJS.register(
   CategoryScale,
@@ -187,6 +188,12 @@ export const ResettlementSummary = () => {
       );
   }, [resettlementSummariesFiltered]);
 
+  const topResettlementGap = useMemo(() => {
+    return resettlementSummariesFiltered
+      .filter((resettlement) => resettlement.resettlementGap != null)
+      .sort((a, b) => (b.resettlementGap ?? 0) - (a.resettlementGap ?? 0));
+  }, [resettlementSummariesFiltered]);
+
   if (error) {
     console.warn("Error fetching resettlement data", error);
     return <DisplayError />;
@@ -231,6 +238,7 @@ export const ResettlementSummary = () => {
         <CoverageRate topCoverage={topCoverage} />
         <ResettlementPipeline topResettlement={topResettlement} />
         <ScatterEfficiency resettlements={topResettlement} />
+        <ResettlementGap resettlements={topResettlementGap} />
       </ChartContainer>
     </ResettlementContainer>
   );
