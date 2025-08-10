@@ -109,6 +109,7 @@ export type Query = {
   refugeeNaturalizationsByYearAndCountry?: Maybe<Array<Maybe<RefugeeNaturalization>>>;
   resettlementSummaries?: Maybe<Array<Maybe<ResettlementSummary>>>;
   resettlementSummariesByYearGroupedBy?: Maybe<Array<Maybe<ResettlementSummaryGrouped>>>;
+  resettlementSummariesGroupedByAsylumYear?: Maybe<Array<Maybe<ResettlementSummaryGroupedWithYear>>>;
 };
 
 
@@ -192,6 +193,23 @@ export type ResettlementSummaryGrouped = {
   totalNeeds?: Maybe<Scalars['Int']['output']>;
   totalPersons?: Maybe<Scalars['Int']['output']>;
   totalSubmissions?: Maybe<Scalars['Int']['output']>;
+};
+
+export type ResettlementSummaryGroupedWithYear = {
+  __typename?: 'ResettlementSummaryGroupedWithYear';
+  countriesIso?: Maybe<Scalars['String']['output']>;
+  countriesNames?: Maybe<Scalars['String']['output']>;
+  coverageRate?: Maybe<Scalars['Float']['output']>;
+  realizationRate?: Maybe<Scalars['Float']['output']>;
+  requestVsNeedsRatio?: Maybe<Scalars['Float']['output']>;
+  resettlementGap?: Maybe<Scalars['Float']['output']>;
+  submissionsEfficiency?: Maybe<Scalars['Float']['output']>;
+  totalCases?: Maybe<Scalars['Int']['output']>;
+  totalDepartures?: Maybe<Scalars['Int']['output']>;
+  totalNeeds?: Maybe<Scalars['Int']['output']>;
+  totalPersons?: Maybe<Scalars['Int']['output']>;
+  totalSubmissions?: Maybe<Scalars['Int']['output']>;
+  year?: Maybe<Scalars['Int']['output']>;
 };
 
 export type GetAsylumDecisionsQueryVariables = Exact<{ [key: string]: never; }>;
