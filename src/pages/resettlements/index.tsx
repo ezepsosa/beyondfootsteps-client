@@ -38,11 +38,18 @@ function returnOptionsFromPosition({
   position: number;
   selectedCountryA?: string;
 }) {
-  if (position === 1 && selectedCountryA?.length === 0) return [{ key: "---", value: "" }];
+  if (position === 1 && selectedCountryA?.length === 0)
+    return [{ key: "---", value: "" }];
   const res = Array.from(
     new Map(
       resettlementSummaries
-        .filter((summary) => summary?.countriesIso && (position === 1 ? summary?.countriesIso?.includes(selectedCountryA ?? "") : true))
+        .filter(
+          (summary) =>
+            summary?.countriesIso &&
+            (position === 1
+              ? summary?.countriesIso?.includes(selectedCountryA ?? "")
+              : true)
+        )
         .map((summary) => [
           summary.countriesIso?.split("-")[position] ?? "",
           {
@@ -54,7 +61,7 @@ function returnOptionsFromPosition({
   );
   res.push({ key: "---", value: "" });
   if (position === 1) {
-    return res.filter(option => option.value !== selectedCountryA);
+    return res.filter((option) => option.value !== selectedCountryA);
   }
   return res.sort((a, b) => a.key.localeCompare(b.key));
 }
@@ -112,7 +119,7 @@ export const ResettlementSummary = () => {
         (s): s is ResettlementSummaryGrouped => s !== null
       ),
       position: 1,
-      selectedCountryA: selectedCountryA
+      selectedCountryA: selectedCountryA,
     });
   }, [resettlementSummaries, selectedCountryA]);
   // -- Top coverage calculations --
@@ -159,51 +166,37 @@ export const ResettlementSummary = () => {
   }
   return (
     <ResettlementContainer>
+      <TopContainer>
+        <TextSpan $fontWeight="600">Select Grouping:</TextSpan>
+        <SelectorBar
+          defaultValue={grouping}
+          selectors={groupingOptions}
+          setOption={(value) => setGrouping(value as string)}
+        />
+        <TextSpan $fontWeight="600">Select Country A:</TextSpan>
+        <SelectorBar
+          defaultValue={selectedCountryA}
+          selectors={countryAOptions}
+          setOption={(value) => setSelectedCountryA(value as string)}
+        />
+        {grouping === "origin-asylum" && (
+          <>
+            <TextSpan $fontWeight="600">Select Country B:</TextSpan>
+            <SelectorBar
+              defaultValue={selectedCountryB}
+              selectors={countryBOptions}
+              setOption={(value) => setSelectedCountryB(value as string)}
+            />
+          </>
+        )}
+        <TextSpan $fontWeight="600">Select Year:</TextSpan>
+        <SelectorBar
+          defaultValue={selectedYear}
+          selectors={yearOptions}
+          setOption={(value) => setSelectedYear(value as number)}
+        />
+      </TopContainer>
       <ChartContainer>
-        <TopContainer>
-          <TextSpan $fontWeight="600">Select Grouping:</TextSpan>
-          <SelectorBar
-            defaultValue={grouping}
-            selectors={groupingOptions}
-            setOption={(value) => setGrouping(value as string)}
-          />
-          <TextSpan $fontWeight="600">Select Country A:</TextSpan>
-          <SelectorBar
-            defaultValue={selectedCountryA}
-            selectors={countryAOptions}
-            setOption={(value) => setSelectedCountryA(value as string)}
-          />
-          {grouping === "origin-asylum" && (
-            <>
-              <TextSpan $fontWeight="600">Select Country B:</TextSpan>
-              <SelectorBar
-                defaultValue={selectedCountryB}
-                selectors={countryBOptions}
-                setOption={(value) => setSelectedCountryB(value as string)}
-              />
-            </>
-          )}
-          {/*
-
-          {grouping === "origin-asylum" && (
-            <>
-              <TextSpan $fontWeight="600">Select Country B:</TextSpan>
-              <SelectorBar
-                defaultValue={selectedCountryB}
-                selectors={countryOptions}
-                setOption={(value) => setSelectedCountryB(value as string)}
-              />
-            </>
-          )}
-
-          */}
-          <TextSpan $fontWeight="600">Select Year:</TextSpan>
-          <SelectorBar
-            defaultValue={selectedYear}
-            selectors={yearOptions}
-            setOption={(value) => setSelectedYear(value as number)}
-          />
-        </TopContainer>
         <CoverageRate topCoverage={topCoverage} />
       </ChartContainer>
     </ResettlementContainer>

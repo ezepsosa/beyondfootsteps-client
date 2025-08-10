@@ -58,7 +58,7 @@ export const CoverageRate = ({ topCoverage, width, height }: Props) => {
         legend: { display: false },
         title: {
           display: true,
-          // TODO: Add title
+          text: "Top Resettlement Coverage",
         },
       },
     }),
