@@ -4,7 +4,7 @@ import { ChartContainer, ResettlementContainer, TopContainer } from "./style";
 import { useMemo, useState } from "react";
 import { SelectorBar } from "@/components/selectorBar";
 import { yearOptions } from "@/components/auxliar";
-import { TextSpan } from "@/styles/styles";
+import { SecondaryButton, TextSpan } from "@/styles/styles";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -72,6 +72,13 @@ export const ResettlementSummary = () => {
   const [grouping, setGrouping] = useState<string>("Origin-Asylum");
   const [selectedCountryA, setSelectedCountryA] = useState<string>("");
   const [selectedCountryB, setSelectedCountryB] = useState<string>("");
+
+  function resetFilters() {
+    setSelectedYear(2024);
+    setGrouping("Origin-Asylum");
+    setSelectedCountryA("");
+    setSelectedCountryB("");
+  }
 
   const { data, loading, error } =
     useGetResettlementSummariesByYearGroupedByQuery({
@@ -215,6 +222,7 @@ export const ResettlementSummary = () => {
           selectors={yearOptions}
           setOption={(value) => setSelectedYear(value as number)}
         />
+        <SecondaryButton onClick={resetFilters}>Reset</SecondaryButton>
       </TopContainer>
       <ChartContainer>
         <CoverageRate topCoverage={topCoverage} />

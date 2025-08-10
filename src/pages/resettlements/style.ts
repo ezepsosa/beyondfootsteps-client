@@ -25,15 +25,20 @@ export const ChartContainer = styled.div`
 export const TopContainer = styled.div`
   width: 100%;
   padding: 1rem 0.5rem;
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
   align-items: center;
-  gap: 0.7rem;
-  margin: 1.5rem 0;
+  justify-items: center;
+  gap: 0.2rem;
+  margin: 5rem 0; 
 
   @media (min-width: ${breakpoints.lg}) {
+    margin: .5rem 0; 
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
     padding: 2rem 1rem;
     gap: 1rem;
-    flex-direction: row;
   }
 `;
