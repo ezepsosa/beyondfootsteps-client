@@ -1,14 +1,7 @@
+import type { ResettlementSummaryGrouped } from "@/gql/graphql";
+
 export type Props = {
-  topCoverage: {
-    id: string;
-    countryOfAsylumIso: string | null;
-    countryOfAsylum: string | null;
-    coverageRate: number | null;
-    totalNeeds: number | null;
-    submissionsTotal: number | null;
-    departuresTotal: number | null;
-    realizationRate: number | null;
-  }[];
+  topCoverage: ResettlementSummaryGrouped[];
   width?: number;
   height?: number;
 };

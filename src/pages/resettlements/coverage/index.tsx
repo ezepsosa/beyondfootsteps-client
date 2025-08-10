@@ -1,25 +1,41 @@
-import { useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import type { Props } from "./types";
 import { Bar } from "react-chartjs-2";
 import type { ChartData, ChartOptions } from "chart.js";
+import { Button } from "@headlessui/react";
 
 export const CoverageRate = ({ topCoverage, width, height }: Props) => {
+  const [page, setPage] = useState<number>(0);
+  const [topCoverageSliced, setTopCoverageSliced] = useState(
+    topCoverage.slice(page, page + 10)
+  );
+
+  function calculateNextPage() {
+    if (page < topCoverage.length - 1) {
+      setPage((prev) => prev + 10);
+    } else {
+      setPage(10);
+    }
+  }
+
+  useEffect(() => {
+    setTopCoverageSliced(topCoverage.slice(page, page + 10));
+  }, [page, topCoverage]);
+
   const coverageChartData = useMemo<ChartData<"bar">>(() => {
     return {
-      labels: topCoverage.map(
-        (r) => r.countryOfAsylum ?? r.countryOfAsylumIso ?? "-"
-      ),
+      labels: topCoverageSliced.map((r) => r.countriesIso ?? r.countriesNames ?? "-"),
       datasets: [
         {
           label: "Coverage (%)",
-          data: topCoverage.map((r) => (r.coverageRate ?? 0) * 100),
-          backgroundColor: "#3b82f6",
+          data: topCoverageSliced.map((r) => (r.coverageRate ?? 0) * 100),
+          backgroundColor: "#f6953bff",
           borderRadius: 6,
           barThickness: 20,
         },
       ],
     };
-  }, [topCoverage]);
+  }, [topCoverageSliced]);
 
   const coverageChartOptions = useMemo<ChartOptions<"bar">>(
     () => ({
@@ -51,6 +67,8 @@ export const CoverageRate = ({ topCoverage, width, height }: Props) => {
 
   return (
     <div style={{ width: width ?? "100%", height: height ?? 420 }}>
+      <Button onClick={calculateNextPage}>Next</Button>
+
       <Bar data={coverageChartData} options={coverageChartOptions} />
     </div>
   );

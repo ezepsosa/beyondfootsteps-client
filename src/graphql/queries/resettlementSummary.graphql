@@ -21,23 +21,17 @@ query GetResettlementSummaries {
   }
 }
 
-query GetResettlementSummariesByYear($year: Int!) {
-  resettlementSummariesByYear(year: $year) {
-    id
-    year
-    countryOfOriginIso
-    countryOfOrigin
-    countryOfAsylumIso
-    countryOfAsylum
-    countryOfResettlementIso
-    countryOfResettlement
-    cases
-    persons
-    departuresTotal
+query getResettlementSummariesByYearGroupedBy($year: Int!, $grouping: String!) {
+  resettlementSummariesByYearGroupedBy(year: $year, grouping: $grouping) {
+    countriesIso
+    countriesNames
+    totalCases
+    totalDepartures
+    totalPersons
     totalNeeds
-    submissionsTotal
-    resettlementGap
+    totalSubmissions
     coverageRate
+    resettlementGap
     requestVsNeedsRatio
     submissionsEfficiency
     realizationRate
