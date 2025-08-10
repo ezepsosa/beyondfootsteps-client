@@ -122,15 +122,13 @@ export const ResettlementSummary = () => {
       selectedCountryA: selectedCountryA,
     });
   }, [resettlementSummaries, selectedCountryA]);
-  // -- Top coverage calculations --
-  const topCoverage = useMemo(() => {
+
+  const resettlementSummariesFiltered = useMemo(() => {
     const rows = (resettlementSummaries ?? []) as ResettlementSummaryGrouped[];
     if (selectedCountryA.length != 0 && grouping != "origin-asylum") {
       return rows
-        .filter(
-          (resettlement) =>
-            resettlement.coverageRate != null &&
-            resettlement.countriesIso?.includes(selectedCountryA)
+        .filter((resettlement) =>
+          resettlement.countriesIso?.includes(selectedCountryA)
         )
         .sort((a, b) => (b.coverageRate ?? 0) - (a.coverageRate ?? 0));
     } else if (
@@ -141,7 +139,6 @@ export const ResettlementSummary = () => {
       return rows
         .filter(
           (resettlement) =>
-            resettlement.coverageRate != null &&
             resettlement.countriesIso &&
             resettlement.countriesIso?.includes(selectedCountryA) &&
             resettlement.countriesIso?.includes(selectedCountryB)
@@ -149,13 +146,16 @@ export const ResettlementSummary = () => {
         .sort((a, b) => (b.coverageRate ?? 0) - (a.coverageRate ?? 0));
     } else {
       return rows
-        .filter(
-          (resettlement) =>
-            resettlement.coverageRate != null && resettlement.countriesIso
-        )
+        .filter((resettlement) => resettlement.countriesIso)
         .sort((a, b) => (b.coverageRate ?? 0) - (a.coverageRate ?? 0));
     }
   }, [resettlementSummaries, selectedCountryA, selectedCountryB, grouping]);
+
+  const topCoverage = useMemo(() => {
+    return resettlementSummariesFiltered
+      .filter((resettlement) => resettlement.coverageRate != null)
+      .sort((a, b) => (b.coverageRate ?? 0) - (a.coverageRate ?? 0));
+  }, [resettlementSummariesFiltered]);
 
   if (error) {
     console.warn("Error fetching resettlement data", error);
