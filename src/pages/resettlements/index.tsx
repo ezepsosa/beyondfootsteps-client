@@ -19,6 +19,7 @@ import {
   type ResettlementSummaryGrouped,
 } from "@/gql/graphql";
 import { CoverageRate } from "./coverage";
+import { ResettlementPipeline } from "./Pipeline";
 
 ChartJS.register(
   CategoryScale,
@@ -157,6 +158,25 @@ export const ResettlementSummary = () => {
       .sort((a, b) => (b.coverageRate ?? 0) - (a.coverageRate ?? 0));
   }, [resettlementSummariesFiltered]);
 
+  const topResettlement = useMemo(() => {
+    return resettlementSummariesFiltered
+      .filter(
+        (resettlement) =>
+          resettlement.totalNeeds != null ||
+          resettlement.totalDepartures != null ||
+          resettlement.submissionsEfficiency != null
+      )
+      .sort(
+        (a, b) =>
+          (b.totalNeeds ?? 0) +
+          (b.submissionsEfficiency ?? 0) +
+          (b.totalDepartures ?? 0) -
+          ((a.totalNeeds ?? 0) +
+            (a.submissionsEfficiency ?? 0) +
+            (a.totalDepartures ?? 0))
+      );
+  }, [resettlementSummariesFiltered]);
+
   if (error) {
     console.warn("Error fetching resettlement data", error);
     return <DisplayError />;
@@ -198,6 +218,7 @@ export const ResettlementSummary = () => {
       </TopContainer>
       <ChartContainer>
         <CoverageRate topCoverage={topCoverage} />
+        <ResettlementPipeline topResettlement={topResettlement} />
       </ChartContainer>
     </ResettlementContainer>
   );
