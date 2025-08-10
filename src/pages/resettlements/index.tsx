@@ -13,6 +13,7 @@ import {
   Title as ChartTitle,
   Tooltip as ChartTooltip,
   Legend,
+  PointElement,
 } from "chart.js";
 import {
   useGetResettlementSummariesByYearGroupedByQuery,
@@ -20,6 +21,7 @@ import {
 } from "@/gql/graphql";
 import { CoverageRate } from "./coverage";
 import { ResettlementPipeline } from "./Pipeline";
+import { ScatterEfficiency } from "./scatter";
 
 ChartJS.register(
   CategoryScale,
@@ -27,6 +29,7 @@ ChartJS.register(
   BarElement,
   ChartTitle,
   ChartTooltip,
+  PointElement,
   Legend
 );
 
@@ -227,6 +230,7 @@ export const ResettlementSummary = () => {
       <ChartContainer>
         <CoverageRate topCoverage={topCoverage} />
         <ResettlementPipeline topResettlement={topResettlement} />
+        <ScatterEfficiency resettlements={topResettlement} />
       </ChartContainer>
     </ResettlementContainer>
   );

@@ -20,6 +20,7 @@ export const ChartContainer = styled.div`
 
   @media (min-width: ${breakpoints.lg}) {
     grid-template-columns: repeat(2, 1fr);
+    gap: 4rem 1rem; 
   }
 `;
 export const TopContainer = styled.div`
@@ -33,7 +34,7 @@ export const TopContainer = styled.div`
   margin: 5rem 0; 
 
   @media (min-width: ${breakpoints.lg}) {
-    margin: .5rem 0; 
+    margin: .5rem 0;
     display: flex;
     flex-direction: row;
     justify-content: center;
