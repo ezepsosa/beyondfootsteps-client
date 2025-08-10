@@ -23,15 +23,19 @@ import { CoverageRate } from "./coverage";
 import { ResettlementPipeline } from "./Pipeline";
 import { ScatterEfficiency } from "./scatter";
 import { ResettlementGap } from "./gap";
+import { Flow, SankeyController } from "chartjs-chart-sankey";
+import { ResettlementFlows } from "./sankey";
 
 ChartJS.register(
   CategoryScale,
+  SankeyController,
   LinearScale,
   BarElement,
   ChartTitle,
   ChartTooltip,
   PointElement,
-  Legend
+  Legend,
+  Flow
 );
 
 function returnOptionsFromPosition({
@@ -239,6 +243,7 @@ export const ResettlementSummary = () => {
         <ResettlementPipeline topResettlement={topResettlement} />
         <ScatterEfficiency resettlements={topResettlement} />
         <ResettlementGap resettlements={topResettlementGap} />
+        <ResettlementFlows year={selectedYear} />
       </ChartContainer>
     </ResettlementContainer>
   );

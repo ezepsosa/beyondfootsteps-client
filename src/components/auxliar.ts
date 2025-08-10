@@ -85,6 +85,7 @@ export const asylumDecisionKeyOptions: {
   { key: "decTotal", value: "Decision Total" },
 ];
 export const yearOptions: { key: number; value: number }[] = [
+  { key: 2025, value: 2025 },
   { key: 2024, value: 2024 },
   { key: 2023, value: 2023 },
   { key: 2022, value: 2022 },
