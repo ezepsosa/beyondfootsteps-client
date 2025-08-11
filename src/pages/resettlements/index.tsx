@@ -8,6 +8,8 @@ import {
   CsvButtonDownload,
   IconSpan,
   SecondaryButton,
+  TextParagraph,
+  TextParagraphContainer,
   TextSpan,
   ThinLine,
 } from "@/styles/styles";
@@ -217,6 +219,32 @@ export const ResettlementSummary = () => {
   }
   return (
     <ResettlementContainer>
+      <TextParagraphContainer $marginTop={7}>
+        <TextParagraph>
+          <strong>Coverage Rate:</strong> Horizontal bar chart showing the
+          coverage rate for each group or country. This allows you to compare
+          how well resettlement needs are being met across different regions and
+          groupings.
+        </TextParagraph>
+        <TextParagraph>
+          <strong>Pipeline:</strong> Grouped bar chart displaying Needs,
+          Submissions, and Departures for each country or group. It helps you
+          visualize the resettlement process and identify bottlenecks or gaps at
+          each stage.
+        </TextParagraph>
+        <TextParagraph>
+          <strong>Efficiency Scatter Plot:</strong> Scatter plot comparing
+          submissions efficiency and realization rate for each group or country.
+          Use this chart to analyze which regions are most effective in
+          processing and realizing resettlement cases.
+        </TextParagraph>
+        <TextParagraph>
+          <strong>Resettlement Gap:</strong> Horizontal bar chart highlighting
+          the countries or groups with the largest gap between resettlement
+          needs and actual departures. This visualization helps you identify
+          where unmet
+        </TextParagraph>
+      </TextParagraphContainer>
       <TopContainer>
         <TextSpan $fontWeight="600">Select Grouping:</TextSpan>
         <SelectorBar
@@ -275,6 +303,23 @@ export const ResettlementSummary = () => {
         <ResettlementGap resettlements={topResettlementGap} />
       </ChartContainer>
       <ThinLine />
+      <TextParagraphContainer>
+        <TextParagraph>
+          <strong>Resettlement Flows (Sankey):</strong> This diagram visualizes
+          the flows from countries of asylum to countries of resettlement. You
+          can filter by year and country to analyze specific routes and volumes.
+          The Sankey chart helps you understand how departures are distributed
+          among different destinations and highlights the main resettlement
+          corridors.
+        </TextParagraph>
+        <TextParagraph>
+          <strong>Resettlement Trends:</strong> This line chart shows the annual
+          evolution of needs, submissions, and departures for resettlement. It
+          allows you to compare trends over time and analyze whether coverage
+          and efficiency improve or decline in different periods. You can select
+          country and year to view the corresponding historical data.
+        </TextParagraph>
+      </TextParagraphContainer>
       <ChartContainer>
         <ResettlementFlows year={selectedYear} />
         <ResettlementTrends />

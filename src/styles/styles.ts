@@ -25,12 +25,32 @@ export const TextSpan = styled.span<TextSpanProps>`
   }
 `;
 
+export const TextParagraph = styled.p`
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  color: #333;
+  margin: 0;
+`;
+
+export const TextParagraphContainer = styled.div<{ $marginTop?: number }>`
+  display: flex;
+  margin-bottom: 2rem;
+  padding: 0 1.2rem;
+  margin-top: ${({ $marginTop }) => $marginTop || 0}rem;
+  flex-direction: column;
+
+  @media (min-width: ${breakpoints.lg}) {
+    flex-direction: row;
+    margin-top: ${({ $marginTop }) => ($marginTop ? $marginTop - 5 : 0)}rem;
+  }
+`;
+
 export const LabelValueContainer = styled.div`
   display: flex;
   gap: 0.2rem;
   justify-content: space-between;
 
-  @media (min-width: ${breakpoints.md}) {
+  @media (min-width: ${breakpoints.lg}) {
     justify-content: flex-start;
   }
 `;
@@ -107,7 +127,10 @@ export const SecondaryButton = styled.button`
   }
 `;
 
-export const CenterContainer = styled.div<{direction?: "row" | "column", height?: string}>`
+export const CenterContainer = styled.div<{
+  direction?: "row" | "column";
+  height?: string;
+}>`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -124,7 +147,7 @@ export const CenterContainer = styled.div<{direction?: "row" | "column", height?
 
 export const ThinLine = styled.div`
   width: 100%;
-  margin: 4rem 0;
+  margin: 3rem 0;
   height: 1px;
   background: linear-gradient(
     to right,
@@ -134,4 +157,3 @@ export const ThinLine = styled.div`
     rgba(146, 146, 146, 0) 100%
   );
 `;
-
