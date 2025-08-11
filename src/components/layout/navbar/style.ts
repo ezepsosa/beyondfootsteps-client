@@ -13,7 +13,7 @@ export const LogoLayout = styled.img`
 export const MenuLayout = styled.div`
   font-size: 2rem;
   cursor: pointer;
-  color: white;
+  color: black;
 
   @media (min-width: ${breakpoints.lg}) {
     display: none;

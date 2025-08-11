@@ -18,7 +18,7 @@ export const HomeContent = styled.div`
 `;
 
 export const HomeSection = styled.section`
-  margin: 3rem 0;
+  margin: 1rem 0;
   padding: 1.5rem;
   border-left: 0.125rem solid #e5e7eb;
   transition: border-color 0.3s;
