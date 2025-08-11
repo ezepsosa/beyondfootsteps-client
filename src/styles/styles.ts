@@ -122,3 +122,16 @@ export const CenterContainer = styled.div<{direction?: "row" | "column", height?
   }
 `;
 
+export const ThinLine = styled.div`
+  width: 100%;
+  margin: 4rem 0;
+  height: 1px;
+  background: linear-gradient(
+    to right,
+    rgba(146, 146, 146, 0) 0%,
+    #92929269 20%,
+    #92929269 80%,
+    rgba(146, 146, 146, 0) 100%
+  );
+`;
+

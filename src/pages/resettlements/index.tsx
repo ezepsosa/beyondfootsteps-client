@@ -9,6 +9,7 @@ import {
   IconSpan,
   SecondaryButton,
   TextSpan,
+  ThinLine,
 } from "@/styles/styles";
 import {
   Chart as ChartJS,
@@ -272,6 +273,9 @@ export const ResettlementSummary = () => {
         <ResettlementPipeline topResettlement={topResettlement} />
         <ScatterEfficiency resettlements={topResettlement} />
         <ResettlementGap resettlements={topResettlementGap} />
+      </ChartContainer>
+      <ThinLine />
+      <ChartContainer>
         <ResettlementFlows year={selectedYear} />
         <ResettlementTrends />
       </ChartContainer>
