@@ -52,7 +52,9 @@ export const ScatterEfficiency = ({ resettlements }: Props) => {
     <CenterContainer>
       <CenterContainer direction="row">
         <SecondaryButton onClick={() => setAllowMoreThan100((value) => !value)}>
-          Allow more than 100%
+          {allowMoreThan100
+            ? "Allow more than 100%"
+            : "Disallow more than 100%"}
         </SecondaryButton>
       </CenterContainer>
       <Scatter data={data} options={options} />

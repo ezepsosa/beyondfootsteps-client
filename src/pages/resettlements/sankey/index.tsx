@@ -42,7 +42,6 @@ export const ResettlementFlows = ({ year }: Props) => {
 
   const resettlementSummaries = useMemo(() => {
     if (!data) return [];
-    console.log(data.resettlementSummariesByYearGroupedBy);
     return (data.resettlementSummariesByYearGroupedBy ?? []).filter(
       (resettlement) => resettlement?.countriesIso?.split("-").length === 2
     );

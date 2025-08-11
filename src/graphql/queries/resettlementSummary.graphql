@@ -37,3 +37,21 @@ query getResettlementSummariesByYearGroupedBy($year: Int!, $grouping: String!) {
     realizationRate
   }
 }
+
+query getResettlementSummariesGroupedByAsylumYear {
+  resettlementSummariesGroupedByAsylumYear {
+    countriesIso
+    countriesNames
+    totalCases
+    totalDepartures
+    totalPersons
+    year
+    totalNeeds
+    totalSubmissions
+    coverageRate
+    resettlementGap
+    requestVsNeedsRatio
+    submissionsEfficiency
+    realizationRate
+  }
+}

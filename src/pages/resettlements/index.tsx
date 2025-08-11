@@ -14,6 +14,7 @@ import {
   Tooltip as ChartTooltip,
   Legend,
   PointElement,
+  LineElement,
 } from "chart.js";
 import {
   useGetResettlementSummariesByYearGroupedByQuery,
@@ -25,6 +26,7 @@ import { ScatterEfficiency } from "./scatter";
 import { ResettlementGap } from "./gap";
 import { Flow, SankeyController } from "chartjs-chart-sankey";
 import { ResettlementFlows } from "./sankey";
+import { ResettlementTrends } from "./trends";
 
 ChartJS.register(
   CategoryScale,
@@ -34,6 +36,7 @@ ChartJS.register(
   ChartTitle,
   ChartTooltip,
   PointElement,
+  LineElement,
   Legend,
   Flow
 );
@@ -244,6 +247,7 @@ export const ResettlementSummary = () => {
         <ScatterEfficiency resettlements={topResettlement} />
         <ResettlementGap resettlements={topResettlementGap} />
         <ResettlementFlows year={selectedYear} />
+        <ResettlementTrends />
       </ChartContainer>
     </ResettlementContainer>
   );

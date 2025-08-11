@@ -289,6 +289,11 @@ export type GetResettlementSummariesByYearGroupedByQueryVariables = Exact<{
 
 export type GetResettlementSummariesByYearGroupedByQuery = { __typename?: 'Query', resettlementSummariesByYearGroupedBy?: Array<{ __typename?: 'ResettlementSummaryGrouped', countriesIso?: string | null, countriesNames?: string | null, totalCases?: number | null, totalDepartures?: number | null, totalPersons?: number | null, totalNeeds?: number | null, totalSubmissions?: number | null, coverageRate?: number | null, resettlementGap?: number | null, requestVsNeedsRatio?: number | null, submissionsEfficiency?: number | null, realizationRate?: number | null } | null> | null };
 
+export type GetResettlementSummariesGroupedByAsylumYearQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetResettlementSummariesGroupedByAsylumYearQuery = { __typename?: 'Query', resettlementSummariesGroupedByAsylumYear?: Array<{ __typename?: 'ResettlementSummaryGroupedWithYear', countriesIso?: string | null, countriesNames?: string | null, totalCases?: number | null, totalDepartures?: number | null, totalPersons?: number | null, year?: number | null, totalNeeds?: number | null, totalSubmissions?: number | null, coverageRate?: number | null, resettlementGap?: number | null, requestVsNeedsRatio?: number | null, submissionsEfficiency?: number | null, realizationRate?: number | null } | null> | null };
+
 
 export const GetAsylumDecisionsDocument = gql`
     query GetAsylumDecisions {
@@ -919,3 +924,54 @@ export type GetResettlementSummariesByYearGroupedByQueryHookResult = ReturnType<
 export type GetResettlementSummariesByYearGroupedByLazyQueryHookResult = ReturnType<typeof useGetResettlementSummariesByYearGroupedByLazyQuery>;
 export type GetResettlementSummariesByYearGroupedBySuspenseQueryHookResult = ReturnType<typeof useGetResettlementSummariesByYearGroupedBySuspenseQuery>;
 export type GetResettlementSummariesByYearGroupedByQueryResult = Apollo.QueryResult<GetResettlementSummariesByYearGroupedByQuery, GetResettlementSummariesByYearGroupedByQueryVariables>;
+export const GetResettlementSummariesGroupedByAsylumYearDocument = gql`
+    query getResettlementSummariesGroupedByAsylumYear {
+  resettlementSummariesGroupedByAsylumYear {
+    countriesIso
+    countriesNames
+    totalCases
+    totalDepartures
+    totalPersons
+    year
+    totalNeeds
+    totalSubmissions
+    coverageRate
+    resettlementGap
+    requestVsNeedsRatio
+    submissionsEfficiency
+    realizationRate
+  }
+}
+    `;
+
+/**
+ * __useGetResettlementSummariesGroupedByAsylumYearQuery__
+ *
+ * To run a query within a React component, call `useGetResettlementSummariesGroupedByAsylumYearQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetResettlementSummariesGroupedByAsylumYearQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetResettlementSummariesGroupedByAsylumYearQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetResettlementSummariesGroupedByAsylumYearQuery(baseOptions?: Apollo.QueryHookOptions<GetResettlementSummariesGroupedByAsylumYearQuery, GetResettlementSummariesGroupedByAsylumYearQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetResettlementSummariesGroupedByAsylumYearQuery, GetResettlementSummariesGroupedByAsylumYearQueryVariables>(GetResettlementSummariesGroupedByAsylumYearDocument, options);
+      }
+export function useGetResettlementSummariesGroupedByAsylumYearLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetResettlementSummariesGroupedByAsylumYearQuery, GetResettlementSummariesGroupedByAsylumYearQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetResettlementSummariesGroupedByAsylumYearQuery, GetResettlementSummariesGroupedByAsylumYearQueryVariables>(GetResettlementSummariesGroupedByAsylumYearDocument, options);
+        }
+export function useGetResettlementSummariesGroupedByAsylumYearSuspenseQuery(baseOptions?: Apollo.SkipToken | Apollo.SuspenseQueryHookOptions<GetResettlementSummariesGroupedByAsylumYearQuery, GetResettlementSummariesGroupedByAsylumYearQueryVariables>) {
+          const options = baseOptions === Apollo.skipToken ? baseOptions : {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetResettlementSummariesGroupedByAsylumYearQuery, GetResettlementSummariesGroupedByAsylumYearQueryVariables>(GetResettlementSummariesGroupedByAsylumYearDocument, options);
+        }
+export type GetResettlementSummariesGroupedByAsylumYearQueryHookResult = ReturnType<typeof useGetResettlementSummariesGroupedByAsylumYearQuery>;
+export type GetResettlementSummariesGroupedByAsylumYearLazyQueryHookResult = ReturnType<typeof useGetResettlementSummariesGroupedByAsylumYearLazyQuery>;
+export type GetResettlementSummariesGroupedByAsylumYearSuspenseQueryHookResult = ReturnType<typeof useGetResettlementSummariesGroupedByAsylumYearSuspenseQuery>;
+export type GetResettlementSummariesGroupedByAsylumYearQueryResult = Apollo.QueryResult<GetResettlementSummariesGroupedByAsylumYearQuery, GetResettlementSummariesGroupedByAsylumYearQueryVariables>;
