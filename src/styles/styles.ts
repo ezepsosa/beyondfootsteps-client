@@ -24,8 +24,8 @@ export const TextSpan = styled.span<TextSpanProps>`
     font-size: ${({ $fontSizeMD }) => $fontSizeMD || "1rem"};
   }
 
-    @media (orientation: landscape) and (max-width: ${breakpoints.lg}) {
-font-size: 0.75rem;
+  @media (orientation: landscape) and (max-width: ${breakpoints.lg}) {
+    font-size: 0.75rem;
   }
 `;
 
@@ -70,7 +70,7 @@ export const CloseModal = styled.div`
   }
 `;
 
-export const TopButtomContainer = styled.span`
+export const TopButtonContainer = styled.span`
   position: fixed;
   display: flex;
   top: 6rem;
@@ -83,6 +83,11 @@ export const TopButtomContainer = styled.span`
   @media (min-width: ${breakpoints.md}) {
     top: 8rem;
     left: 2rem;
+  }
+
+  @media (orientation: landscape) and (max-width: ${breakpoints.lg}) {
+    top: 6rem;
+    left: 1rem;
   }
 `;
 

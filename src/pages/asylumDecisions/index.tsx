@@ -9,7 +9,7 @@ import { ColourLegend } from "@/components/colourLegend";
 import {
   CsvButtonDownload,
   IconSpan,
-  TopButtomContainer,
+  TopButtonContainer,
 } from "@/styles/styles";
 import { HiOutlineDocumentDownload } from "react-icons/hi";
 import { DisplayError } from "@/components/error";
@@ -127,7 +127,7 @@ export const AsylumDecisions = () => {
                 setToggleInfo={setOpenCountryInfo}
               />
             )}
-            <TopButtomContainer>
+            <TopButtonContainer>
               <IconSpan onClick={() => setOpenInfo((value) => !value)}>
                 <IoInformationCircle size="1.5rem" />
               </IconSpan>
@@ -150,7 +150,7 @@ export const AsylumDecisions = () => {
                   <HiOutlineDocumentDownload size="1.5rem" color="gray" />
                 </IconSpan>
               )}
-            </TopButtomContainer>
+            </TopButtonContainer>
             <LowerContainer>
               <SelectorBar
                 defaultValue={dashboardYearSelection}

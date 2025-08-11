@@ -13,7 +13,7 @@ export const LayoutNavbar = styled.nav`
   padding: 1rem 1rem;
   box-sizing: border-box;
   justify-content: space-between;
-  background-color: #00000050;
+  background-color: #0000001e;
 
   @media (min-width: ${breakpoints.lg}) {
     justify-content: flex-start;

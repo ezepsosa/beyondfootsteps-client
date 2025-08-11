@@ -14,7 +14,7 @@ import { ColourLegend } from "@/components/colourLegend";
 import {
   CsvButtonDownload,
   IconSpan,
-  TopButtomContainer,
+  TopButtonContainer,
 } from "@/styles/styles";
 import { TbNumbers } from "react-icons/tb";
 import { AiOutlinePercentage } from "react-icons/ai";
@@ -129,7 +129,7 @@ export const AsylumRequests = () => {
                 metricSelected={metricSelected}
               />
             )}
-            <TopButtomContainer>
+            <TopButtonContainer>
               <IconSpan onClick={() => setOpenInfo((value) => !value)}>
                 <IoInformationCircle size="1.5rem" />
               </IconSpan>
@@ -169,7 +169,7 @@ export const AsylumRequests = () => {
                   <HiOutlineDocumentDownload size="1.5rem" color="gray" />
                 </IconSpan>
               )}
-            </TopButtomContainer>
+            </TopButtonContainer>
 
             <LowerContainer>
               <SelectorBar
