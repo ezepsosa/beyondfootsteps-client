@@ -14,7 +14,7 @@ export const Container = styled.div`
   background-color: #f5f5f5b7;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
 
-  @media (min-width: ${breakpoints.md}) {
+  @media (min-width: ${breakpoints.lg}) {
     left: 2rem;
     top: 14.5rem;
     width: 23rem;
@@ -24,8 +24,8 @@ export const Container = styled.div`
 export const FlagImage = styled.img`
   width: 2.5rem;
 
-  @media (min-width: ${breakpoints.md}) {
-    widht: 5rem;
+  @media (min-width: ${breakpoints.lg}) {
+    width: 5rem;
   }
 `;
 

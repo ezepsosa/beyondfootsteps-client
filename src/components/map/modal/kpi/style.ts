@@ -24,7 +24,7 @@ export const InfoModal = styled.div<{ $visible: boolean }>`
       $visible ? "translateY(0)" : "translateY(-100%)"};
 
     top: 8rem;
-    left: 12rem;
+    left: 14rem;
     bottom: inherit;
   }
 `;
