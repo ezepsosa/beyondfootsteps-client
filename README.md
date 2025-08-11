@@ -17,6 +17,7 @@
 Beyond Footsteps is a portfolio project that makes global migration and refugee data from the United Nations High Commissioner for Refugees (UNHCR) easier to explore through interactive maps and clear visual summaries. The goal is to help users quickly understand patterns of human mobility (applications, decisions, displacement) without digging through complex datasets.
 
 This repository contains the web client (frontend). The project also includes:
+
 - ETL pipeline: https://github.com/ezepsosa/beyondfootsteps-api
 - GraphQL API: https://github.com/ezepsosa/beyondfootsteps-api
 
@@ -39,6 +40,7 @@ This repository contains the web client (frontend). The project also includes:
   - Install & Run
   - Project Structure
   - Maps & Attribution
+  - Resettlement Visualizations
 - Design & Implementation Notes
 - About & Branding
 - Roadmap
@@ -49,6 +51,7 @@ This repository contains the web client (frontend). The project also includes:
 ## Problem & Goals
 
 Migration statistics are often fragmented, technical, and hard to visualize. This project:
+
 - Aggregates UNHCR datasets into a consistent, queryable model
 - Visualizes indicators on an interactive world map (Leaflet)
 - Provides country-level summaries and CSV export
@@ -57,7 +60,6 @@ Migration statistics are often fragmented, technical, and hard to visualize. Thi
 This is a single-developer portfolio project designed to showcase end‑to‑end implementation: ETL → API → Client.
 
 ---
-
 
 ## Architecture Overview
 
@@ -71,6 +73,7 @@ flowchart LR
 ```
 
 If you can’t see the diagram (e.g., local preview), here’s a text fallback:
+
 ```text
 UNHCR Statistics Portal
    └─> ETL (ingest • clean • normalize • derive metrics)
@@ -79,18 +82,20 @@ UNHCR Statistics Portal
                      └─> Client (React: maps • dashboards • modals)
 ```
 
-
 ## Data Sources & Licensing
 
 - Primary data: UNHCR (United Nations High Commissioner for Refugees)
 - Always review and comply with the source terms of use and attribution requirements.
 
 Map tiles and attribution (HOT/OSM):
+
 - Tiles: https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png
 - Required attribution shown in the app:
+
 ```html
-&copy; <a href="https://www.hotosm.org/">Humanitarian OpenStreetMap Team</a>
-&copy; <a href="https://osm.org/copyright">OpenStreetMap</a> contributors
+&copy;
+<a href="https://www.hotosm.org/">Humanitarian OpenStreetMap Team</a> &copy;
+<a href="https://osm.org/copyright">OpenStreetMap</a> contributors
 ```
 
 ---
@@ -98,6 +103,7 @@ Map tiles and attribution (HOT/OSM):
 ## ETL Overview
 
 Scope (portfolio‑scale, pragmatic):
+
 - Ingestion: periodic extraction from UNHCR statistics portal
 - Normalization:
   - Country code alignment (ISO 3166, CCA3) for stable joins and mapping
@@ -111,6 +117,7 @@ Scope (portfolio‑scale, pragmatic):
   - Year ranges and duplicates validated
 
 References (placeholders):
+
 - ETL repository: https://github.com/ezepsosa/beyondfootsteps-etl
 - ETL docs (pipeline, schemas, schedules): Not available yet.
 
@@ -121,20 +128,22 @@ References (placeholders):
 Client consumes a GraphQL endpoint and uses generated TypeScript types (`src/gql/graphql.ts`).
 
 GraphQL endpoint (placeholder):
+
 ```
 https://api.example.com/graphql
 ```
 
 Example query:
+
 ```graphql
 query GetAsylumDecisionsByYearAndCountry(
-  $year: Int!,
-  $countryOfAsylumIso: String,
+  $year: Int!
+  $countryOfAsylumIso: String
   $countryOfOriginIso: String
 ) {
   asylumDecisionsByYearAndCountry(
-    year: $year,
-    countryOfAsylumIso: $countryOfAsylumIso,
+    year: $year
+    countryOfAsylumIso: $countryOfAsylumIso
     countryOfOriginIso: $countryOfOriginIso
   ) {
     id
@@ -149,6 +158,7 @@ query GetAsylumDecisionsByYearAndCountry(
 ```
 
 API repository:
+
 - GraphQL API: https://github.com/ezepsosa/beyondfootsteps-api
 
 ---
@@ -163,12 +173,58 @@ API repository:
 - CSV export for the current filtered dataset
 - 404 and About pages with non‑interactive background map
 
+### Main Features
+
+- **Interactive World Map:**  
+  Explore migration and refugee data by country, year, and direction (origin/asylum). Color scales and markers show key indicators.
+
+- **Country Indicators & Dashboards:**  
+  View summaries for each country, including asylum decisions, requests, population, and derived metrics.
+
+- **Asylum Decisions & Requests:**  
+  Visualize trends and breakdowns for applications, decisions, recognition rates, and more.
+
+- **Resettlement Visualizations:**  
+  Coverage rate, pipeline, efficiency, gap, flows (Sankey), and trends for resettlement data.
+
+- **CSV Export:**  
+  Download filtered datasets for further analysis.
+
+---
+
+### Visualization Details
+
+#### Asylum Decisions & Requests
+
+- Bar and line charts for applications, decisions, recognition rates, and trends.
+- Filters by year, country of origin/asylum, and other dimensions.
+
+#### Resettlement
+
+- Coverage Rate, Pipeline, Efficiency Scatter, Gap, Sankey Flows, and Trends.
+- Flexible grouping and filtering.
+
+#### Map Features
+
+- Interactive map with color scales, tooltips, and country selection.
+- Non-interactive background map for About/404 pages.
+
+---
+
+### Technical Highlights
+
+- All charts use generic grouping for flexibility.
+- Backend aggregation for performance.
+- Consistent filtering, paginación, and outlier handling.
+- Responsive layouts and accessibility.
+- Apollo Client and React Query for data fetching.
+
 ### Tech Stack
 
 - React + TypeScript
 - react‑leaflet (Leaflet)
 - Styled Components
-- Chart.js (for charts where applicable)
+- Chart.js (for charts where applicable, including Sankey plugin)
 - GraphQL codegen types (local TS types from schema)
 
 ### Requirements
@@ -212,7 +268,8 @@ src/
 ├─ pages/
 │  ├─ dashboard/
 │  ├─ asylumDecisions/
-│  ├─ asylumRequests/         # if present
+│  ├─ asylumRequests/
+│  ├─ resettlements/
 │  ├─ notFound/
 │  └─ aboutus/
 ├─ styles/
@@ -222,6 +279,7 @@ src/
 ### Maps & Attribution
 
 Default tiles in use:
+
 ```tsx
 <TileLayer
   url="https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png"
@@ -231,6 +289,7 @@ Default tiles in use:
 ```
 
 To render a non‑interactive background map (e.g., About or 404 pages), disable interactions on the Leaflet `MapContainer` (or in your wrapper):
+
 - dragging={false}
 - scrollWheelZoom={false}
 - doubleClickZoom={false}
@@ -248,6 +307,7 @@ This allows the page to scroll normally while the map is visible in the backgrou
 - Numeric values are humanized for readability (“44”, “0.63”, “0.08”, or “N/A”).
 - Path aliases (`@/...`) simplify imports; ensure `tsconfig.json` and bundler alias match.
 - The client uses generated GraphQL types in `src/gql/graphql.ts` for strong typing.
+- Resettlement visualizations use backend aggregation and generic grouping for flexibility and performance.
 
 ---
 
