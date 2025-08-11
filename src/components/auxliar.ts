@@ -84,12 +84,13 @@ export const asylumDecisionKeyOptions: {
   { key: "decRejected", value: "Decision Rejected" },
   { key: "decTotal", value: "Decision Total" },
 ];
-export const dashboardYearOptions: { key: number; value: string }[] = [
-  { key: 2024, value: "2024" },
-  { key: 2023, value: "2023" },
-  { key: 2022, value: "2022" },
-  { key: 2021, value: "2021" },
-  { key: 2020, value: "2020" },
+export const yearOptions: { key: number; value: number }[] = [
+  { key: 2025, value: 2025 },
+  { key: 2024, value: 2024 },
+  { key: 2023, value: 2023 },
+  { key: 2022, value: 2022 },
+  { key: 2021, value: 2021 },
+  { key: 2020, value: 2020 },
 ];
 
 export function humanize(n: number, decimals = 2): string {

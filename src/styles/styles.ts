@@ -31,7 +31,7 @@ export const LabelValueContainer = styled.div`
   justify-content: space-between;
 
   @media (min-width: ${breakpoints.md}) {
-  justify-content: flex-start;
+    justify-content: flex-start;
   }
 `;
 
@@ -77,3 +77,43 @@ export const CsvButtonDownload = styled(CsvDownload)`
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
   border: none;
 `;
+
+export const PrimaryButton = styled.button`
+  background-color: #f5f5f5;
+  border-radius: 8px;
+  padding: 0.5rem 1rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  border: none;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #e0e0e0;
+  }
+`;
+
+export const SecondaryButton = styled.button`
+  background-color: rgba(0, 0, 0, 0.84);
+  border-radius: 8px;
+  color: white;
+  padding: 0.5rem 1rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  border: none;
+  cursor: pointer;
+
+  &:hover {
+    color: white;
+    background-color: #00000085;
+  }
+`;
+
+export const CenterContainer = styled.div<{direction?: "row" | "column"}>`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 0.25rem;
+  flex-direction: ${({ direction }) => direction || "column"};
+  width: 100%;
+  height: 420px;
+`;
+
