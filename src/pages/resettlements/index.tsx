@@ -221,30 +221,25 @@ export const ResettlementSummary = () => {
     <ResettlementContainer>
       <TextParagraphContainer>
         <TextParagraph>
-          <strong>Coverage Rate:</strong> Horizontal bar chart showing the
-          coverage rate for each group or country. This allows you to compare
-          how well resettlement needs are being met across different regions and
-          groupings.
-        </TextParagraph>
-        <TextParagraph>
-          <strong>Pipeline:</strong> Grouped bar chart displaying Needs,
-          Submissions, and Departures for each country or group. It helps you
-          visualize the resettlement process and identify bottlenecks or gaps at
-          each stage.
-        </TextParagraph>
-        <TextParagraph>
-          <strong>Efficiency Scatter Plot:</strong> Scatter plot comparing
-          submissions efficiency and realization rate for each group or country.
-          Use this chart to analyze which regions are most effective in
-          processing and realizing resettlement cases.
-        </TextParagraph>
-        <TextParagraph>
-          <strong>Resettlement Gap:</strong> Horizontal bar chart highlighting
-          the countries or groups with the largest gap between resettlement
-          needs and actual departures. This visualization helps you identify
-          where unmet
+          <strong>Welcome to the Resettlement Analysis Dashboard</strong>, a comprehensive tool
+          designed to explore and understand the refugee resettlement process
+          from needs identification to actual departures. This section provides
+          interactive visualizations that analyze coverage rates (how well needs
+          are being met), pipeline performance (tracking cases from needs to
+          departures), efficiency metrics (submissions and realization rates),
+          resettlement gaps (unmet needs), geographical flows (movement
+          patterns), and historical trends. Use the filters above to customize
+          your view by year, grouping type (origin, asylum, resettlement country,
+          or origin-asylum pairs), and specific countries of interest. The data
+          can be analyzed from multiple perspectives: by refugee country of
+          origin, country of first asylum, final resettlement destination, or
+          specific migration corridors. Each visualization offers unique insights
+          into different aspects of the resettlement process, helping
+          stakeholders identify trends, gaps, and opportunities for
+          improvement.
         </TextParagraph>
       </TextParagraphContainer>
+
       <TopContainer>
         <TextSpan $fontWeight="600">Select Grouping:</TextSpan>
         <SelectorBar
@@ -296,21 +291,63 @@ export const ResettlementSummary = () => {
           </IconSpan>
         )}
       </TopContainer>
+      
+      <TextParagraphContainer>
+        <TextParagraph>
+          <strong>Coverage Rate:</strong> Horizontal bar chart showing the
+          coverage rate for each group or country. This allows you to compare
+          how well resettlement needs are being met across different regions and
+          groupings.
+        </TextParagraph>
+        <TextParagraph>
+          <strong>Pipeline:</strong> Grouped bar chart displaying Needs,
+          Submissions, and Departures for each country or group. It helps you
+          visualize the resettlement process and identify bottlenecks or gaps at
+          each stage.
+        </TextParagraph>
+      </TextParagraphContainer>
       <ChartContainer>
         <CoverageRate topCoverage={topCoverage} />
         <ResettlementPipeline topResettlement={topResettlement} />
+      </ChartContainer>
+            <TextParagraphContainer>
+        <TextParagraph>
+          <strong>Coverage Rate:</strong> Horizontal bar chart showing the
+          coverage rate for each group or country. This allows you to compare
+          how well resettlement needs are being met across different regions and
+          groupings.
+        </TextParagraph>
+        <TextParagraph>
+          <strong>Pipeline:</strong> Grouped bar chart displaying Needs,
+          Submissions, and Departures for each country or group. It helps you
+          visualize the resettlement process and identify bottlenecks or gaps at
+          each stage.
+        </TextParagraph>
+        <TextParagraph>
+          <strong>Efficiency Scatter Plot:</strong> Scatter plot comparing
+          submissions efficiency and realization rate for each group or country.
+          Use this chart to analyze which regions are most effective in
+          processing and realizing resettlement cases.
+        </TextParagraph>
+        <TextParagraph>
+          <strong>Resettlement Gap:</strong> Horizontal bar chart highlighting
+          the countries or groups with the largest gap between resettlement
+          needs and actual departures. This visualization helps you identify
+          where unmet needs are greatest and prioritize interventions.
+        </TextParagraph>
+      </TextParagraphContainer>
+      <ChartContainer>
         <ScatterEfficiency resettlements={topResettlement} />
         <ResettlementGap resettlements={topResettlementGap} />
       </ChartContainer>
       <ThinLine />
       <TextParagraphContainer>
         <TextParagraph>
-          <strong>Resettlement Flows (Sankey):</strong> This diagram visualizes
-          the flows from countries of asylum to countries of resettlement. You
-          can filter by year and country to analyze specific routes and volumes.
-          The Sankey chart helps you understand how departures are distributed
-          among different destinations and highlights the main resettlement
-          corridors.
+          <strong>Resettlement Flows:</strong> This diagram visualizes the flows
+          from countries of asylum to countries of resettlement. You can filter
+          by year and country to analyze specific routes and volumes. The Sankey
+          chart helps you understand how departures are distributed among
+          different destinations and highlights the main resettlement corridors.
         </TextParagraph>
         <TextParagraph>
           <strong>Resettlement Trends:</strong> This line chart shows the annual
