@@ -10,7 +10,7 @@ import { ColourLegend } from "@/components/colourLegend";
 import {
   dashboardKeyOptions,
   yearOptions,
-  INDICATOR_INFO,
+  DASHBOARD_INDICATOR_INFO,
 } from "../../components/auxliar";
 import { IoInformationCircle } from "react-icons/io5";
 import {
@@ -67,7 +67,7 @@ export const Dashboard = () => {
   });
 
   useMemo(() => {
-    setInfo(INDICATOR_INFO[dashboardKeySelection]);
+    setInfo(DASHBOARD_INDICATOR_INFO[dashboardKeySelection]);
   }, [dashboardKeySelection]);
 
   return (

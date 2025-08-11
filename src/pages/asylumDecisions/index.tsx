@@ -29,6 +29,7 @@ import { MetricLayer } from "@/components/map/layer/metric";
 import { InfoCountryModal } from "@/components/map/modal/country";
 import { ShowHide } from "@/components/icons/showHide";
 import { MdLegendToggle } from "react-icons/md";
+import { IoInformationCircle } from "react-icons/io5";
 
 const isoNameRawTyped: isoNameType[] = isoNameRaw as isoNameType[];
 
@@ -41,6 +42,7 @@ export const AsylumDecisions = () => {
   const [showLegend, setShowLegend] = useState<boolean>(true);
   const [dashboardYearSelection, setDashboardYearSelection] =
     useState<number>(2024);
+  const [openInfo, setOpenInfo] = useState<boolean>(false);
 
   const [openCountryInfo, setOpenCountryInfo] = useState<boolean>(false);
 
@@ -126,6 +128,9 @@ export const AsylumDecisions = () => {
               />
             )}
             <TopButtomContainer>
+              <IconSpan onClick={() => setOpenInfo((value) => !value)}>
+                <IoInformationCircle size="1.5rem" />
+              </IconSpan>
               <ShowHide setToggle={setShowMetric} toggleStatus={showMetric} />
               <IconSpan>
                 <MdLegendToggle
@@ -172,6 +177,11 @@ export const AsylumDecisions = () => {
       {getColourForMap.scale && showLegend && (
         <ColourLegend scale={getColourForMap.scale} />
       )}
+      <InfoKPIModal
+        info="Acceptance Rate: The proportion of asylum decisions that resulted in refugee status or subsidiary protection. A higher acceptance rate indicates more favorable recognition policies or stronger protection cases. Formula: (positive decisions ÷ total substantive decisions). The number is in scale from 0 to 1 representing the 0% to 100% percentage"
+        openInfo={openInfo}
+        setOpenInfo={setOpenInfo}
+      />
       <InfoKPIModal
         info="The symbol * indicates the total number of applications where more people have been grouped together. In other words, the number may be significantly higher than the actual number of people who have applied."
         openInfo={showInfo}
