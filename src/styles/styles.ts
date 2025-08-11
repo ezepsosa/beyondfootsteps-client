@@ -36,12 +36,11 @@ export const TextParagraphContainer = styled.div<{ $marginTop?: number }>`
   display: flex;
   margin-bottom: 2rem;
   padding: 0 1.2rem;
-  margin-top: ${({ $marginTop }) => $marginTop || 0}rem;
+  margin-top: 2rem;
   flex-direction: column;
 
   @media (min-width: ${breakpoints.lg}) {
     flex-direction: row;
-    margin-top: ${({ $marginTop }) => ($marginTop ? $marginTop - 5 : 0)}rem;
   }
 `;
 

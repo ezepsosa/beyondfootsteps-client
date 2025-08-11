@@ -219,7 +219,7 @@ export const ResettlementSummary = () => {
   }
   return (
     <ResettlementContainer>
-      <TextParagraphContainer $marginTop={7}>
+      <TextParagraphContainer>
         <TextParagraph>
           <strong>Coverage Rate:</strong> Horizontal bar chart showing the
           coverage rate for each group or country. This allows you to compare
