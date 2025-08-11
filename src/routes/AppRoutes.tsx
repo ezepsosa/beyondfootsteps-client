@@ -3,6 +3,7 @@ import AboutUs from "@/pages/aboutus";
 import { AsylumDecisions } from "@/pages/asylumDecisions";
 import { AsylumRequests } from "@/pages/asylumRequests";
 import { Dashboard } from "@/pages/dashboard";
+import { Home } from "@/pages/home";
 import { NotFound } from "@/pages/notFound";
 import { ResettlementSummary } from "@/pages/resettlements";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
@@ -18,6 +19,7 @@ export const AppRoutes = () => {
           <Route path="/resettlements" element={<ResettlementSummary />} />
         </Route>
           <Route path="/aboutus" element={<AboutUs />} />
+          <Route path="/home" element={<Home />} />
           <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>

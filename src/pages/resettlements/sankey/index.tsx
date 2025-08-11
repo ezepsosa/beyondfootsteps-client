@@ -7,9 +7,12 @@ import { Chart } from "react-chartjs-2";
 import type { ChartData } from "chart.js";
 import {
   CenterContainer,
+  CsvButtonDownload,
+  IconSpan,
   PrimaryButton,
   SecondaryButton,
 } from "@/styles/styles";
+import { HiOutlineDocumentDownload } from "react-icons/hi";
 
 export const ResettlementFlows = ({ year }: Props) => {
   const { data } = useGetResettlementSummariesByYearGroupedByQuery({
@@ -18,26 +21,26 @@ export const ResettlementFlows = ({ year }: Props) => {
       grouping: "ASYLUM-RESETTLEMENT",
     },
   });
-  const [page, setPage] = useState<number>(30);
+  const [page, setPage] = useState<number>(10);
 
   function calculateNextPage() {
     if (page < resettlementSummaries.length - 1) {
       setPage((prev) => prev + 10);
     } else {
-      setPage(30);
+      setPage(10);
     }
   }
 
   function calculatePreviousPage() {
-    if (page > 30) {
+    if (page > 10) {
       setPage((prev) => prev - 10);
     } else {
-      setPage(30);
+      setPage(10);
     }
   }
 
   function resetPage() {
-    setPage(30);
+    setPage(10);
   }
 
   const resettlementSummaries = useMemo(() => {
@@ -92,18 +95,28 @@ export const ResettlementFlows = ({ year }: Props) => {
       title: {
         display: true,
         text: `Top ${page} (Asylum - Resettlement) flows`,
-        font: { size: 18 },
-        color: "#222",
       },
-      legend: { display: true },
+      legend: { display: false },
     },
   };
   return (
     <CenterContainer>
-      <CenterContainer direction="row">
+      <CenterContainer height="100px" $direction="row">
         <PrimaryButton onClick={calculatePreviousPage}>Previous</PrimaryButton>
         <PrimaryButton onClick={calculateNextPage}>Next</PrimaryButton>
         <SecondaryButton onClick={resetPage}>Reset</SecondaryButton>
+        {resettlementSummaries.length > 0 ? (
+          <CsvButtonDownload
+            filename={`Top_${page}_resettlement_summary_data.csv`}
+            data={filteredData ?? []}
+          >
+            <HiOutlineDocumentDownload size="1.5rem" />
+          </CsvButtonDownload>
+        ) : (
+          <IconSpan>
+            <HiOutlineDocumentDownload size="1.5rem" color="gray" />
+          </IconSpan>
+        )}
       </CenterContainer>
       <Chart type="sankey" data={sankeyData} options={options} />
     </CenterContainer>

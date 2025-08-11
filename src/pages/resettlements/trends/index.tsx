@@ -3,9 +3,10 @@ import {
   useGetResettlementSummariesGroupedByAsylumYearQuery,
   type ResettlementSummaryGroupedWithYear,
 } from "@/gql/graphql";
-import { CenterContainer } from "@/styles/styles";
+import { CenterContainer, CsvButtonDownload, IconSpan } from "@/styles/styles";
 import { useMemo, useState } from "react";
 import { Line } from "react-chartjs-2";
+import { HiOutlineDocumentDownload } from "react-icons/hi";
 
 export const ResettlementTrends = () => {
   const { data } = useGetResettlementSummariesGroupedByAsylumYearQuery();
@@ -82,15 +83,27 @@ export const ResettlementTrends = () => {
 
   return (
     <CenterContainer>
-      <CenterContainer direction="row">
+      <CenterContainer height="100px" $direction="row">
         <SelectorBar
           selectors={countries}
           defaultValue={country}
           setOption={(value) => setCountry(value as string)}
         />
+        {resettlements.length > 0 ? (
+          <CsvButtonDownload
+            filename={"resettlement_summary_data.csv"}
+            data={resettlements ?? []}
+          >
+            <HiOutlineDocumentDownload size="1.5rem" />
+          </CsvButtonDownload>
+        ) : (
+          <IconSpan>
+            <HiOutlineDocumentDownload size="1.5rem" color="gray" />
+          </IconSpan>
+        )}
       </CenterContainer>
-      <CenterContainer direction="row"></CenterContainer>
-      <Line options={options} data={charData} />;
+      <CenterContainer $direction="row"></CenterContainer>
+      <Line options={options} data={charData} />
     </CenterContainer>
   );
 };

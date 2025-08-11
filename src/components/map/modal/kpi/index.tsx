@@ -6,7 +6,7 @@ import { InfoModal } from "./style";
 
 export const InfoKPIModal = ({ openInfo, setOpenInfo, info }: Props) => {
   return (
-    <InfoModal $visible={openInfo}>
+    <InfoModal $visible={openInfo} $leftLG="16rem">
       <TextSpan
         $fontColor="  rgba(255, 255, 255, 1)"
         $fontWeight="lighter"

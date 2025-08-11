@@ -5,9 +5,9 @@ import {
   ErrorCode,
   ErrorTitle,
   ErrorDescription,
-  BackButton,
   IllustrationContainer,
   FootstepsIllustration,
+  BackButton,
 } from "./style";
 import { MapComponent } from "@/components/map/container";
 

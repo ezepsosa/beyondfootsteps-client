@@ -1,11 +1,11 @@
 import { breakpoints } from "@/styles/breakpoints";
 import styled from "styled-components";
 
-export const InfoModal = styled.div<{ $visible: boolean }>`
+export const InfoModal = styled.div<{ $visible: boolean; $leftLG?: string }>`
   position: fixed;
   bottom: 7rem;
   width: 60%;
-  left: 1em;
+  left: 1rem;
   background-color: rgba(0, 0, 0, 0.75);
   z-index: 1000;
   padding: 1rem 1.5rem;
@@ -19,12 +19,12 @@ export const InfoModal = styled.div<{ $visible: boolean }>`
   transition: opacity 0.4s ease-out, transform 0.4s ease-out,
     visibility 0.4s ease-out;
 
-  @media (min-width: ${breakpoints.md}) {
+  @media (min-width: ${breakpoints.lg}) {
     transform: ${({ $visible }) =>
       $visible ? "translateY(0)" : "translateY(-100%)"};
 
     top: 8rem;
-    left: 12rem;
+    left: ${({ $leftLG }) => $leftLG || "14rem"};
     bottom: inherit;
   }
 `;

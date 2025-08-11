@@ -10,13 +10,13 @@ import { ColourLegend } from "@/components/colourLegend";
 import {
   dashboardKeyOptions,
   yearOptions,
-  INDICATOR_INFO,
+  DASHBOARD_INDICATOR_INFO,
 } from "../../components/auxliar";
 import { IoInformationCircle } from "react-icons/io5";
 import {
   CsvButtonDownload,
   IconSpan,
-  TopButtomContainer,
+  TopButtonContainer,
 } from "@/styles/styles";
 import { HiOutlineDocumentDownload } from "react-icons/hi";
 import { Loading } from "@/components/loading";
@@ -67,7 +67,7 @@ export const Dashboard = () => {
   });
 
   useMemo(() => {
-    setInfo(INDICATOR_INFO[dashboardKeySelection]);
+    setInfo(DASHBOARD_INDICATOR_INFO[dashboardKeySelection]);
   }, [dashboardKeySelection]);
 
   return (
@@ -97,7 +97,7 @@ export const Dashboard = () => {
                 arrayData={dashboardSummariesByYear ?? []}
               />
             )}
-            <TopButtomContainer>
+            <TopButtonContainer>
               <IconSpan onClick={() => setOpenInfo((value) => !value)}>
                 <IoInformationCircle size="1.5rem" />
               </IconSpan>
@@ -120,7 +120,7 @@ export const Dashboard = () => {
                   <HiOutlineDocumentDownload size="1.5rem" color="gray" />
                 </IconSpan>
               )}
-            </TopButtomContainer>
+            </TopButtonContainer>
             <LowerContainer>
               <SelectorBar
                 defaultValue={dashboardYearSelection}
