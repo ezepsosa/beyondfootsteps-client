@@ -22,6 +22,13 @@ export const HomeNavbar = () => {
               $active={currentPath === "/"}
               $linearGradient="linear-gradient(90deg, #232526, #414345);"
             >
+              Home
+            </LinkElement>
+            <LinkElement
+              to="/dashboard"
+              $active={currentPath === "/dashboard"}
+              $linearGradient="linear-gradient(90deg, #232526, #414345);"
+            >
               Maps
             </LinkElement>
             <LinkElement
