@@ -1,4 +1,4 @@
-import { FaEnvelope, FaGithub, FaLinkedin } from "react-icons/fa";
+import { FaCode, FaEnvelope, FaGithub, FaLinkedin } from "react-icons/fa";
 import {
   AboutContainer,
   AboutContent,
@@ -15,6 +15,7 @@ import {
   SectionTitle,
   AboutNavbar,
   AboutLinkElement,
+  ExternalLink,
 } from "./style";
 import beyondfootstepsLogo from "@assets/beyondfootsteps_transparent_logo.png";
 import unhcrBlackLogo from "@assets/unhcr_black_logo.svg";
@@ -25,7 +26,11 @@ export const AboutUs = () => {
     <AboutContainer>
       <AboutNavbar>
         <AboutLinkElement to={"/"}>Return to Beyond Footsteps</AboutLinkElement>
-        <AboutLinkElement to={"http://www.unhcr.org/"} target="_blank" rel="noopener noreferrer">
+        <AboutLinkElement
+          to={"http://www.unhcr.org/"}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           <Logo src={unhcrBlackLogo} alt="Beyond Footsteps" width="5rem" />
           UNHCR
         </AboutLinkElement>
@@ -34,7 +39,11 @@ export const AboutUs = () => {
         <AboutHeader>About Beyond Footsteps</AboutHeader>
 
         <LogoContainer>
-          <Logo src={beyondfootstepsLogo} alt="Beyond Footsteps" width="10rem" />
+          <Logo
+            src={beyondfootstepsLogo}
+            alt="Beyond Footsteps"
+            width="10rem"
+          />
           <Logo src={unhcrLogo} alt="UNHCR / ACNUR" width="10rem" />
         </LogoContainer>
 
@@ -91,6 +100,14 @@ export const AboutUs = () => {
             Leaflet for interactive maps. The visualizations process real
             migration data to reveal patterns that might otherwise go unnoticed.
           </SectionText>
+          <ExternalLink
+            href="https://github.com/ezepsosa/beyondfootsteps-client"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <FaCode size={20} />
+            GitHub Source Code
+          </ExternalLink>
         </AboutSection>
 
         <AboutSection>
@@ -131,7 +148,7 @@ export const AboutUs = () => {
             <ContactItem>
               <FaGithub size={20} />
               <ContactLink
-                href="https://github.com/ezepsosa/beyondfootsteps-client"
+                href="https://github.com/ezepsosa"
                 target="_blank"
                 rel="noopener noreferrer"
               >

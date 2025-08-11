@@ -135,6 +135,23 @@ export const ContactItem = styled.div`
   box-shadow: 0 0.125rem 0.5rem rgba(0, 0, 0, 0.05);
 `;
 
+export const ExternalLink = styled.a`
+  display: flex;
+  text-decoration: none;
+  color: black;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  background-color: #dddddd56;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 0.125rem 0.5rem rgba(0, 0, 0, 0.05);
+
+  &:hover {
+    background-color: #cccccc;
+  }
+`;
+
 export const ContactLink = styled.a`
   font-family: "Inter", sans-serif;
   color: #0066cc;
