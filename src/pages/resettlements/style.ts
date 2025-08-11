@@ -6,10 +6,6 @@ export const ResettlementContainer = styled.div`
   min-height: 100vh;
   overflow: hidden;
   overflow-y: auto;
-
-  @media (min-width: ${breakpoints.lg}) {
-    padding: 6rem 1rem;
-  }
 `;
 
 export const ChartContainer = styled.div`
