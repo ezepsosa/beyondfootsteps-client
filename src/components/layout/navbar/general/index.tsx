@@ -3,15 +3,13 @@ import {
   AuxiliarMenu,
   LayoutNavbar,
   LinkElement,
-  LinkMenu,
   LogoAndMobileMenu,
-  LogoLayout,
   MenuContainer,
   MenuElement,
-  MenuLayout,
 } from "./style";
 import logo from "@assets/beyondfootsteps_transparent_logo.png";
 import { useLocation, useNavigate } from "react-router-dom";
+import { LinkMenu, LogoLayout, MenuLayout } from "../style";
 
 export const GeneralNavBar = () => {
   const [showInMobile, setShowInMobile] = useState<boolean>(false);

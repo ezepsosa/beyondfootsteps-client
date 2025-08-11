@@ -13,27 +13,7 @@ export const LayoutNavbar = styled.nav`
 
   @media (min-width: ${breakpoints.lg}) {
     justify-content: flex-start;
-      background-color: transparent;
-
-  }
-`;
-
-export const LogoLayout = styled.img`
-  height: 3.5rem;
-  cursor: pointer;
-
-  @media (min-width: ${breakpoints.lg}) {
-    height: 6rem;
-  }
-`;
-
-export const MenuLayout = styled.div`
-  font-size: 2rem;
-  cursor: pointer;
-  color: black;
-
-  @media (min-width: ${breakpoints.lg}) {
-    display: none;
+    background-color: transparent;
   }
 `;
 
@@ -91,8 +71,8 @@ export const LinkElement = styled(Link)<LinkElementProps>`
     border-radius: 2px;
     transform: translateX(-50%);
     transition: width 0.3s ease;
-          background: ${({ $linearGradient }) =>
-        $linearGradient || "linear-gradient(90deg, #d1d1d1ff, #ffffffff)"};
+    background: ${({ $linearGradient }) =>
+      $linearGradient || "linear-gradient(90deg, #d1d1d1ff, #ffffffff)"};
   }
 
   &:hover::after {
@@ -141,20 +121,5 @@ export const LogoAndMobileMenu = styled.div`
 
   @media (min-width: ${breakpoints.lg}) {
     width: min-content;
-  }
-`;
-
-export const LinkMenu = styled.div`
-  display: flex;
-  width: 100%;
-  flex-direction: column;
-  align-items: center;
-  position: relative;
-
-  @media (min-width: ${breakpoints.lg}) {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    gap: 2rem;
   }
 `;

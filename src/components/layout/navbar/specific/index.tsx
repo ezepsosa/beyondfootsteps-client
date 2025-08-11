@@ -2,15 +2,13 @@ import { useEffect, useState } from "react";
 import {
   LayoutNavbar,
   LinkElement,
-  LinkMenu,
   LogoAndMobileMenu,
-  LogoLayout,
   MenuContainer,
   MenuElement,
-  MenuLayout,
 } from "./style";
 import logo from "@assets/beyondfootsteps_transparent_logo.png";
 import { useLocation, useNavigate } from "react-router-dom";
+import { LinkMenu, LogoLayout, MenuLayout } from "../style";
 
 export const SpecificNavBar = () => {
   const [showInMobile, setShowInMobile] = useState<boolean>(false);
