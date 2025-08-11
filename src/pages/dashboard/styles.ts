@@ -2,7 +2,7 @@ import { breakpoints } from "@/styles/breakpoints";
 import styled from "styled-components";
 
 export const LowerContainer = styled.div`
-  width: 100%;
+  width: -webkit-fill-available;
   height: auto;
   display: flex;
   align-items: flex-end;
@@ -15,7 +15,9 @@ export const LowerContainer = styled.div`
   @media (min-width: ${breakpoints.md}) {
     bottom: 2rem;
   }
+
+  @media (orientation: landscape) and (max-width: ${breakpoints.lg}) {
+    justify-content: space-between;
+    padding: 0 1rem;
+  }
 `;
-
-
-

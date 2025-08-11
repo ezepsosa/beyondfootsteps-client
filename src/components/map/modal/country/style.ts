@@ -19,6 +19,12 @@ export const Container = styled.div`
     top: 14.5rem;
     width: 23rem;
   }
+
+  @media (orientation: landscape) and (max-width: ${breakpoints.lg}) {
+    left: 15rem;
+    top: 6rem;
+    width: 35rem;
+  }
 `;
 
 export const FlagImage = styled.img`
@@ -26,6 +32,10 @@ export const FlagImage = styled.img`
 
   @media (min-width: ${breakpoints.lg}) {
     width: 5rem;
+  }
+      @media (orientation: landscape) and (max-width: ${breakpoints.lg}) {
+    width: 1.5rem;
+
   }
 `;
 
@@ -60,5 +70,10 @@ export const BodyData = styled.div`
   @media (min-width: ${breakpoints.md}) {
     gap: 0.8rem 1.5rem;
     grid-template-columns: 1fr;
+  }
+
+  @media (orientation: landscape) and (max-width: ${breakpoints.lg}) {
+    gap: 0.5rem 1rem;
+    grid-template-columns: 1fr 1fr 1fr;
   }
 `;

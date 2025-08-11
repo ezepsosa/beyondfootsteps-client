@@ -23,6 +23,10 @@ export const TextSpan = styled.span<TextSpanProps>`
   @media (min-width: ${breakpoints.md}) {
     font-size: ${({ $fontSizeMD }) => $fontSizeMD || "1rem"};
   }
+
+    @media (orientation: landscape) and (max-width: ${breakpoints.lg}) {
+font-size: 0.75rem;
+  }
 `;
 
 export const TextParagraph = styled.p`

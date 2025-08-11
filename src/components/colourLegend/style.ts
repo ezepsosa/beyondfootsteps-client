@@ -22,6 +22,15 @@ export const LegendContainer = styled.div`
     bottom: 0;
     width: 3rem;
   }
+
+  @media (orientation: landscape) and (max-width: ${breakpoints.lg}) {
+    padding-right: 0.25rem;
+    justify-content: flex-start;
+    top: 2rem;
+    right: 1rem;
+    bottom: 0;
+    width: 3rem;
+  }
 `;
 
 export const CustomSVG = styled.svg<{ height: number }>`

@@ -19,7 +19,7 @@ export const InfoModal = styled.div<{ $visible: boolean; $leftLG?: string }>`
   transition: opacity 0.4s ease-out, transform 0.4s ease-out,
     visibility 0.4s ease-out;
 
-  @media (min-width: ${breakpoints.md}) {
+  @media (min-width: ${breakpoints.lg}) {
     transform: ${({ $visible }) =>
       $visible ? "translateY(0)" : "translateY(-100%)"};
 
