@@ -17,7 +17,7 @@ export const LegendContainer = styled.div`
   @media (min-width: ${breakpoints.md}) {
     padding-right: 0.25rem;
     justify-content: flex-start;
-    top: 40rem;
+    top: 30rem;
     right: 3rem;
     bottom: 0;
     width: 3rem;
