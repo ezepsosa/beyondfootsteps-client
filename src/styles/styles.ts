@@ -71,6 +71,7 @@ export const IconSpan = styled.span`
 `;
 
 export const CsvButtonDownload = styled(CsvDownload)`
+  cursor: pointer;
   background-color: #f5f5f5;
   border-radius: 8px;
   padding: 0.5rem 0.5rem;
@@ -106,14 +107,18 @@ export const SecondaryButton = styled.button`
   }
 `;
 
-export const CenterContainer = styled.div<{direction?: "row" | "column"}>`
+export const CenterContainer = styled.div<{direction?: "row" | "column", height?: string}>`
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 1rem;
+  gap: 0.25rem;
   margin-top: 0.25rem;
   flex-direction: ${({ direction }) => direction || "column"};
   width: 100%;
-  height: 420px;
+  height: ${({ height }) => height || "300px"};
+
+  @media (min-width: ${breakpoints.md}) {
+    height: ${({ height }) => height || "500px"};
+  }
 `;
 

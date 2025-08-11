@@ -12,6 +12,7 @@ export const ScatterEfficiency = ({ resettlements }: Props) => {
       x: { beginAtZero: true, max: allowMoreThan100 ? undefined : 1 },
     },
     plugins: {
+      legend: { display: false },
       tooltip: {
         callbacks: {
           label: function (context: TooltipItem<"scatter">) {
@@ -50,7 +51,7 @@ export const ScatterEfficiency = ({ resettlements }: Props) => {
   };
   return (
     <CenterContainer>
-      <CenterContainer direction="row">
+      <CenterContainer height="100px" direction="row">
         <SecondaryButton onClick={() => setAllowMoreThan100((value) => !value)}>
           {allowMoreThan100
             ? "Allow more than 100%"

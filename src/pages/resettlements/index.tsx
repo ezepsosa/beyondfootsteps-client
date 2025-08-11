@@ -4,7 +4,12 @@ import { ChartContainer, ResettlementContainer, TopContainer } from "./style";
 import { useMemo, useState } from "react";
 import { SelectorBar } from "@/components/selectorBar";
 import { yearOptions } from "@/components/auxliar";
-import { SecondaryButton, TextSpan } from "@/styles/styles";
+import {
+  CsvButtonDownload,
+  IconSpan,
+  SecondaryButton,
+  TextSpan,
+} from "@/styles/styles";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -27,6 +32,7 @@ import { ResettlementGap } from "./gap";
 import { Flow, SankeyController } from "chartjs-chart-sankey";
 import { ResettlementFlows } from "./sankey";
 import { ResettlementTrends } from "./trends";
+import { HiOutlineDocumentDownload } from "react-icons/hi";
 
 ChartJS.register(
   CategoryScale,
@@ -240,6 +246,26 @@ export const ResettlementSummary = () => {
           setOption={(value) => setSelectedYear(value as number)}
         />
         <SecondaryButton onClick={resetFilters}>Reset</SecondaryButton>
+        {resettlementSummaries.length > 0 ? (
+          <CsvButtonDownload
+            filename={
+              selectedYear +
+              "_" +
+              grouping +
+              "_" +
+              selectedCountryA +
+              (selectedCountryB ? "_" + selectedCountryB : "") +
+              "_resettlement_summary_data.csv"
+            }
+            data={resettlementSummaries ?? []}
+          >
+            <HiOutlineDocumentDownload size="1.5rem" />
+          </CsvButtonDownload>
+        ) : (
+          <IconSpan>
+            <HiOutlineDocumentDownload size="1.5rem" color="gray" />
+          </IconSpan>
+        )}
       </TopContainer>
       <ChartContainer>
         <CoverageRate topCoverage={topCoverage} />
