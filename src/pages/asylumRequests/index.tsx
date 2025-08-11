@@ -6,12 +6,15 @@ import {
   useGetAsylumRequestsByYearAndCountryQuery,
   type AsylumRequest,
 } from "@/gql/graphql";
-import { yearOptions } from "../../components/auxliar";
+import {
+  ASYLUM_REQUEST_INDICATOR_INFO,
+  yearOptions,
+} from "../../components/auxliar";
 import { ColourLegend } from "@/components/colourLegend";
 import {
   CsvButtonDownload,
   IconSpan,
-  TopButtomContainer,
+  TopButtonContainer,
 } from "@/styles/styles";
 import { TbNumbers } from "react-icons/tb";
 import { AiOutlinePercentage } from "react-icons/ai";
@@ -27,6 +30,7 @@ import { InfoKPIModal } from "@/components/map/modal/kpi";
 import { MetricLayer } from "@/components/map/layer/metric";
 import { ShowHide } from "@/components/icons/showHide";
 import { MdLegendToggle } from "react-icons/md";
+import { IoInformationCircle } from "react-icons/io5";
 
 const isoNameRawTyped: isoNameType[] = isoNameRaw as isoNameType[];
 
@@ -38,6 +42,8 @@ export const AsylumRequests = () => {
   const [showInfo, setShowInfo] = useState<boolean>(false);
   const [showMetric, setShowMetric] = useState<boolean>(true);
   const [showLegend, setShowLegend] = useState<boolean>(true);
+  const [info, setInfo] = useState<string>();
+  const [openInfo, setOpenInfo] = useState<boolean>(false);
 
   const [dashboardYearSelection, setDashboardYearSelection] =
     useState<number>(2024);
@@ -45,6 +51,10 @@ export const AsylumRequests = () => {
     { key: "Country of Origin", value: "origin" },
     { key: "Country of Asylum", value: "asylum" },
   ];
+
+  useMemo(() => {
+    setInfo(ASYLUM_REQUEST_INDICATOR_INFO[metricSelected]);
+  }, [metricSelected]);
 
   const countryOptions = isoNameRawTyped.map((element) => {
     return { key: element.name, value: element.iso };
@@ -119,14 +129,17 @@ export const AsylumRequests = () => {
                 metricSelected={metricSelected}
               />
             )}
-            <TopButtomContainer>
-              <ShowHide setToggle={setShowMetric} toggleStatus={showMetric} />
+            <TopButtonContainer>
+              <IconSpan onClick={() => setOpenInfo((value) => !value)}>
+                <IoInformationCircle size="1.5rem" />
+              </IconSpan>
               <IconSpan>
                 <MdLegendToggle
                   size="1.5rem"
                   onClick={() => setShowLegend((value) => !value)}
                 />
               </IconSpan>
+              <ShowHide setToggle={setShowMetric} toggleStatus={showMetric} />
               <IconSpan
                 onClick={() =>
                   setMetricSelected(
@@ -156,7 +169,7 @@ export const AsylumRequests = () => {
                   <HiOutlineDocumentDownload size="1.5rem" color="gray" />
                 </IconSpan>
               )}
-            </TopButtomContainer>
+            </TopButtonContainer>
 
             <LowerContainer>
               <SelectorBar
@@ -184,6 +197,11 @@ export const AsylumRequests = () => {
       {getColourForMap.scale && showLegend && (
         <ColourLegend scale={getColourForMap.scale} />
       )}
+      <InfoKPIModal
+        info={info ?? ""}
+        openInfo={openInfo}
+        setOpenInfo={setOpenInfo}
+      />
       <InfoKPIModal
         info="The symbol * indicates the total number of applications where more people have been grouped together. In other words, the number may be significantly higher than the actual number of people who have applied."
         openInfo={showInfo}

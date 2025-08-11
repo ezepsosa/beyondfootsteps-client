@@ -1,4 +1,4 @@
-export const INDICATOR_INFO: Record<string, string> = {
+export const DASHBOARD_INDICATOR_INFO: Record<string, string> = {
   coverageRate:
     "Coverage Rate: the percentage of people identified as being in need of protection or assistance who actually received it. High values indicate strong humanitarian reach or resource availability. Formula: (people assisted ÷ people in need) × 100.",
 
@@ -50,6 +50,12 @@ export const INDICATOR_INFO: Record<string, string> = {
   realizationRate:
     "Realization Rate: proportion of individuals who were resettled (departed) out of the total number submitted. Useful to assess conversion of intent into actual movement. Formula: (departures ÷ submissions) × 100.",
 };
+export const ASYLUM_REQUEST_INDICATOR_INFO: Record<string, string> = {
+  applied:
+    "Applied: total number of new asylum applications submitted during the year. This indicator reflects the demand for international protection in the country of asylum.",
+  appliedPer100k:
+    "Applied per 100k: number of new asylum applications submitted during the year per 100,000 inhabitants of the country of asylum. Useful to assess relative pressure on national asylum systems. Formula: (new applications ÷ total population) × 100,000.",
+};
 export const dashboardKeyOptions: {
   key: string;
   value: string;
@@ -75,7 +81,7 @@ export const dashboardKeyOptions: {
 
 export const asylumDecisionKeyOptions: {
   key: string;
-  value: string
+  value: string;
 }[] = [
   { key: "acceptanceRate", value: "Acceptance Rate" },
   { key: "decClosed", value: "Decision Closed" },

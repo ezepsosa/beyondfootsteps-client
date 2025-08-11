@@ -17,9 +17,15 @@ export const LegendContainer = styled.div`
   @media (min-width: ${breakpoints.md}) {
     padding-right: 0.25rem;
     justify-content: flex-start;
-    top: 40rem;
+    top: 30rem;
     right: 3rem;
     bottom: 0;
+    width: 3rem;
+  }
+
+  @media (orientation: landscape) and (max-width: ${breakpoints.lg}) {
+    top: 2rem;
+    height: 18rem;
     width: 3rem;
   }
 `;
@@ -31,10 +37,16 @@ export const CustomSVG = styled.svg<{ height: number }>`
   @media (min-width: ${breakpoints.md}) {
     width: 4rem;
   }
+
 `;
 
 export const CustomRect = styled.rect``;
 
-export const LegendNumberContainers = styled.div``;
+export const LegendNumberContainers = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+`;
 
 export const SimpleDiv = styled.div``;

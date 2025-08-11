@@ -48,7 +48,7 @@ export const ResettlementGap = ({ resettlements }: Props) => {
       },
       plugins: {
         legend: {
-          position: "right",
+          display: false
         },
         title: {
           display: true,
@@ -78,12 +78,11 @@ export const ResettlementGap = ({ resettlements }: Props) => {
   );
   return (
     <CenterContainer>
-      <CenterContainer direction="row">
+      <CenterContainer height="100px" $direction="row">
         <PrimaryButton onClick={calculatePreviousPage}>Previous</PrimaryButton>
         <PrimaryButton onClick={calculateNextPage}>Next</PrimaryButton>
         <SecondaryButton onClick={resetPage}>Reset</SecondaryButton>
       </CenterContainer>
-
       <Bar data={data} options={options} />
     </CenterContainer>
   );

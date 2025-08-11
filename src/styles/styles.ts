@@ -23,6 +23,29 @@ export const TextSpan = styled.span<TextSpanProps>`
   @media (min-width: ${breakpoints.md}) {
     font-size: ${({ $fontSizeMD }) => $fontSizeMD || "1rem"};
   }
+
+  @media (orientation: landscape) and (max-width: ${breakpoints.lg}) {
+    font-size: 0.75rem;
+  }
+`;
+
+export const TextParagraph = styled.p`
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  color: #333;
+  margin: 0;
+`;
+
+export const TextParagraphContainer = styled.div<{ $marginTop?: number }>`
+  display: flex;
+  margin-bottom: 2rem;
+  padding: 0 1.2rem;
+  margin-top: 2rem;
+  flex-direction: column;
+
+  @media (min-width: ${breakpoints.lg}) {
+    flex-direction: row;
+  }
 `;
 
 export const LabelValueContainer = styled.div`
@@ -30,7 +53,7 @@ export const LabelValueContainer = styled.div`
   gap: 0.2rem;
   justify-content: space-between;
 
-  @media (min-width: ${breakpoints.md}) {
+  @media (min-width: ${breakpoints.lg}) {
     justify-content: flex-start;
   }
 `;
@@ -47,7 +70,7 @@ export const CloseModal = styled.div`
   }
 `;
 
-export const TopButtomContainer = styled.span`
+export const TopButtonContainer = styled.span`
   position: fixed;
   display: flex;
   top: 6rem;
@@ -61,6 +84,11 @@ export const TopButtomContainer = styled.span`
     top: 8rem;
     left: 2rem;
   }
+
+  @media (orientation: landscape) and (max-width: ${breakpoints.lg}) {
+    top: 6rem;
+    left: 1rem;
+  }
 `;
 
 export const IconSpan = styled.span`
@@ -71,6 +99,7 @@ export const IconSpan = styled.span`
 `;
 
 export const CsvButtonDownload = styled(CsvDownload)`
+  cursor: pointer;
   background-color: #f5f5f5;
   border-radius: 8px;
   padding: 0.5rem 0.5rem;
@@ -106,14 +135,34 @@ export const SecondaryButton = styled.button`
   }
 `;
 
-export const CenterContainer = styled.div<{direction?: "row" | "column"}>`
+export const CenterContainer = styled.div<{
+  $direction?: "row" | "column";
+  height?: string;
+  $justifyContent?: string;
+}>`
   display: flex;
-  justify-content: center;
+  justify-content: ${({ $justifyContent }) => $justifyContent || "center"};
   align-items: center;
-  gap: 1rem;
+  gap: 0.25rem;
   margin-top: 0.25rem;
-  flex-direction: ${({ direction }) => direction || "column"};
+  flex-direction: ${({ $direction }) => $direction || "column"};
   width: 100%;
-  height: 420px;
+  height: ${({ height }) => height || "300px"};
+
+  @media (min-width: ${breakpoints.md}) {
+    height: ${({ height }) => height || "500px"};
+  }
 `;
 
+export const ThinLine = styled.div`
+  width: 100%;
+  margin: 3rem 0;
+  height: 1px;
+  background: linear-gradient(
+    to right,
+    rgba(146, 146, 146, 0) 0%,
+    #92929269 20%,
+    #92929269 80%,
+    rgba(146, 146, 146, 0) 100%
+  );
+`;
