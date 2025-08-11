@@ -1,4 +1,5 @@
 import { MainLayout } from "@/components/layout";
+import { ScrollToTop } from "@/hooks/useScrollUp";
 import AboutUs from "@/pages/aboutus";
 import { AsylumDecisions } from "@/pages/asylumDecisions";
 import { AsylumRequests } from "@/pages/asylumRequests";
@@ -11,17 +12,18 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 export const AppRoutes = () => {
   return (
     <BrowserRouter>
-      <Routes>
-        <Route element={<MainLayout />}>
-          <Route path="/" element={<Dashboard />} />
-          <Route path="/requests" element={<AsylumRequests />} />
-          <Route path="/decisions" element={<AsylumDecisions />} />
-          <Route path="/resettlements" element={<ResettlementSummary />} />
-        </Route>
+      <ScrollToTop/>
+        <Routes>
+          <Route element={<MainLayout />}>
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/requests" element={<AsylumRequests />} />
+            <Route path="/decisions" element={<AsylumDecisions />} />
+            <Route path="/resettlements" element={<ResettlementSummary />} />
+          </Route>
+          <Route path="/" element={<Home />} />
           <Route path="/aboutus" element={<AboutUs />} />
-          <Route path="/home" element={<Home />} />
           <Route path="*" element={<NotFound />} />
-      </Routes>
+        </Routes>
     </BrowserRouter>
   );
 };
