@@ -23,6 +23,7 @@ export const LayoutNavbar = styled.nav`
 
 export const LogoLayout = styled.img`
   height: 3.5rem;
+  cursor: pointer;
 
   @media (min-width: ${breakpoints.lg}) {
     height: 6rem;

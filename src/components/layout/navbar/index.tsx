@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import {
   MenuContainer,
   LayoutNavbar,
@@ -26,11 +26,13 @@ export const Navbar = () => {
     setShowInMobile(false);
   };
 
+  const navigate = useNavigate();
+
   return (
     <LayoutNavbar>
       <MenuContainer>
         <LogoAndMobileMenu>
-          <LogoLayout src={logo} />
+          <LogoLayout onClick={() => navigate("/")} src={logo} />
           <MenuLayout onClick={() => setShowInMobile(!showInMobile)}>
             ☰
           </MenuLayout>
