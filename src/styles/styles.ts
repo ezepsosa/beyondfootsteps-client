@@ -128,15 +128,16 @@ export const SecondaryButton = styled.button`
 `;
 
 export const CenterContainer = styled.div<{
-  direction?: "row" | "column";
+  $direction?: "row" | "column";
   height?: string;
+  $justifyContent?: string;
 }>`
   display: flex;
-  justify-content: center;
+  justify-content: ${({ $justifyContent }) => $justifyContent || "center"};
   align-items: center;
   gap: 0.25rem;
   margin-top: 0.25rem;
-  flex-direction: ${({ direction }) => direction || "column"};
+  flex-direction: ${({ $direction }) => $direction || "column"};
   width: 100%;
   height: ${({ height }) => height || "300px"};
 

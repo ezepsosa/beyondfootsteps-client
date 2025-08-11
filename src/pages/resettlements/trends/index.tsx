@@ -83,7 +83,7 @@ export const ResettlementTrends = () => {
 
   return (
     <CenterContainer>
-      <CenterContainer height="100px" direction="row">
+      <CenterContainer height="100px" $direction="row">
         <SelectorBar
           selectors={countries}
           defaultValue={country}
@@ -102,8 +102,8 @@ export const ResettlementTrends = () => {
           </IconSpan>
         )}
       </CenterContainer>
-      <CenterContainer direction="row"></CenterContainer>
-      <Line options={options} data={charData} />;
+      <CenterContainer $direction="row"></CenterContainer>
+      <Line options={options} data={charData} />
     </CenterContainer>
   );
 };

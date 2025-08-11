@@ -101,7 +101,7 @@ export const ResettlementFlows = ({ year }: Props) => {
   };
   return (
     <CenterContainer>
-      <CenterContainer height="100px" direction="row">
+      <CenterContainer height="100px" $direction="row">
         <PrimaryButton onClick={calculatePreviousPage}>Previous</PrimaryButton>
         <PrimaryButton onClick={calculateNextPage}>Next</PrimaryButton>
         <SecondaryButton onClick={resetPage}>Reset</SecondaryButton>
