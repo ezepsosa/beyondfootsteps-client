@@ -35,7 +35,7 @@ const features = [
   {
     title: "Resettlement Visualizations",
     description:
-      "Explore coverage rates, pipeline analysis, efficiency metrics, gaps, flows (Sankey), and annual trends for resettlement data.",
+      "Explore coverage rates, pipeline analysis, efficiency metrics, gaps, flows, and annual trends for resettlement data.",
   },
   {
     title: "CSV Export",
@@ -102,7 +102,7 @@ export const Home = () => {
 
         
         <ButtonsContainer>
-          <GoToButton as={Link} to="/">
+          <GoToButton as={Link} to="/dashboard">
             Explore the Dashboard
           </GoToButton>
           <GoToButton as={Link} to="/aboutus">

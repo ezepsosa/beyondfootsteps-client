@@ -39,7 +39,7 @@ export const TextParagraph = styled.p`
 export const TextParagraphContainer = styled.div<{ $marginTop?: number }>`
   display: flex;
   margin-bottom: 2rem;
-  padding: 0 1.2rem;
+  padding: 0 2rem;
   margin-top: 2rem;
   flex-direction: column;
 
