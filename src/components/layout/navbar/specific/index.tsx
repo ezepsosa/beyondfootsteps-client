@@ -37,8 +37,8 @@ export const SpecificNavBar = () => {
         <LinkMenu>
           <MenuElement open={showInMobile}>
             <LinkElement
-              to="/"
-              $active={currentPath === "/"}
+              to="/dashboard"
+              $active={currentPath === "/dashboard"}
               $linearGradient="linear-gradient(90deg, #232526, #414345);"
               onClick={handleLinkClick}
             >
