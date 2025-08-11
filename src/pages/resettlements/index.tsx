@@ -1,0 +1,254 @@
+import { DisplayError } from "@/components/error";
+import { Loading } from "@/components/loading";
+import { ChartContainer, ResettlementContainer, TopContainer } from "./style";
+import { useMemo, useState } from "react";
+import { SelectorBar } from "@/components/selectorBar";
+import { yearOptions } from "@/components/auxliar";
+import { SecondaryButton, TextSpan } from "@/styles/styles";
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title as ChartTitle,
+  Tooltip as ChartTooltip,
+  Legend,
+  PointElement,
+  LineElement,
+} from "chart.js";
+import {
+  useGetResettlementSummariesByYearGroupedByQuery,
+  type ResettlementSummaryGrouped,
+} from "@/gql/graphql";
+import { CoverageRate } from "./coverage";
+import { ResettlementPipeline } from "./Pipeline";
+import { ScatterEfficiency } from "./scatter";
+import { ResettlementGap } from "./gap";
+import { Flow, SankeyController } from "chartjs-chart-sankey";
+import { ResettlementFlows } from "./sankey";
+import { ResettlementTrends } from "./trends";
+
+ChartJS.register(
+  CategoryScale,
+  SankeyController,
+  LinearScale,
+  BarElement,
+  ChartTitle,
+  ChartTooltip,
+  PointElement,
+  LineElement,
+  Legend,
+  Flow
+);
+
+function returnOptionsFromPosition({
+  resettlementSummaries,
+  position,
+  selectedCountryA,
+}: {
+  resettlementSummaries: ResettlementSummaryGrouped[];
+  position: number;
+  selectedCountryA?: string;
+}) {
+  if (position === 1 && selectedCountryA?.length === 0)
+    return [{ key: "---", value: "" }];
+  const res = Array.from(
+    new Map(
+      resettlementSummaries
+        .filter(
+          (summary) =>
+            summary?.countriesIso &&
+            (position === 1
+              ? summary?.countriesIso?.includes(selectedCountryA ?? "")
+              : true)
+        )
+        .map((summary) => [
+          summary.countriesIso?.split("-")[position] ?? "",
+          {
+            key: summary.countriesNames?.split("-")[position] ?? "",
+            value: summary.countriesIso?.split("-")[position] ?? "",
+          },
+        ])
+    ).values()
+  );
+  res.push({ key: "---", value: "" });
+  if (position === 1) {
+    return res.filter((option) => option.value !== selectedCountryA);
+  }
+  return res.sort((a, b) => a.key.localeCompare(b.key));
+}
+
+export const ResettlementSummary = () => {
+  const [selectedYear, setSelectedYear] = useState<number>(2024);
+  const [grouping, setGrouping] = useState<string>("Origin-Asylum");
+  const [selectedCountryA, setSelectedCountryA] = useState<string>("");
+  const [selectedCountryB, setSelectedCountryB] = useState<string>("");
+
+  function resetFilters() {
+    setSelectedYear(2024);
+    setGrouping("Origin-Asylum");
+    setSelectedCountryA("");
+    setSelectedCountryB("");
+  }
+
+  const { data, loading, error } =
+    useGetResettlementSummariesByYearGroupedByQuery({
+      variables: {
+        year: Number(selectedYear),
+        grouping: grouping,
+      },
+    });
+
+  const resettlementSummaries = useMemo(() => {
+    if (!data) return [];
+    return data.resettlementSummariesByYearGroupedBy || [];
+  }, [data]);
+
+  const groupingOptions: { key: string; value: string }[] = [
+    {
+      key: "Country of Origin",
+      value: "origin",
+    },
+    {
+      key: "Country of Asylum",
+      value: "asylum",
+    },
+    {
+      key: "Country of Resettlement",
+      value: "resettlement",
+    },
+    {
+      key: "Country of Origin and Asylum",
+      value: "origin-asylum",
+    },
+  ];
+
+  const countryAOptions: { key: string; value: string }[] = useMemo(() => {
+    return returnOptionsFromPosition({
+      resettlementSummaries: resettlementSummaries.filter(
+        (s): s is ResettlementSummaryGrouped => s !== null
+      ),
+      position: 0,
+    });
+  }, [resettlementSummaries]);
+
+  const countryBOptions: { key: string; value: string }[] = useMemo(() => {
+    return returnOptionsFromPosition({
+      resettlementSummaries: resettlementSummaries.filter(
+        (s): s is ResettlementSummaryGrouped => s !== null
+      ),
+      position: 1,
+      selectedCountryA: selectedCountryA,
+    });
+  }, [resettlementSummaries, selectedCountryA]);
+
+  const resettlementSummariesFiltered = useMemo(() => {
+    const rows = (resettlementSummaries ?? []) as ResettlementSummaryGrouped[];
+    if (selectedCountryA.length != 0 && grouping != "origin-asylum") {
+      return rows
+        .filter((resettlement) =>
+          resettlement.countriesIso?.includes(selectedCountryA)
+        )
+        .sort((a, b) => (b.coverageRate ?? 0) - (a.coverageRate ?? 0));
+    } else if (
+      selectedCountryA.length != 0 &&
+      selectedCountryB.length != 0 &&
+      grouping === "origin-asylum"
+    ) {
+      return rows
+        .filter(
+          (resettlement) =>
+            resettlement.countriesIso &&
+            resettlement.countriesIso?.includes(selectedCountryA) &&
+            resettlement.countriesIso?.includes(selectedCountryB)
+        )
+        .sort((a, b) => (b.coverageRate ?? 0) - (a.coverageRate ?? 0));
+    } else {
+      return rows
+        .filter((resettlement) => resettlement.countriesIso)
+        .sort((a, b) => (b.coverageRate ?? 0) - (a.coverageRate ?? 0));
+    }
+  }, [resettlementSummaries, selectedCountryA, selectedCountryB, grouping]);
+
+  const topCoverage = useMemo(() => {
+    return resettlementSummariesFiltered
+      .filter((resettlement) => resettlement.coverageRate != null)
+      .sort((a, b) => (b.coverageRate ?? 0) - (a.coverageRate ?? 0));
+  }, [resettlementSummariesFiltered]);
+
+  const topResettlement = useMemo(() => {
+    return resettlementSummariesFiltered
+      .filter(
+        (resettlement) =>
+          resettlement.totalNeeds != null ||
+          resettlement.totalDepartures != null ||
+          resettlement.submissionsEfficiency != null
+      )
+      .sort(
+        (a, b) =>
+          (b.totalNeeds ?? 0) +
+          (b.submissionsEfficiency ?? 0) +
+          (b.totalDepartures ?? 0) -
+          ((a.totalNeeds ?? 0) +
+            (a.submissionsEfficiency ?? 0) +
+            (a.totalDepartures ?? 0))
+      );
+  }, [resettlementSummariesFiltered]);
+
+  const topResettlementGap = useMemo(() => {
+    return resettlementSummariesFiltered
+      .filter((resettlement) => resettlement.resettlementGap != null)
+      .sort((a, b) => (b.resettlementGap ?? 0) - (a.resettlementGap ?? 0));
+  }, [resettlementSummariesFiltered]);
+
+  if (error) {
+    console.warn("Error fetching resettlement data", error);
+    return <DisplayError />;
+  }
+  if (loading) {
+    return <Loading />;
+  }
+  return (
+    <ResettlementContainer>
+      <TopContainer>
+        <TextSpan $fontWeight="600">Select Grouping:</TextSpan>
+        <SelectorBar
+          defaultValue={grouping}
+          selectors={groupingOptions}
+          setOption={(value) => setGrouping(value as string)}
+        />
+        <TextSpan $fontWeight="600">Select Country A:</TextSpan>
+        <SelectorBar
+          defaultValue={selectedCountryA}
+          selectors={countryAOptions}
+          setOption={(value) => setSelectedCountryA(value as string)}
+        />
+        {grouping === "origin-asylum" && (
+          <>
+            <TextSpan $fontWeight="600">Select Country B:</TextSpan>
+            <SelectorBar
+              defaultValue={selectedCountryB}
+              selectors={countryBOptions}
+              setOption={(value) => setSelectedCountryB(value as string)}
+            />
+          </>
+        )}
+        <TextSpan $fontWeight="600">Select Year:</TextSpan>
+        <SelectorBar
+          defaultValue={selectedYear}
+          selectors={yearOptions}
+          setOption={(value) => setSelectedYear(value as number)}
+        />
+        <SecondaryButton onClick={resetFilters}>Reset</SecondaryButton>
+      </TopContainer>
+      <ChartContainer>
+        <CoverageRate topCoverage={topCoverage} />
+        <ResettlementPipeline topResettlement={topResettlement} />
+        <ScatterEfficiency resettlements={topResettlement} />
+        <ResettlementGap resettlements={topResettlementGap} />
+        <ResettlementFlows year={selectedYear} />
+        <ResettlementTrends />
+      </ChartContainer>
+    </ResettlementContainer>
+  );
+};

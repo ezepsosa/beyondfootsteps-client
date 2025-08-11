@@ -9,7 +9,7 @@ import { LowerContainer } from "./styles";
 import { ColourLegend } from "@/components/colourLegend";
 import {
   dashboardKeyOptions,
-  dashboardYearOptions,
+  yearOptions,
   INDICATOR_INFO,
 } from "../../components/auxliar";
 import { IoInformationCircle } from "react-icons/io5";
@@ -124,7 +124,7 @@ export const Dashboard = () => {
             <LowerContainer>
               <SelectorBar
                 defaultValue={dashboardYearSelection}
-                selectors={dashboardYearOptions}
+                selectors={yearOptions}
                 setOption={(value) =>
                   setDashboardYearSelection(value as number)
                 }

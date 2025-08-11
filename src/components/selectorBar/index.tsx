@@ -2,7 +2,7 @@ import { Selector, Option } from "./styles";
 
 type Props = {
   defaultValue: string | number;
-  selectors: { key: string | number; value: string | number }[];
+  selectors: { key: string | number; value: string | number}[];
   setOption: (value: string | number) => void;
   paddingMobile?: string;
   paddingDesktop?: string;
