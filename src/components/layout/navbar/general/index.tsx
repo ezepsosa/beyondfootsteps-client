@@ -30,7 +30,7 @@ export const GeneralNavBar = () => {
     <LayoutNavbar>
       <MenuContainer>
         <LogoAndMobileMenu>
-          <LogoLayout onClick={() => navigate("/")} src={logo} />
+          <LogoLayout onClick={() => navigate("/dashboard")} src={logo} />
           <MenuLayout onClick={() => setShowInMobile(!showInMobile)}>
             ☰
           </MenuLayout>

@@ -27,7 +27,7 @@ export const NotFound = () => {
             back on track to explore humanitarian data.
           </ErrorDescription>
 
-          <BackButton as={Link} to="/">
+          <BackButton as={Link} to="/dashboard">
             Return to Dashboard
           </BackButton>
         </NotFoundContent>
