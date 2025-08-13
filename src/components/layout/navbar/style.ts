@@ -21,7 +21,10 @@ export const MenuLayout = styled.div`
   @media (min-width: ${breakpoints.lg}) {
     display: none;
   }
-
+  @media (orientation: landscape) and (max-width: ${breakpoints.lg}) {
+  font-size: 1rem;  
+  color: white;
+  }
 `;
 
 export const LinkMenu = styled.div`

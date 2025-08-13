@@ -9,8 +9,7 @@ import {
 } from "./style";
 import logo from "@assets/beyondfootsteps_transparent_logo.png";
 import { useLocation, useNavigate } from "react-router-dom";
-import { LinkMenu, LogoLayout } from "../style";
-import { LandscapeMenuLayout } from "../specific/style";
+import { LinkMenu, LogoLayout, MenuLayout } from "../style";
 
 export const GeneralNavBar = () => {
   const [showInMobile, setShowInMobile] = useState<boolean>(false);
@@ -28,13 +27,13 @@ export const GeneralNavBar = () => {
   const navigate = useNavigate();
 
   return (
-    <LayoutNavbar>
+    <LayoutNavbar $showInMobile={showInMobile}>
       <MenuContainer>
         <LogoAndMobileMenu>
           <LogoLayout onClick={() => navigate("/")} src={logo} />
-          <LandscapeMenuLayout onClick={() => setShowInMobile(!showInMobile)}>
+          <MenuLayout onClick={() => setShowInMobile(!showInMobile)}>
             ☰
-          </LandscapeMenuLayout>
+          </MenuLayout>
         </LogoAndMobileMenu>
         <LinkMenu>
           <MenuElement open={showInMobile}>

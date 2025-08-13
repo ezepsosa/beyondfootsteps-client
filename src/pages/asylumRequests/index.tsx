@@ -13,11 +13,13 @@ import {
 import { ColourLegend } from "@/components/colourLegend";
 import {
   CsvButtonDownload,
+  CustomAiOutlinePercentage,
+  CustomIoInformationCircle,
+  CustomMdLegendToggle,
+  CustomTbNumbers,
   IconSpan,
   TopButtonContainer,
 } from "@/styles/styles";
-import { TbNumbers } from "react-icons/tb";
-import { AiOutlinePercentage } from "react-icons/ai";
 import { HiOutlineDocumentDownload } from "react-icons/hi";
 import { DisplayError } from "@/components/error";
 import { Loading } from "@/components/loading";
@@ -29,8 +31,6 @@ import { GeoJSONLayer } from "@/components/map/layer/geoJSON";
 import { InfoKPIModal } from "@/components/map/modal/kpi";
 import { MetricLayer } from "@/components/map/layer/metric";
 import { ShowHide } from "@/components/icons/showHide";
-import { MdLegendToggle } from "react-icons/md";
-import { IoInformationCircle } from "react-icons/io5";
 
 const isoNameRawTyped: isoNameType[] = isoNameRaw as isoNameType[];
 
@@ -131,11 +131,10 @@ export const AsylumRequests = () => {
             )}
             <TopButtonContainer>
               <IconSpan onClick={() => setOpenInfo((value) => !value)}>
-                <IoInformationCircle size="1.5rem" />
+                <CustomIoInformationCircle />
               </IconSpan>
               <IconSpan>
-                <MdLegendToggle
-                  size="1.5rem"
+                <CustomMdLegendToggle
                   onClick={() => setShowLegend((value) => !value)}
                 />
               </IconSpan>
@@ -152,9 +151,9 @@ export const AsylumRequests = () => {
               >
                 {metricSelected ===
                 ("appliedPer100k" as keyof AsylumRequest) ? (
-                  <TbNumbers size="1.5rem" />
+                  <CustomTbNumbers />
                 ) : (
-                  <AiOutlinePercentage size="1.5rem" />
+                  <CustomAiOutlinePercentage />
                 )}
               </IconSpan>
               {asylumRequestsByYearAndCountry.length > 0 ? (

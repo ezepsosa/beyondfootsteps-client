@@ -2,6 +2,12 @@ import type { TextSpanProps } from "@/types/types";
 import styled from "styled-components";
 import { breakpoints } from "./breakpoints";
 import CsvDownload from "react-json-to-csv";
+import { MdLegendToggle } from "react-icons/md";
+import { IoInformationCircle } from "react-icons/io5";
+import { RxEyeOpen } from "react-icons/rx";
+import { GoEyeClosed } from "react-icons/go";
+import { AiOutlinePercentage } from "react-icons/ai";
+import { TbNumbers } from "react-icons/tb";
 
 export const TextSpan = styled.span<TextSpanProps>`
   font-size: ${({ $fontSize }) => $fontSize || ".8rem"};
@@ -75,6 +81,7 @@ export const TopButtonContainer = styled.span`
   display: flex;
   top: 6rem;
   z-index: 1000;
+  width: 100%;
   align-items: center;
   gap: 0.5rem;
   padding: 0.5rem 1rem;
@@ -86,8 +93,11 @@ export const TopButtonContainer = styled.span`
   }
 
   @media (orientation: landscape) and (max-width: ${breakpoints.lg}) {
-    top: 6rem;
-    left: 1rem;
+    top: 0rem;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 `;
 
@@ -101,10 +111,26 @@ export const IconSpan = styled.span`
 export const CsvButtonDownload = styled(CsvDownload)`
   cursor: pointer;
   background-color: #f5f5f5;
-  border-radius: 8px;
-  padding: 0.5rem 0.5rem;
+  border-radius: 0.25rem;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
   border: none;
+  padding: 0.3rem;
+
+  & > svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  @media (orientation: landscape) and (max-width: ${breakpoints.lg}) {
+    padding: 0.15rem;
+    width: 24px;
+    height: 29px;
+
+    & > svg {
+      width: 16px;
+      height: 16px;
+    }
+  }
 `;
 
 export const PrimaryButton = styled.button`
@@ -165,4 +191,54 @@ export const ThinLine = styled.div`
     #92929269 80%,
     rgba(146, 146, 146, 0) 100%
   );
+`;
+
+//Custom Icons
+
+export const CustomMdLegendToggle = styled(MdLegendToggle)`
+  font-size: 1.5rem;
+
+  @media (orientation: landscape) and (max-width: ${breakpoints.lg}) {
+    font-size: 1rem;
+  }
+`;
+
+export const CustomIoInformationCircle = styled(IoInformationCircle)`
+  font-size: 1.5rem;
+
+  @media (orientation: landscape) and (max-width: ${breakpoints.lg}) {
+    font-size: 1rem;
+  }
+`;
+
+export const CustomRxEyeOpen = styled(RxEyeOpen)`
+  font-size: 1.5rem;
+
+  @media (orientation: landscape) and (max-width: ${breakpoints.lg}) {
+    font-size: 1rem;
+  }
+`;
+
+export const CustomGoEyeClosed = styled(GoEyeClosed)`
+  font-size: 1.5rem;
+
+  @media (orientation: landscape) and (max-width: ${breakpoints.lg}) {
+    font-size: 1rem;
+  }
+`;
+
+export const CustomAiOutlinePercentage = styled(AiOutlinePercentage)`
+  font-size: 1.5rem;
+
+  @media (orientation: landscape) and (max-width: ${breakpoints.lg}) {
+    font-size: 1rem;
+  }
+`;
+
+export const CustomTbNumbers = styled(TbNumbers)`
+  font-size: 1.5rem;
+
+  @media (orientation: landscape) and (max-width: ${breakpoints.lg}) {
+    font-size: 1rem;
+  }
 `;

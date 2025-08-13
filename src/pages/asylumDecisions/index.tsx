@@ -8,6 +8,8 @@ import {
 import { ColourLegend } from "@/components/colourLegend";
 import {
   CsvButtonDownload,
+  CustomIoInformationCircle,
+  CustomMdLegendToggle,
   IconSpan,
   TopButtonContainer,
 } from "@/styles/styles";
@@ -28,8 +30,6 @@ import { InfoKPIModal } from "@/components/map/modal/kpi";
 import { MetricLayer } from "@/components/map/layer/metric";
 import { InfoCountryModal } from "@/components/map/modal/country";
 import { ShowHide } from "@/components/icons/showHide";
-import { MdLegendToggle } from "react-icons/md";
-import { IoInformationCircle } from "react-icons/io5";
 
 const isoNameRawTyped: isoNameType[] = isoNameRaw as isoNameType[];
 
@@ -129,12 +129,11 @@ export const AsylumDecisions = () => {
             )}
             <TopButtonContainer>
               <IconSpan onClick={() => setOpenInfo((value) => !value)}>
-                <IoInformationCircle size="1.5rem" />
+                <CustomIoInformationCircle />
               </IconSpan>
               <ShowHide setToggle={setShowMetric} toggleStatus={showMetric} />
               <IconSpan>
-                <MdLegendToggle
-                  size="1.5rem"
+                <CustomMdLegendToggle
                   onClick={() => setShowLegend((value) => !value)}
                 />
               </IconSpan>
