@@ -24,20 +24,20 @@ export const LegendContainer = styled.div`
   }
 
   @media (orientation: landscape) and (max-width: ${breakpoints.lg}) {
-    top: 2rem;
-    height: 18rem;
+    top: 6rem;
+    height: min-content;
     width: 3rem;
+    right: 1rem;
   }
 `;
 
 export const CustomSVG = styled.svg<{ height: number }>`
   width: 2rem;
-  height: 19rem;
+  height: min-content;
 
-  @media (min-width: ${breakpoints.md}) {
+  @media (min-width: ${breakpoints.lg}) {
     width: 4rem;
   }
-
 `;
 
 export const CustomRect = styled.rect``;

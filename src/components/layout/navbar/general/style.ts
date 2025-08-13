@@ -21,7 +21,7 @@ export const LayoutNavbar = styled.nav<{ $showInMobile: boolean }>`
   }
 
   @media (orientation: landscape) and (max-width: ${breakpoints.lg}) {
-    background-color: #00000098;
+    background-color: #00000050;
     width: ${({ $showInMobile }) => (!$showInMobile ? "min-content" : "30%")};
   }
 `;
@@ -139,8 +139,8 @@ export const LinkElement = styled(Link)<LinkElementProps>`
   @media (orientation: landscape) and (max-width: ${breakpoints.lg}) {
     color: white;
     background: none;
-    font-size: 0.7rem;
-  padding: 0.5rem;
+    padding: 0.5rem;
+    
     &::after {
       width: 0 !important;
     }
