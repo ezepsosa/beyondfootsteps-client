@@ -19,6 +19,9 @@ export const LayoutNavbar = styled.nav`
     justify-content: flex-start;
     background-color: transparent;
   }
+  @media (orientation: landscape) and (max-width: ${breakpoints.lg}) {
+    background-color: transparent;
+  }
 `;
 
 export const AuxiliarMenu = styled.div<{ open: boolean }>`
@@ -155,4 +158,3 @@ export const LogoAndMobileMenu = styled.div`
     width: min-content;
   }
 `;
-

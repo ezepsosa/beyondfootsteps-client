@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { breakpoints } from "@styles/breakpoints";
 import { Link } from "react-router-dom";
 import type { LinkElementProps } from "../types";
+import { MenuLayout } from "../style";
 
 export const LayoutNavbar = styled.nav`
   position: relative;
@@ -121,5 +122,13 @@ export const LogoAndMobileMenu = styled.div`
 
   @media (min-width: ${breakpoints.lg}) {
     width: min-content;
+  }
+`;
+
+export const LandscapeMenuLayout = styled(MenuLayout)`
+  @media (orientation: landscape) and (max-width: ${breakpoints.lg}) {
+    background-color: #1616161c;
+    padding: 0.5rem;
+    border-radius: 0.25rem;
   }
 `;
