@@ -12,6 +12,7 @@ import {
   CustomMdLegendToggle,
   IconSpan,
   TopButtonContainer,
+  LowerContainer
 } from "@/styles/styles";
 import { HiOutlineDocumentDownload } from "react-icons/hi";
 import { DisplayError } from "@/components/error";
@@ -23,7 +24,6 @@ import {
   useGetAsylumDecisionsByYearAndCountryQuery,
   type AsylumDecision,
 } from "@/gql/graphql";
-import { LowerContainer } from "./styles";
 import { MapComponent } from "@/components/map/container";
 import { GeoJSONLayer } from "@/components/map/layer/geoJSON";
 import { InfoKPIModal } from "@/components/map/modal/kpi";

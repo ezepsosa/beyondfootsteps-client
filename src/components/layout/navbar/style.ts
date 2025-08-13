@@ -22,8 +22,7 @@ export const MenuLayout = styled.div`
     display: none;
   }
   @media (orientation: landscape) and (max-width: ${breakpoints.lg}) {
-  font-size: 1rem;  
-  color: white;
+    font-size: 1.6rem;
   }
 `;
 

@@ -9,6 +9,27 @@ import { GoEyeClosed } from "react-icons/go";
 import { AiOutlinePercentage } from "react-icons/ai";
 import { TbNumbers } from "react-icons/tb";
 
+export const LowerContainer = styled.div`
+  width: -webkit-fill-available;
+  height: auto;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-around;
+  position: fixed;
+  left: 0;
+  bottom: 4rem;
+  z-index: 1000;
+
+  @media (min-width: ${breakpoints.md}) {
+    bottom: 2rem;
+  }
+
+  @media (orientation: landscape) and (max-width: ${breakpoints.lg}) {
+    padding: 0 1rem;
+    bottom: 2rem;
+  }
+`;
+
 export const TextSpan = styled.span<TextSpanProps>`
   font-size: ${({ $fontSize }) => $fontSize || ".8rem"};
   font-family: ${({ $fontFamily }) => $fontFamily || '"Inter", sans-serif'};
@@ -40,6 +61,9 @@ export const TextParagraph = styled.p`
   line-height: 1.25rem;
   color: #333;
   margin: 0;
+  @media (orientation: landscape) and (max-width: ${breakpoints.lg}) {
+    font-size: 0.7rem;
+  }
 `;
 
 export const TextParagraphContainer = styled.div<{ $marginTop?: number }>`
@@ -144,6 +168,9 @@ export const PrimaryButton = styled.button`
   &:hover {
     background-color: #e0e0e0;
   }
+  @media (orientation: landscape) and (max-width: ${breakpoints.lg}) {
+    font-size: 0.7rem;
+  }
 `;
 
 export const SecondaryButton = styled.button`
@@ -158,6 +185,9 @@ export const SecondaryButton = styled.button`
   &:hover {
     color: white;
     background-color: #00000085;
+  }
+  @media (orientation: landscape) and (max-width: ${breakpoints.lg}) {
+    font-size: 0.7rem;
   }
 `;
 

@@ -17,6 +17,10 @@ export const ChartContainer = styled.div`
     grid-template-columns: repeat(2, 1fr);
     gap: 4rem 1rem;
   }
+
+  @media (orientation: landscape) and (max-width: ${breakpoints.lg}) {
+    gap: 3rem 1rem;
+  }
 `;
 export const TopContainer = styled.div`
   width: 100%;

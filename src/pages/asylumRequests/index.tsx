@@ -1,4 +1,3 @@
-import { LowerContainer } from "./style";
 import { SelectorBar } from "@/components/selectorBar";
 import { useEffect, useMemo, useState } from "react";
 import isoNameRaw from "@assets/iso-country.json";
@@ -19,6 +18,7 @@ import {
   CustomTbNumbers,
   IconSpan,
   TopButtonContainer,
+  LowerContainer
 } from "@/styles/styles";
 import { HiOutlineDocumentDownload } from "react-icons/hi";
 import { DisplayError } from "@/components/error";

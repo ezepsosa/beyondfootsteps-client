@@ -5,7 +5,6 @@ import {
 } from "@/gql/graphql";
 import { useMemo, useState } from "react";
 import { SelectorBar } from "@/components/selectorBar";
-import { LowerContainer } from "./styles";
 import { ColourLegend } from "@/components/colourLegend";
 import {
   dashboardKeyOptions,
@@ -18,6 +17,7 @@ import {
   CustomMdLegendToggle,
   IconSpan,
   TopButtonContainer,
+  LowerContainer
 } from "@/styles/styles";
 import { HiOutlineDocumentDownload } from "react-icons/hi";
 import { Loading } from "@/components/loading";
