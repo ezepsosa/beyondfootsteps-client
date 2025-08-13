@@ -5,18 +5,19 @@ import {
 } from "@/gql/graphql";
 import { useMemo, useState } from "react";
 import { SelectorBar } from "@/components/selectorBar";
-import { LowerContainer } from "./styles";
 import { ColourLegend } from "@/components/colourLegend";
 import {
   dashboardKeyOptions,
   yearOptions,
   DASHBOARD_INDICATOR_INFO,
 } from "../../components/auxliar";
-import { IoInformationCircle } from "react-icons/io5";
 import {
   CsvButtonDownload,
+  CustomIoInformationCircle,
+  CustomMdLegendToggle,
   IconSpan,
   TopButtonContainer,
+  LowerContainer
 } from "@/styles/styles";
 import { HiOutlineDocumentDownload } from "react-icons/hi";
 import { Loading } from "@/components/loading";
@@ -29,7 +30,7 @@ import { InfoKPIModal } from "@/components/map/modal/kpi";
 import { MetricLayer } from "@/components/map/layer/metric";
 import { InfoCountryModal } from "@/components/map/modal/country";
 import { ShowHide } from "@/components/icons/showHide";
-import { MdLegendToggle } from "react-icons/md";
+
 
 export const Dashboard = () => {
   const [dashboardKeySelection, setDashboardKeySelection] =
@@ -99,11 +100,10 @@ export const Dashboard = () => {
             )}
             <TopButtonContainer>
               <IconSpan onClick={() => setOpenInfo((value) => !value)}>
-                <IoInformationCircle size="1.5rem" />
+                <CustomIoInformationCircle />
               </IconSpan>
               <IconSpan>
-                <MdLegendToggle
-                  size="1.5rem"
+                <CustomMdLegendToggle
                   onClick={() => setShowLegend((value) => !value)}
                 />
               </IconSpan>
@@ -113,11 +113,11 @@ export const Dashboard = () => {
                   filename={`${dashboardYearSelection}_${countrySelected}_dashboard_summary_data.csv`}
                   data={dashboardSummariesByYear ?? []}
                 >
-                  <HiOutlineDocumentDownload size="1.5rem" />
+                  <HiOutlineDocumentDownload />
                 </CsvButtonDownload>
               ) : (
                 <IconSpan>
-                  <HiOutlineDocumentDownload size="1.5rem" color="gray" />
+                  <HiOutlineDocumentDownload color="gray" />
                 </IconSpan>
               )}
             </TopButtonContainer>

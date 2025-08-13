@@ -8,6 +8,9 @@ export const LogoLayout = styled.img`
   @media (min-width: ${breakpoints.lg}) {
     height: 6rem;
   }
+  @media (orientation: landscape) and (max-width: ${breakpoints.lg}) {
+    display: none;
+  }
 `;
 
 export const MenuLayout = styled.div`
@@ -17,6 +20,9 @@ export const MenuLayout = styled.div`
 
   @media (min-width: ${breakpoints.lg}) {
     display: none;
+  }
+  @media (orientation: landscape) and (max-width: ${breakpoints.lg}) {
+    font-size: 1.6rem;
   }
 `;
 

@@ -96,6 +96,9 @@ export const LinkElement = styled(Link)<LinkElementProps>`
       width: 80%;
     }
   }
+  @media (orientation: landscape) and (max-width: ${breakpoints.lg}) {
+    font-size: 0.8rem;
+  }
 `;
 
 export const MenuContainer = styled.div`

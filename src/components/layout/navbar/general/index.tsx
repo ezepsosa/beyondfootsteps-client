@@ -27,7 +27,7 @@ export const GeneralNavBar = () => {
   const navigate = useNavigate();
 
   return (
-    <LayoutNavbar>
+    <LayoutNavbar $showInMobile={showInMobile}>
       <MenuContainer>
         <LogoAndMobileMenu>
           <LogoLayout onClick={() => navigate("/")} src={logo} />
