@@ -3,7 +3,7 @@ import { breakpoints } from "@styles/breakpoints";
 import { Link } from "react-router-dom";
 import type { LinkElementProps } from "../types";
 
-export const LayoutNavbar = styled.nav`
+export const LayoutNavbar = styled.nav<{ $showInMobile: boolean }>`
   position: fixed;
   top: 0;
   width: 100%;
@@ -18,6 +18,11 @@ export const LayoutNavbar = styled.nav`
   @media (min-width: ${breakpoints.lg}) {
     justify-content: flex-start;
     background-color: transparent;
+  }
+
+  @media (orientation: landscape) and (max-width: ${breakpoints.lg}) {
+    background-color: #00000050;
+    width: ${({ $showInMobile }) => (!$showInMobile ? "min-content" : "30%")};
   }
 `;
 
@@ -42,6 +47,9 @@ export const AuxiliarMenu = styled.div<{ open: boolean }>`
     transform-origin: initial;
     position: static;
     visibility: visible;
+  }
+  @media (orientation: landscape) and (max-width: ${breakpoints.lg}) {
+    height: 100vh;
   }
 `;
 
@@ -88,8 +96,8 @@ export const LinkElement = styled(Link)<LinkElementProps>`
   font-optical-sizing: auto;
   font-weight: 500;
   font-style: normal;
-  color: white;
   padding: 1rem 2rem;
+  color: black;
   text-align: center;
 
   &::after {
@@ -99,7 +107,7 @@ export const LinkElement = styled(Link)<LinkElementProps>`
     left: 50%;
     width: ${({ $active }) => ($active ? "80%" : "0")};
     height: 2px;
-    background: linear-gradient(90deg, #d1d1d1ff, #ffffffff);
+    background: linear-gradient(90deg, #23252693, #41434588);
     border-radius: 2px;
     transform: translateX(-50%);
     transition: width 0.3s ease;
@@ -126,6 +134,22 @@ export const LinkElement = styled(Link)<LinkElementProps>`
 
     &:hover::after {
       width: 80%;
+    }
+  }
+  @media (orientation: landscape) and (max-width: ${breakpoints.lg}) {
+    color: white;
+    background: none;
+    padding: 0.5rem;
+    
+    &::after {
+      width: 0 !important;
+    }
+
+    &:hover {
+      color: none;
+    }
+    &:hover::after {
+      width: 0% !important;
     }
   }
 `;
@@ -155,4 +179,3 @@ export const LogoAndMobileMenu = styled.div`
     width: min-content;
   }
 `;
-

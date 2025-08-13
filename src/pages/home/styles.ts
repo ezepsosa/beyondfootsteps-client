@@ -60,8 +60,7 @@ export const HomeSubtitle = styled.h2`
   letter-spacing: 0.3px;
 `;
 
-export const HomeParagraph = styled.div`
-`;
+export const HomeParagraph = styled.div``;
 
 export const GoToButton = styled.button`
   background-color: #fff;
@@ -93,7 +92,6 @@ export const SectionHeader = styled.div`
   align-items: center;
   gap: 0.75rem;
   margin-bottom: 1rem;
-
 `;
 
 export const ButtonsContainer = styled.div`
@@ -109,7 +107,6 @@ export const ButtonsContainer = styled.div`
     width: 100%;
   }
 `;
-
 
 export const FeatureList = styled.ul`
   list-style: none;
@@ -152,6 +149,7 @@ export const FeatureDescription = styled.p`
   line-height: 1.6;
   color: #6b7280;
   margin: 0;
+
 `;
 
 export const LogoContainer = styled.div`

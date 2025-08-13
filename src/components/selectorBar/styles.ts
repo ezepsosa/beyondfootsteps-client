@@ -47,6 +47,11 @@ export const Selector = styled.select<{
     padding: ${({ $paddingDesktop }) => $paddingDesktop || "0.5rem 0"};
     background-image: url("data:image/svg+xml;utf8,<svg fill='none' stroke='%23666' stroke-width='2' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'><path d='M6 9l6 6 6-6' stroke-linecap='round' stroke-linejoin='round'/></svg>");
   }
+
+  @media (orientation: landscape) and (max-width: ${breakpoints.lg}) {
+  font-size: 0.6rem;
+    padding: 0.3rem;
+  }
 `;
 
 export const BarBackground = styled.div`
