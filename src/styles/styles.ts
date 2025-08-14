@@ -8,6 +8,7 @@ import { RxEyeOpen } from "react-icons/rx";
 import { GoEyeClosed } from "react-icons/go";
 import { AiOutlinePercentage } from "react-icons/ai";
 import { TbNumbers } from "react-icons/tb";
+import { BsMenuApp } from "react-icons/bs";
 
 export const LowerContainer = styled.div`
   width: -webkit-fill-available;
@@ -103,21 +104,25 @@ export const CloseModal = styled.div`
 export const TopButtonContainer = styled.span`
   position: fixed;
   display: flex;
+  flex-direction: column;
   top: 6rem;
   z-index: 1000;
   width: 100%;
-  align-items: center;
+  align-items: flex-start;
   gap: 0.5rem;
   padding: 0.5rem 1rem;
   border-radius: 8px;
 
-  @media (min-width: ${breakpoints.md}) {
+  @media (min-width: ${breakpoints.lg}) {
+    align-items: center;
+    flex-direction: row;
     top: 8rem;
     left: 2rem;
   }
 
   @media (orientation: landscape) and (max-width: ${breakpoints.lg}) {
     top: 0rem;
+    flex-direction: row;
     left: 0;
     display: flex;
     justify-content: center;
@@ -267,6 +272,19 @@ export const CustomAiOutlinePercentage = styled(AiOutlinePercentage)`
 
 export const CustomTbNumbers = styled(TbNumbers)`
   font-size: 1.5rem;
+
+  @media (orientation: landscape) and (max-width: ${breakpoints.lg}) {
+    font-size: 1rem;
+  }
+`;
+
+export const CustomBsMenuApp = styled(BsMenuApp)`
+  font-size: 1.5rem;
+  color: #1b1b1b;
+  background-color: #fafafa;
+  padding: 0.5rem;
+  border-radius: 0.8rem;
+  border: 1px solid #ccc;
 
   @media (orientation: landscape) and (max-width: ${breakpoints.lg}) {
     font-size: 1rem;

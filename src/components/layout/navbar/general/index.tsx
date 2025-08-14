@@ -10,6 +10,7 @@ import {
 import logo from "@assets/beyondfootsteps_transparent_logo.png";
 import { useLocation, useNavigate } from "react-router-dom";
 import { LinkMenu, LogoLayout, MenuLayout } from "../style";
+import { CustomBsMenuApp } from "@/styles/styles";
 
 export const GeneralNavBar = () => {
   const [showInMobile, setShowInMobile] = useState<boolean>(false);
@@ -32,7 +33,7 @@ export const GeneralNavBar = () => {
         <LogoAndMobileMenu>
           <LogoLayout onClick={() => navigate("/")} src={logo} />
           <MenuLayout onClick={() => setShowInMobile(!showInMobile)}>
-            ☰
+            <CustomBsMenuApp />
           </MenuLayout>
         </LogoAndMobileMenu>
         <LinkMenu>
