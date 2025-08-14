@@ -6,7 +6,7 @@ import type { LogoProps } from "./types";
 export const AboutNavbar = styled.nav`
   display: flex;
   position: sticky;
-  width: 100%;
+  width: -webkit-fill-available;
   top: 0;
   font-family: "Inter", sans-serif;
   font-weight: 800;
