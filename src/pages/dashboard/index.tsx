@@ -5,7 +5,6 @@ import {
 } from "@/gql/graphql";
 import { useMemo, useState } from "react";
 import { SelectorBar } from "@/components/selectorBar";
-import { ColourLegend } from "@/components/colourLegend";
 import {
   dashboardKeyOptions,
   yearOptions,
@@ -30,6 +29,7 @@ import { InfoKPIModal } from "@/components/map/modal/kpi";
 import { MetricLayer } from "@/components/map/layer/metric";
 import { InfoCountryModal } from "@/components/map/modal/country";
 import { ShowHide } from "@/components/icons/showHide";
+import { ColorLegend } from "@/components/colorLegend";
 
 
 export const Dashboard = () => {
@@ -62,7 +62,7 @@ export const Dashboard = () => {
     [data]
   );
 
-  const getColourForMap = useCountryColor({
+  const getcolorForMap = useCountryColor({
     arrayData: dashboardSummariesByYear ?? [],
     metricSelected: dashboardKeySelection as keyof DashboardSummary,
   });
@@ -88,7 +88,7 @@ export const Dashboard = () => {
           );
         return (
           <MapComponent>
-            <GeoJSONLayer geoColourForMap={getColourForMap} />
+            <GeoJSONLayer geoColorForMap={getcolorForMap} />
             {showMetric && dashboardSummariesByYear.length > 0 && (
               <MetricLayer
                 centroids={centroids}
@@ -135,8 +135,8 @@ export const Dashboard = () => {
                 setOption={(value) => setDashboardKeySelection(value as string)}
               />
             </LowerContainer>
-            {getColourForMap.scale && showLegend && (
-              <ColourLegend scale={getColourForMap.scale} />
+            {getcolorForMap.scale && showLegend && (
+              <ColorLegend scale={getcolorForMap.scale} />
             )}
           </MapComponent>
         );

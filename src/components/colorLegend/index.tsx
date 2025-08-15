@@ -13,7 +13,7 @@ type Props = {
   scale: ScaleLinear<string, string, never>;
 };
 
-export const ColourLegend = ({ scale }: Props) => {
+export const ColorLegend = ({ scale }: Props) => {
   const scaleHeight = 300;
   const numSteps = 10;
 
@@ -30,7 +30,7 @@ export const ColourLegend = ({ scale }: Props) => {
     <LegendContainer>
       <CustomSVG height={scaleHeight}>
         {scaleValues.map((value, index) => {
-          const colour = scale(value);
+          const color = scale(value);
           return (
             <CustomRect
               key={value}
@@ -38,7 +38,7 @@ export const ColourLegend = ({ scale }: Props) => {
               y={(index * scaleHeight) / numSteps}
               width="50"
               height={scaleHeight / numSteps}
-              fill={colour}
+              fill={color}
               stroke="white"
               strokeWidth="1"
             />
