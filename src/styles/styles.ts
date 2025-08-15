@@ -3,11 +3,16 @@ import styled from "styled-components";
 import { breakpoints } from "./breakpoints";
 import CsvDownload from "react-json-to-csv";
 import { MdLegendToggle } from "react-icons/md";
-import { IoInformationCircle } from "react-icons/io5";
+import { IoHomeOutline, IoInformationCircle } from "react-icons/io5";
 import { RxEyeOpen } from "react-icons/rx";
 import { GoEyeClosed } from "react-icons/go";
 import { AiOutlinePercentage } from "react-icons/ai";
 import { TbNumbers } from "react-icons/tb";
+import { LuChartSpline, LuMessageSquareMore } from "react-icons/lu";
+import { HiOutlineDocumentText } from "react-icons/hi";
+import { colors } from "./colors";
+import { CiMap } from "react-icons/ci";
+import { PiGavelLight } from "react-icons/pi";
 
 export const LowerContainer = styled.div`
   width: -webkit-fill-available;
@@ -26,7 +31,7 @@ export const LowerContainer = styled.div`
 
   @media (orientation: landscape) and (max-width: ${breakpoints.lg}) {
     padding: 0 1rem;
-    bottom: 2rem;
+    bottom: 3rem;
   }
 `;
 
@@ -103,21 +108,25 @@ export const CloseModal = styled.div`
 export const TopButtonContainer = styled.span`
   position: fixed;
   display: flex;
-  top: 6rem;
+  flex-direction: column;
+  top: 2rem;
   z-index: 1000;
   width: 100%;
-  align-items: center;
+  align-items: flex-start;
   gap: 0.5rem;
   padding: 0.5rem 1rem;
   border-radius: 8px;
 
-  @media (min-width: ${breakpoints.md}) {
+  @media (min-width: ${breakpoints.lg}) {
+    align-items: center;
+    flex-direction: row;
     top: 8rem;
     left: 2rem;
   }
 
   @media (orientation: landscape) and (max-width: ${breakpoints.lg}) {
-    top: 0rem;
+    top: 3.5rem;
+    flex-direction: row;
     left: 0;
     display: flex;
     justify-content: center;
@@ -166,7 +175,7 @@ export const PrimaryButton = styled.button`
   cursor: pointer;
 
   &:hover {
-    background-color: #e0e0e0;
+    background-color: ${colors.neutral[350]};
   }
   @media (orientation: landscape) and (max-width: ${breakpoints.lg}) {
     font-size: 0.7rem;
@@ -184,7 +193,7 @@ export const SecondaryButton = styled.button`
 
   &:hover {
     color: white;
-    background-color: #00000085;
+    background-color: ${colors.neutral.blackAlt};
   }
   @media (orientation: landscape) and (max-width: ${breakpoints.lg}) {
     font-size: 0.7rem;
@@ -217,8 +226,8 @@ export const ThinLine = styled.div`
   background: linear-gradient(
     to right,
     rgba(146, 146, 146, 0) 0%,
-    #92929269 20%,
-    #92929269 80%,
+    ${colors.neutral.grayAlpha} 20%,
+    ${colors.neutral.grayAlpha} 80%,
     rgba(146, 146, 146, 0) 100%
   );
 `;
@@ -267,6 +276,69 @@ export const CustomAiOutlinePercentage = styled(AiOutlinePercentage)`
 
 export const CustomTbNumbers = styled(TbNumbers)`
   font-size: 1.5rem;
+
+  @media (orientation: landscape) and (max-width: ${breakpoints.lg}) {
+    font-size: 1rem;
+  }
+`;
+
+export const CustomPiGavelLight = styled(PiGavelLight)<{$active: boolean}>  `
+  font-size: 1.3rem;
+  stroke-width: 0.1;
+  color: ${({ $active }) => ($active ? colors.primary[400] : colors.neutral[800])};
+
+  @media (orientation: landscape) and (max-width: ${breakpoints.lg}) {
+    font-size: 1rem;
+  }
+`;
+
+export const CustomHiOutlineDocumentText = styled(HiOutlineDocumentText)<{$active: boolean}>`
+  font-size: 1.3rem;
+  stroke-width: 1.5;
+  color: ${({ $active }) => ($active ? colors.primary[400] : colors.neutral[800])};
+
+  @media (orientation: landscape) and (max-width: ${breakpoints.lg}) {
+    font-size: 1rem;
+  }
+`;
+
+export const CustomCiMap = styled(CiMap)<{$active: boolean}>`
+  font-size: 1.3rem;
+  stroke-width: 0.1;
+  color: ${({ $active }) => ($active ? colors.primary[400] : colors.neutral[800])};
+
+  @media (orientation: landscape) and (max-width: ${breakpoints.lg}) {
+    font-size: 1rem;
+  }
+`;
+
+export const CustomLuChartSpline = styled(LuChartSpline)<{$active: boolean}>`
+  font-size: 1.3rem;
+  stroke-width: 1.5;
+  color: ${({ $active }) => ($active ? colors.primary[500] : colors.neutral[800])};
+
+  @media (orientation: landscape) and (max-width: ${breakpoints.lg}) {
+    font-size: 1rem;
+  }
+`;
+
+export const CustomIoHomeOutline = styled(IoHomeOutline)<{$active: boolean}>`
+  font-size: 1.6rem;
+  color: ${colors.white};
+  background-color: ${colors.primary[400]};
+  padding: 0.5rem;
+  border-radius: 2rem;
+  stroke-width: 1.5;
+
+  @media (orientation: landscape) and (max-width: ${breakpoints.lg}) {
+    font-size: 1rem;
+  }
+`;
+
+export const CustomLuMessageSquareMore = styled(LuMessageSquareMore)<{$active: boolean}>`
+  font-size: 1.3rem;
+  stroke-width: 1.5;
+  color: ${({ $active }) => ($active ? colors.primary[500] : colors.neutral[800])};
 
   @media (orientation: landscape) and (max-width: ${breakpoints.lg}) {
     font-size: 1rem;

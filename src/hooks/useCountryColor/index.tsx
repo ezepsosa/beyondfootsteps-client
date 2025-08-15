@@ -168,7 +168,7 @@ export const useCountryColor = ({
 
     const scale = calculateScale(values,       colorsOnlyPositive,
       colorsMixed);
-    const colours = calculateColorReturningValue(
+    const colors = calculateColorReturningValue(
       scale,
       entries,
       metricSelected,
@@ -177,7 +177,7 @@ export const useCountryColor = ({
 
     );
 
-    return { scale, colours };
+    return { scale, colors };
   }, [arrayData, metricSelected, directionSelected, countrySelected, colorsOnlyPositive, colorsMixed]);
 };
 
@@ -228,7 +228,7 @@ export const useCountryColorForPercentage = ({
       .range(colorsOnlyPositive)
       .clamp(true);
 
-    const colours = calculateColorReturningValue(
+    const colors = calculateColorReturningValue(
       scale,
       entries,
       metricSelected,
@@ -237,6 +237,6 @@ export const useCountryColorForPercentage = ({
 
     );
 
-    return { scale, colours };
+    return { scale, colors };
   }, [arrayData, metricSelected, directionSelected, countrySelected, colorsOnlyPositive]);
 };

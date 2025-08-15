@@ -2,22 +2,23 @@ import styled from "styled-components";
 import { breakpoints } from "@/styles/breakpoints";
 import { Link } from "react-router-dom";
 import type { LogoProps } from "./types";
+import { colors } from "@/styles/colors";
 
 export const AboutNavbar = styled.nav`
   display: flex;
   position: sticky;
-  width: 100%;
+  width: -webkit-fill-available;
   top: 0;
   font-family: "Inter", sans-serif;
   font-weight: 800;
   justify-content: space-between;
   align-items: center;
   padding: 1rem 2rem;
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid ${colors.neutral[150]};
 `;
 
 export const AboutLinkElement = styled(Link)`
-  color: #000000ff;
+  color: ${colors.neutral[900]};
   text-decoration: none;
   transition: color 0.2s ease;
   display:flex;

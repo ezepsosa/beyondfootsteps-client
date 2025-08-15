@@ -5,7 +5,6 @@ import {
   asylumDecisionKeyOptions,
   yearOptions,
 } from "../../components/auxliar";
-import { ColourLegend } from "@/components/colourLegend";
 import {
   CsvButtonDownload,
   CustomIoInformationCircle,
@@ -30,6 +29,7 @@ import { InfoKPIModal } from "@/components/map/modal/kpi";
 import { MetricLayer } from "@/components/map/layer/metric";
 import { InfoCountryModal } from "@/components/map/modal/country";
 import { ShowHide } from "@/components/icons/showHide";
+import { ColorLegend } from "@/components/colorLegend";
 
 const isoNameRawTyped: isoNameType[] = isoNameRaw as isoNameType[];
 
@@ -77,7 +77,7 @@ export const AsylumDecisions = () => {
     console.warn("Error fetching asylum data data");
   }
 
-  const getColourForMap = useCountryColorForPercentage({
+  const getcolorForMap = useCountryColorForPercentage({
     arrayData: asylumDecisionsByYearAndCountry,
     metricSelected: "acceptanceRate",
     directionSelected,
@@ -115,7 +115,7 @@ export const AsylumDecisions = () => {
           );
         return (
           <MapComponent>
-            <GeoJSONLayer geoColourForMap={getColourForMap} />
+            <GeoJSONLayer geoColorForMap={getcolorForMap} />
             {asylumDecisionsByYearAndCountry.length > 0 && showMetric && (
               <MetricLayer
                 key={directionSelected}
@@ -173,8 +173,8 @@ export const AsylumDecisions = () => {
         );
       })()}
 
-      {getColourForMap.scale && showLegend && (
-        <ColourLegend scale={getColourForMap.scale} />
+      {getcolorForMap.scale && showLegend && (
+        <ColorLegend scale={getcolorForMap.scale} />
       )}
       <InfoKPIModal
         info="Acceptance Rate: The proportion of asylum decisions that resulted in refugee status or subsidiary protection. A higher acceptance rate indicates more favorable recognition policies or stronger protection cases. Formula: (positive decisions ÷ total substantive decisions). The number is in scale from 0 to 1 representing the 0% to 100% percentage"

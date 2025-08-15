@@ -1,4 +1,5 @@
 import { breakpoints } from "@/styles/breakpoints";
+import { colors } from "@/styles/colors";
 import styled from "styled-components";
 
 export const HomeContainer = styled.div`
@@ -20,7 +21,7 @@ export const HomeContent = styled.div`
 export const HomeSection = styled.section`
   margin: 1rem 0;
   padding: 1.5rem;
-  border-left: 0.125rem solid #e5e7eb;
+  border-left: 0.125rem solid ${colors.neutral[300]};
   transition: border-color 0.3s;
 
   ul {
@@ -38,11 +39,11 @@ export const HomeTitle = styled.h1`
   font-weight: 700;
   text-align: left;
   margin-bottom: 1rem;
-  color: #1f2937;
+  color: ${colors.neutral[900]};
   letter-spacing: -0.5px;
 
   strong {
-    background: linear-gradient(90deg, #10b981 0%, #3ea7c7ff 100%);
+    background: linear-gradient(90deg, ${colors.success[500]} 0%, ${colors.primary[400]} 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -54,7 +55,7 @@ export const HomeTitle = styled.h1`
 export const HomeSubtitle = styled.h2`
   font-size: 1.2rem;
   font-weight: 500;
-  color: #4b5563;
+  color: ${colors.neutral[600]};
   margin-bottom: 1.5rem;
   text-align: left;
   letter-spacing: 0.3px;
@@ -63,13 +64,13 @@ export const HomeSubtitle = styled.h2`
 export const HomeParagraph = styled.div``;
 
 export const GoToButton = styled.button`
-  background-color: #fff;
+  color: ${colors.white};
   color: black;
   text-decoration: none;
   font-size: 0.95rem;
   font-weight: 600;
   padding: 0.8rem 1.8rem;
-  border: 1.5px solid #000000ff;
+  border: 1.5px solid ${colors.neutral[900]};
   border-radius: 0.25rem;
   cursor: pointer;
   margin-top: 2rem;
@@ -78,8 +79,8 @@ export const GoToButton = styled.button`
 
   &:hover {
     background-color: #5e5e5eff;
-    color: #fff;
-    box-shadow: 0 0.125rem 0.5rem rgba(37, 99, 235, 0.15);
+    color: ${colors.white};
+    box-shadow: 0 0.125rem 0.5rem #2563eb26;
   }
 
   &:active {
@@ -113,7 +114,7 @@ export const FeatureList = styled.ul`
   padding: 0;
   margin: 2rem 0;
   padding: 0 1rem;
-  border-left: 2px solid #e5e7eb;
+  border-left: 2px solid ${colors.neutral[300]};
 `;
 
 export const FeatureItem = styled.li`
@@ -141,15 +142,14 @@ export const FeatureTitle = styled.h3`
   font-size: 1.1rem;
   font-weight: 600;
   margin: 0 0 0.5rem 0;
-  color: #374151;
+  color: ${colors.neutral[900]};
 `;
 
 export const FeatureDescription = styled.p`
   font-size: 0.95rem;
   line-height: 1.6;
-  color: #6b7280;
+  color: ${colors.neutral[600]};
   margin: 0;
-
 `;
 
 export const LogoContainer = styled.div`

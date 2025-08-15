@@ -3,7 +3,7 @@ import type { Props } from "./types";
 import { useCountriesJSON } from "@/hooks/useCountriesJSON";
 import type { FeatureCollection } from "geojson";
 
-export const GeoJSONLayer = ({ geoColourForMap }: Props) => {
+export const GeoJSONLayer = ({ geoColorForMap }: Props) => {
   const {jsonData} = useCountriesJSON();
   const geoData: FeatureCollection =
     jsonData && typeof jsonData === "object" && "type" in jsonData
@@ -15,7 +15,7 @@ export const GeoJSONLayer = ({ geoColourForMap }: Props) => {
       style={(feature) => {
         const country = feature?.properties?.["ISO3166-1-Alpha-3"];
         return {
-          fillColor: geoColourForMap.colours?.[country] || "#ccc",
+          fillColor: geoColorForMap.colors?.[country] || "#ccc",
           weight: 1,
           color: "white",
           fillOpacity: 0.8,

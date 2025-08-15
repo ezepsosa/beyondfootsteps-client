@@ -13,6 +13,7 @@ import {
   SecondaryButton,
 } from "@/styles/styles";
 import { HiOutlineDocumentDownload } from "react-icons/hi";
+import { colors } from "@/styles/colors";
 
 export const ResettlementFlows = ({ year }: Props) => {
   const { data } = useGetResettlementSummariesByYearGroupedByQuery({
@@ -72,8 +73,8 @@ export const ResettlementFlows = ({ year }: Props) => {
               flow: resettlement?.totalDepartures ?? 0,
             };
           }),
-          from: "#3b82f6",
-          to: "#10b981",
+          from: colors.primary[500],
+          to: colors.success[500],
           colorMode: "gradient",
           borderColor: "#222",
           borderWidth: 2,

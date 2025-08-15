@@ -1,18 +1,18 @@
 import { breakpoints } from "@/styles/breakpoints";
+import { colors } from "@/styles/colors";
 import styled from "styled-components";
 
 export const Selector = styled.select<{
   $paddingDesktop?: string;
   $paddingMobile?: string;
 }>`
-  background-color: #fafafa;
-  border: 1px solid #b0b0b0;
-  border-radius: 0.5rem;
+  background-color: ${colors.neutral[75]};
+  border: 1px solid ${colors.neutral[300]};
   padding: ${({ $paddingMobile }) => $paddingMobile || "0.4rem 0"};
   font-family: "Inter", sans-serif;
-  font-size: 0.9rem;
+  font-size: 0.8rem;
   font-weight: 600;
-  color: #333333;
+  color: ${colors.neutral.black};
   text-align-last: center;
   white-space: nowrap;
   overflow: hidden;
@@ -20,7 +20,7 @@ export const Selector = styled.select<{
   appearance: none;
   -webkit-appearance: none;
   -moz-appearance: none;
-  -webkit-border-radius: 0.5rem;
+  -webkit-border-radius: 0.3rem;
   -webkit-tap-highlight-color: transparent;
 
   cursor: pointer;
@@ -30,6 +30,7 @@ export const Selector = styled.select<{
   background-repeat: no-repeat;
   background-position: right 1rem center;
   background-size: 0.9em;
+
 
   &:hover {
     border-color: #888888;
