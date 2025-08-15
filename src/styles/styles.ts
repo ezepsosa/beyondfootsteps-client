@@ -31,7 +31,7 @@ export const LowerContainer = styled.div`
 
   @media (orientation: landscape) and (max-width: ${breakpoints.lg}) {
     padding: 0 1rem;
-    bottom: 2rem;
+    bottom: 3rem;
   }
 `;
 
@@ -109,7 +109,7 @@ export const TopButtonContainer = styled.span`
   position: fixed;
   display: flex;
   flex-direction: column;
-  top: 6rem;
+  top: 2rem;
   z-index: 1000;
   width: 100%;
   align-items: flex-start;
@@ -125,7 +125,7 @@ export const TopButtonContainer = styled.span`
   }
 
   @media (orientation: landscape) and (max-width: ${breakpoints.lg}) {
-    top: 0rem;
+    top: 3.5rem;
     flex-direction: row;
     left: 0;
     display: flex;

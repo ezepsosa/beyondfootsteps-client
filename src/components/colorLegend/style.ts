@@ -9,7 +9,7 @@ export const LegendContainer = styled.div`
   padding: 1rem 0.4rem 0.75rem 1rem;
   border-radius: 0.5rem;
   height: min-content;
-  top: 15%;
+  top: 3%;
   right: 3%;
   z-index: 1000;
   width: 3rem;
@@ -22,10 +22,10 @@ export const LegendContainer = styled.div`
   }
 
   @media (orientation: landscape) and (max-width: ${breakpoints.lg}) {
-    top: 0;
+    top: -8rem;
     height: min-content;
     width: 2.4rem;
-    left: 10rem;
+    left: 50%;
     padding: 0.5rem;
     transform: rotate(-90deg);
   }

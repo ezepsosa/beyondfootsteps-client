@@ -1,5 +1,5 @@
 import { useLocation } from "react-router-dom";
-import { LinkElement } from "../general/style";
+import { LinkElement } from "../style";
 
 export const MainMenuOptions = () => {
   const location = useLocation();

@@ -17,6 +17,7 @@ export const colors = {
     black: "#000000",
     blackAlt: "#00000085",
     grayAlpha: "#92929269",
+    grayAlphaLight: "#f5f5f5b7"
   },
   primary: {
     400: "#3ea7c7",
