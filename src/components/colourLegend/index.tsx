@@ -7,40 +7,15 @@ import {
   SimpleDiv,
 } from "./style";
 import { humanize, roundTwoDigits } from "@/components/auxliar";
-import { useEffect, useState } from "react";
-import { isMobile } from "react-device-detect";
+import { TextSpan } from "@/styles/styles";
 
 type Props = {
   scale: ScaleLinear<string, string, never>;
 };
 
 export const ColourLegend = ({ scale }: Props) => {
-  const [scaleHeight, setScaleHeight] = useState<number>(300);
-  const [numSteps, setNumSteps] = useState<number>(10);
-
-  useEffect(() => {
-    const handleOrientationChange = () => {
-      if (
-        isMobile &&
-        window.screen.orientation &&
-        window.screen.orientation.angle === 90
-      ) {
-        setScaleHeight(150);
-        setNumSteps(5);
-      } else {
-        setScaleHeight(300);
-        setNumSteps(10);
-      }
-    };
-
-    handleOrientationChange();
-
-    window.addEventListener("orientationchange", handleOrientationChange);
-
-    return () => {
-      window.removeEventListener("orientationchange", handleOrientationChange);
-    };
-  }, []);
+  const scaleHeight = 300;
+  const numSteps = 10;
 
   const domain = scale.domain();
   const minValue = domain[0];
@@ -82,9 +57,9 @@ export const ColourLegend = ({ scale }: Props) => {
               fontSize: "12px",
             }}
           >
-            {index === scaleValues.length - 1
+            <TextSpan>{index === scaleValues.length - 1
               ? Math.round(value)
-              : humanize(value, 1)}
+              : humanize(value, 1)}</TextSpan>
           </SimpleDiv>
         ))}
       </LegendNumberContainers>

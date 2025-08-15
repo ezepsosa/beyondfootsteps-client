@@ -7,27 +7,27 @@ export const LegendContainer = styled.div`
   align-items: center;
   background-color: #f5f5f5;
   padding: 1rem 0.4rem 0.75rem 1rem;
-  border-radius: 1rem;
+  border-radius: 0.5rem;
   height: min-content;
-  top: 10rem;
-  right: 1rem;
+  top: 15%;
+  right: 3%;
   z-index: 1000;
   width: 3rem;
 
   @media (min-width: ${breakpoints.md}) {
-    padding-right: 0.25rem;
-    justify-content: flex-start;
-    top: 30rem;
-    right: 3rem;
+    top: 30%;
+    right: 5%;
     bottom: 0;
     width: 3rem;
   }
 
   @media (orientation: landscape) and (max-width: ${breakpoints.lg}) {
-    top: 6rem;
+    top: 0;
     height: min-content;
-    width: 3rem;
-    right: 1rem;
+    width: 2.4rem;
+    left: 10rem;
+    padding: 0.5rem;
+    transform: rotate(-90deg);
   }
 `;
 
@@ -36,7 +36,7 @@ export const CustomSVG = styled.svg<{ height: number }>`
   height: min-content;
 
   @media (min-width: ${breakpoints.lg}) {
-    width: 4rem;
+    width: 2rem;
   }
 `;
 
@@ -49,4 +49,8 @@ export const LegendNumberContainers = styled.div`
   justify-content: space-between;
 `;
 
-export const SimpleDiv = styled.div``;
+export const SimpleDiv = styled.div`
+  @media (orientation: landscape) and (max-width: ${breakpoints.lg}) {
+    transform: rotate(90deg);
+  }
+`;

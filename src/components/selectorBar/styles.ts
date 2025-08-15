@@ -7,10 +7,9 @@ export const Selector = styled.select<{
 }>`
   background-color: #fafafa;
   border: 1px solid #b0b0b0;
-  border-radius: 0.5rem;
   padding: ${({ $paddingMobile }) => $paddingMobile || "0.4rem 0"};
   font-family: "Inter", sans-serif;
-  font-size: 0.9rem;
+  font-size: 0.8rem;
   font-weight: 600;
   color: #333333;
   text-align-last: center;
@@ -20,7 +19,7 @@ export const Selector = styled.select<{
   appearance: none;
   -webkit-appearance: none;
   -moz-appearance: none;
-  -webkit-border-radius: 0.5rem;
+  -webkit-border-radius: 0.3rem;
   -webkit-tap-highlight-color: transparent;
 
   cursor: pointer;
@@ -30,6 +29,7 @@ export const Selector = styled.select<{
   background-repeat: no-repeat;
   background-position: right 1rem center;
   background-size: 0.9em;
+
 
   &:hover {
     border-color: #888888;
