@@ -14,10 +14,15 @@ export const LogoLayout = styled.img`
 `;
 
 export const MenuLayout = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  width: 100%;
   font-size: 2rem;
   cursor: pointer;
   color: black;
   padding: 0.25rem 0;
+  gap: 2rem;
 
   @media (min-width: ${breakpoints.lg}) {
     display: none;

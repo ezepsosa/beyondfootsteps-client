@@ -11,10 +11,11 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { LinkMenu, LogoLayout, MenuLayout } from "../style";
 import { MainMenuOptions } from "../mainMenuOptions";
 import {
-  CustomFaMapMarkedAlt,
+  CustomCiMap,
   CustomHiOutlineDocumentText,
+  CustomIoHomeOutline,
   CustomLuChartSpline,
-  CustomMdGavel,
+  CustomPiGavelLight,
 } from "@/styles/styles";
 
 export const GeneralNavBar = () => {
@@ -29,32 +30,30 @@ export const GeneralNavBar = () => {
         <LogoAndMobileMenu>
           <LogoLayout onClick={() => navigate("/")} src={logo} />
           <MenuLayout>
-            <LinkElement to="/dashboard" $active={currentPath === "/dashboard"}>
-              <CustomFaMapMarkedAlt />
+            <LinkElement to="/dashboard" $background="none">
+              <CustomCiMap $active={currentPath === "/dashboard"} />
             </LinkElement>
-            <LinkElement
-              $active={currentPath === "/requests"}
-              to="/requests"
-            >
-              <CustomHiOutlineDocumentText />
+            <LinkElement $active={currentPath === "/requests"} to="/requests" $background="none">
+              <CustomHiOutlineDocumentText $active={currentPath === "/requests"} />
             </LinkElement>
-            <LinkElement
-              $active={currentPath === "/decisions"}
-              to="/decisions"
-            >
-              <CustomMdGavel />
+            <LinkElement $active={currentPath === "/"} to="/" $background="none">
+              <CustomIoHomeOutline $active={currentPath === "/"} />
+            </LinkElement>
+            <LinkElement $active={currentPath === "/decisions"} to="/decisions" $background="none">
+              <CustomPiGavelLight $active={currentPath === "/decisions"} />
             </LinkElement>
             <LinkElement
               $active={currentPath === "/resettlements"}
               to="/resettlements"
+              $background="none"
             >
-              <CustomLuChartSpline />
+              <CustomLuChartSpline $active={currentPath === "/resettlements"} />
             </LinkElement>
           </MenuLayout>
         </LogoAndMobileMenu>
         <LinkMenu>
           <MenuElement>
-            <MainMenuOptions/>
+            <MainMenuOptions />
           </MenuElement>
           <AuxiliarMenu>
             <LinkElement

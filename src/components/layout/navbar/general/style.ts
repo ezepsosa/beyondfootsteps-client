@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { breakpoints } from "@styles/breakpoints";
 import { Link } from "react-router-dom";
 import type { LinkElementProps } from "../types";
+import { colors } from "@/styles/colors";
 
 export const LayoutNavbar = styled.nav`
   position: fixed;
@@ -12,8 +13,8 @@ export const LayoutNavbar = styled.nav`
   z-index: 1001;
   box-sizing: border-box;
   justify-content: space-between;
-  background-color: #f7f7f7ff;
-  border-top: 1px solid #d1d1d1ff;
+  background-color: ${colors.neutral[150]};
+  border-top: 1px dotted ${colors.neutral[300]};
 
   @media (min-width: ${breakpoints.lg}) {
     bottom: auto;
@@ -65,7 +66,6 @@ export const LinkElement = styled(Link)<LinkElementProps>`
   font-optical-sizing: auto;
   font-weight: 500;
   font-style: normal;
-  padding: 1rem 2rem;
   color: black;
   text-align: center;
 
@@ -76,7 +76,7 @@ export const LinkElement = styled(Link)<LinkElementProps>`
     left: 50%;
     width: ${({ $active }) => ($active ? "80%" : "0")};
     height: 2px;
-    background: linear-gradient(90deg, #23252693, #41434588);
+    background: ${({ $background }) => $background || "linear-gradient(90deg, #23252693, #41434588)"};
     border-radius: 2px;
     transform: translateX(-50%);
     transition: width 0.3s ease;
@@ -87,6 +87,7 @@ export const LinkElement = styled(Link)<LinkElementProps>`
   }
 
   @media (min-width: ${breakpoints.lg}) {
+    padding: 1rem 2rem;
     color: ${({ color }) => color || "black"};
     padding: 1.2rem;
 
@@ -140,7 +141,7 @@ export const MenuContainer = styled.div`
 
 export const LogoAndMobileMenu = styled.div`
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   width: 100%;
   align-items: center;
 

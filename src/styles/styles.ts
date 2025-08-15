@@ -2,16 +2,17 @@ import type { TextSpanProps } from "@/types/types";
 import styled from "styled-components";
 import { breakpoints } from "./breakpoints";
 import CsvDownload from "react-json-to-csv";
-import { MdGavel, MdLegendToggle } from "react-icons/md";
-import { IoInformationCircle } from "react-icons/io5";
+import { MdLegendToggle } from "react-icons/md";
+import { IoHomeOutline, IoInformationCircle } from "react-icons/io5";
 import { RxEyeOpen } from "react-icons/rx";
 import { GoEyeClosed } from "react-icons/go";
 import { AiOutlinePercentage } from "react-icons/ai";
 import { TbNumbers } from "react-icons/tb";
-import { FaMapMarkedAlt } from "react-icons/fa";
-import { LuChartSpline } from "react-icons/lu";
+import { LuChartSpline, LuMessageSquareMore } from "react-icons/lu";
 import { HiOutlineDocumentText } from "react-icons/hi";
 import { colors } from "./colors";
+import { CiMap } from "react-icons/ci";
+import { PiGavelLight } from "react-icons/pi";
 
 export const LowerContainer = styled.div`
   width: -webkit-fill-available;
@@ -281,32 +282,63 @@ export const CustomTbNumbers = styled(TbNumbers)`
   }
 `;
 
-  export const CustomMdGavel = styled(MdGavel)`
-  font-size: 1.5rem;
+export const CustomPiGavelLight = styled(PiGavelLight)<{$active: boolean}>  `
+  font-size: 1.3rem;
+  stroke-width: 0.1;
+  color: ${({ $active }) => ($active ? colors.primary[400] : colors.neutral[800])};
 
   @media (orientation: landscape) and (max-width: ${breakpoints.lg}) {
     font-size: 1rem;
   }
 `;
 
-export const CustomHiOutlineDocumentText  = styled(HiOutlineDocumentText)`
-  font-size: 1.5rem;
+export const CustomHiOutlineDocumentText = styled(HiOutlineDocumentText)<{$active: boolean}>`
+  font-size: 1.3rem;
+  stroke-width: 1.5;
+  color: ${({ $active }) => ($active ? colors.primary[400] : colors.neutral[800])};
 
   @media (orientation: landscape) and (max-width: ${breakpoints.lg}) {
     font-size: 1rem;
   }
 `;
 
-export const CustomFaMapMarkedAlt = styled(FaMapMarkedAlt)`
-  font-size: 1.5rem;
+export const CustomCiMap = styled(CiMap)<{$active: boolean}>`
+  font-size: 1.3rem;
+  stroke-width: 0.1;
+  color: ${({ $active }) => ($active ? colors.primary[400] : colors.neutral[800])};
 
   @media (orientation: landscape) and (max-width: ${breakpoints.lg}) {
     font-size: 1rem;
   }
 `;
 
-export const CustomLuChartSpline = styled(LuChartSpline)`
-  font-size: 1.5rem;
+export const CustomLuChartSpline = styled(LuChartSpline)<{$active: boolean}>`
+  font-size: 1.3rem;
+  stroke-width: 1.5;
+  color: ${({ $active }) => ($active ? colors.primary[500] : colors.neutral[800])};
+
+  @media (orientation: landscape) and (max-width: ${breakpoints.lg}) {
+    font-size: 1rem;
+  }
+`;
+
+export const CustomIoHomeOutline = styled(IoHomeOutline)<{$active: boolean}>`
+  font-size: 1.6rem;
+  color: ${colors.white};
+  background-color: ${colors.primary[400]};
+  padding: 0.5rem;
+  border-radius: 2rem;
+  stroke-width: 1.5;
+
+  @media (orientation: landscape) and (max-width: ${breakpoints.lg}) {
+    font-size: 1rem;
+  }
+`;
+
+export const CustomLuMessageSquareMore = styled(LuMessageSquareMore)<{$active: boolean}>`
+  font-size: 1.3rem;
+  stroke-width: 1.5;
+  color: ${({ $active }) => ($active ? colors.primary[500] : colors.neutral[800])};
 
   @media (orientation: landscape) and (max-width: ${breakpoints.lg}) {
     font-size: 1rem;
