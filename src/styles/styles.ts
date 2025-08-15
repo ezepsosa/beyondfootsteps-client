@@ -2,13 +2,15 @@ import type { TextSpanProps } from "@/types/types";
 import styled from "styled-components";
 import { breakpoints } from "./breakpoints";
 import CsvDownload from "react-json-to-csv";
-import { MdLegendToggle } from "react-icons/md";
+import { MdGavel, MdLegendToggle } from "react-icons/md";
 import { IoInformationCircle } from "react-icons/io5";
 import { RxEyeOpen } from "react-icons/rx";
 import { GoEyeClosed } from "react-icons/go";
 import { AiOutlinePercentage } from "react-icons/ai";
 import { TbNumbers } from "react-icons/tb";
-import { BsMenuApp } from "react-icons/bs";
+import { FaMapMarkedAlt } from "react-icons/fa";
+import { LuChartSpline } from "react-icons/lu";
+import { HiOutlineDocumentText } from "react-icons/hi";
 
 export const LowerContainer = styled.div`
   width: -webkit-fill-available;
@@ -278,13 +280,32 @@ export const CustomTbNumbers = styled(TbNumbers)`
   }
 `;
 
-export const CustomBsMenuApp = styled(BsMenuApp)`
+  export const CustomMdGavel = styled(MdGavel)`
   font-size: 1.5rem;
-  color: #1b1b1b;
-  background-color: #fafafa;
-  padding: 0.5rem;
-  border-radius: 0.8rem;
-  border: 1px solid #ccc;
+
+  @media (orientation: landscape) and (max-width: ${breakpoints.lg}) {
+    font-size: 1rem;
+  }
+`;
+
+export const CustomHiOutlineDocumentText  = styled(HiOutlineDocumentText)`
+  font-size: 1.5rem;
+
+  @media (orientation: landscape) and (max-width: ${breakpoints.lg}) {
+    font-size: 1rem;
+  }
+`;
+
+export const CustomFaMapMarkedAlt = styled(FaMapMarkedAlt)`
+  font-size: 1.5rem;
+
+  @media (orientation: landscape) and (max-width: ${breakpoints.lg}) {
+    font-size: 1rem;
+  }
+`;
+
+export const CustomLuChartSpline = styled(LuChartSpline)`
+  font-size: 1.5rem;
 
   @media (orientation: landscape) and (max-width: ${breakpoints.lg}) {
     font-size: 1rem;

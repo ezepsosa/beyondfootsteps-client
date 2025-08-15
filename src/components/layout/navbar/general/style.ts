@@ -3,86 +3,55 @@ import { breakpoints } from "@styles/breakpoints";
 import { Link } from "react-router-dom";
 import type { LinkElementProps } from "../types";
 
-export const LayoutNavbar = styled.nav<{ $showInMobile: boolean }>`
+export const LayoutNavbar = styled.nav`
   position: fixed;
-  top: 0;
+  bottom: 0;
   width: 100%;
   display: flex;
   align-items: center;
   z-index: 1001;
-  padding: 1rem 1rem;
   box-sizing: border-box;
   justify-content: space-between;
-  background-color: #0000001e;
+  background-color: #f7f7f7ff;
+  border-top: 1px solid #d1d1d1ff;
 
   @media (min-width: ${breakpoints.lg}) {
+    bottom: auto;
+    top: 0;
     justify-content: flex-start;
     background-color: transparent;
+    padding: 1rem 1rem;
   }
 
   @media (orientation: landscape) and (max-width: ${breakpoints.lg}) {
     background-color: #00000050;
-    width: ${({ $showInMobile }) => (!$showInMobile ? "min-content" : "30%")};
   }
 `;
 
-export const AuxiliarMenu = styled.div<{ open: boolean }>`
-  display: ${({ open }) => (open ? "flex" : "none")};
-  flex-direction: column;
-  width: 100%;
-  opacity: ${({ open }) => (open ? "1" : "0")};
+export const AuxiliarMenu = styled.div`
+  display: none;
 
   @media (min-width: ${breakpoints.lg}) {
     display: flex;
-    flex-direction: row;
     gap: 2rem;
     border-radius: 2rem;
     background-color: #111111c4;
     padding: 0.75rem 0.4rem;
-
-    width: auto;
-    transform: none;
-    opacity: 1;
-    transition: none;
-    transform-origin: initial;
-    position: static;
-    visibility: visible;
   }
   @media (orientation: landscape) and (max-width: ${breakpoints.lg}) {
     height: 100vh;
   }
 `;
 
-export const MenuElement = styled.ul<{ open: boolean }>`
-  display: ${({ open }) => (open ? "flex" : "none")};
-  flex-direction: column;
-  width: 100%;
-  transform: translateY(${({ open }) => (open ? "0" : "-20px")})
-    scale(${({ open }) => (open ? "1" : "0.95")});
-  opacity: ${({ open }) => (open ? "1" : "0")};
-  visibility: ${({ open }) => (open ? "visible" : "hidden")};
-  transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
-  transform-origin: top center;
-  margin: 0;
-  padding: 0;
+export const MenuElement = styled.ul`
+  display: none;
 
   @media (min-width: ${breakpoints.lg}) {
     display: flex;
-    position: static;
-    flex-direction: row;
-    width: auto;
-    left: auto;
-    right: auto;
-    background: transparent;
     gap: 2rem;
     border-radius: 2rem;
     background-color: #f5f5f5be;
     padding: 0.75rem 0.4rem;
-    transform: none;
-    opacity: 1;
-    visibility: visible;
-    transition: none;
-    backdrop-filter: none;
   }
 `;
 
@@ -140,7 +109,7 @@ export const LinkElement = styled(Link)<LinkElementProps>`
     color: white;
     background: none;
     padding: 0.5rem;
-    
+
     &::after {
       width: 0 !important;
     }
@@ -171,7 +140,7 @@ export const MenuContainer = styled.div`
 
 export const LogoAndMobileMenu = styled.div`
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
   width: 100%;
   align-items: center;
 

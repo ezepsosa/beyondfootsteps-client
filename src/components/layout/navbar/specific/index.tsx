@@ -9,6 +9,7 @@ import {
 import logo from "@assets/beyondfootsteps_transparent_logo.png";
 import { useLocation, useNavigate } from "react-router-dom";
 import { LinkMenu, LogoLayout, MenuLayout } from "../style";
+import { MainMenuOptions } from "../mainMenuOptions";
 
 export const SpecificNavBar = () => {
   const [showInMobile, setShowInMobile] = useState<boolean>(false);
@@ -36,38 +37,7 @@ export const SpecificNavBar = () => {
         </LogoAndMobileMenu>
         <LinkMenu>
           <MenuElement open={showInMobile}>
-            <LinkElement
-              to="/dashboard"
-              $active={currentPath === "/dashboard"}
-              $linearGradient="linear-gradient(90deg, #232526, #414345);"
-              onClick={handleLinkClick}
-            >
-              Dashboard
-            </LinkElement>
-            <LinkElement
-              to="/requests"
-              $active={currentPath === "/requests"}
-              $linearGradient="linear-gradient(90deg, #232526, #414345);"
-              onClick={handleLinkClick}
-            >
-              Asylum Requests
-            </LinkElement>
-            <LinkElement
-              to="/decisions"
-              $active={currentPath === "/decisions"}
-              $linearGradient="linear-gradient(90deg, #232526, #414345);"
-              onClick={handleLinkClick}
-            >
-              Asylum Decisions
-            </LinkElement>
-            <LinkElement
-              to="/resettlements"
-              $active={currentPath === "/resettlements"}
-              $linearGradient="linear-gradient(90deg, #232526, #414345);"
-              onClick={handleLinkClick}
-            >
-              Resettlements
-            </LinkElement>
+            <MainMenuOptions/>
             <LinkElement
               $active={currentPath === "/aboutus"}
               $linearGradient="linear-gradient(90deg, #232526, #414345);"

@@ -2,10 +2,10 @@ import { breakpoints } from "@/styles/breakpoints";
 import styled from "styled-components";
 
 export const LogoLayout = styled.img`
-  height: 3.5rem;
-  cursor: pointer;
+  display: none;
 
   @media (min-width: ${breakpoints.lg}) {
+    display: block;
     height: 6rem;
   }
   @media (orientation: landscape) and (max-width: ${breakpoints.lg}) {
@@ -17,6 +17,7 @@ export const MenuLayout = styled.div`
   font-size: 2rem;
   cursor: pointer;
   color: black;
+  padding: 0.25rem 0;
 
   @media (min-width: ${breakpoints.lg}) {
     display: none;
