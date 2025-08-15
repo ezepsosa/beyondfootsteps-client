@@ -11,6 +11,7 @@ import { TbNumbers } from "react-icons/tb";
 import { FaMapMarkedAlt } from "react-icons/fa";
 import { LuChartSpline } from "react-icons/lu";
 import { HiOutlineDocumentText } from "react-icons/hi";
+import { colors } from "./colors";
 
 export const LowerContainer = styled.div`
   width: -webkit-fill-available;
@@ -173,7 +174,7 @@ export const PrimaryButton = styled.button`
   cursor: pointer;
 
   &:hover {
-    background-color: #e0e0e0;
+    background-color: ${colors.neutral[350]};
   }
   @media (orientation: landscape) and (max-width: ${breakpoints.lg}) {
     font-size: 0.7rem;
@@ -191,7 +192,7 @@ export const SecondaryButton = styled.button`
 
   &:hover {
     color: white;
-    background-color: #00000085;
+    background-color: ${colors.neutral.blackAlt};
   }
   @media (orientation: landscape) and (max-width: ${breakpoints.lg}) {
     font-size: 0.7rem;
@@ -224,8 +225,8 @@ export const ThinLine = styled.div`
   background: linear-gradient(
     to right,
     rgba(146, 146, 146, 0) 0%,
-    #92929269 20%,
-    #92929269 80%,
+    ${colors.neutral.grayAlpha} 20%,
+    ${colors.neutral.grayAlpha} 80%,
     rgba(146, 146, 146, 0) 100%
   );
 `;

@@ -1,17 +1,18 @@
 import { breakpoints } from "@/styles/breakpoints";
+import { colors } from "@/styles/colors";
 import styled from "styled-components";
 
 export const Selector = styled.select<{
   $paddingDesktop?: string;
   $paddingMobile?: string;
 }>`
-  background-color: #fafafa;
-  border: 1px solid #b0b0b0;
+  background-color: ${colors.neutral[75]};
+  border: 1px solid ${colors.neutral[300]};
   padding: ${({ $paddingMobile }) => $paddingMobile || "0.4rem 0"};
   font-family: "Inter", sans-serif;
   font-size: 0.8rem;
   font-weight: 600;
-  color: #333333;
+  color: ${colors.neutral.black};
   text-align-last: center;
   white-space: nowrap;
   overflow: hidden;

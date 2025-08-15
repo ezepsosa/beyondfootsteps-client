@@ -1,14 +1,15 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import type { LinkElementProps } from "./types";
+import { colors } from "@/styles/colors";
 
 export const LayoutNavbar = styled.nav`
   height: 4.5rem;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #fff;
-  border-bottom: 1px solid #e5e7eb;
+  color: ${colors.white};
+  border-bottom: 1px solid ${colors.neutral[300]};
   z-index: 100;
   position: sticky;
   top: 0;
@@ -17,7 +18,7 @@ export const LayoutNavbar = styled.nav`
 export const Logo = styled.div`
   font-size: 1.5rem;
   font-weight: 700;
-  color: #2563eb;
+  color: ${colors.primary[500]};
   letter-spacing: 0.5px;
   font-family: "Inter", sans-serif;
 `;
@@ -39,7 +40,7 @@ export const LinkElement = styled(Link)<LinkElementProps>`
   font-size: 1.08rem;
   font-family: "Inter", sans-serif;
   font-weight: 500;
-  color: #374151;
+  color: ${colors.neutral[800]};
   padding: 0.5rem 0;
   background: transparent;
   border: none;
@@ -52,13 +53,13 @@ export const LinkElement = styled(Link)<LinkElementProps>`
     bottom: -4px;
     width: ${({ $active }) => ($active ? "100%" : "0")};
     height: 2px;
-    background: #2563eb;
+    background: ${colors.primary[500]};
     border-radius: 2px;
     transition: width 0.2s;
   }
 
   &:hover {
-    color: #2563eb;
+    color: ${colors.primary[500]};
   }
 
   &:hover::after {
