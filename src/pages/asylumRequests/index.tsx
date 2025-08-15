@@ -9,7 +9,6 @@ import {
   ASYLUM_REQUEST_INDICATOR_INFO,
   yearOptions,
 } from "../../components/auxliar";
-import { ColourLegend } from "@/components/colourLegend";
 import {
   CsvButtonDownload,
   CustomAiOutlinePercentage,
@@ -31,6 +30,7 @@ import { GeoJSONLayer } from "@/components/map/layer/geoJSON";
 import { InfoKPIModal } from "@/components/map/modal/kpi";
 import { MetricLayer } from "@/components/map/layer/metric";
 import { ShowHide } from "@/components/icons/showHide";
+import { ColorLegend } from "@/components/colorLegend";
 
 const isoNameRawTyped: isoNameType[] = isoNameRaw as isoNameType[];
 
@@ -82,7 +82,7 @@ export const AsylumRequests = () => {
     console.warn("Error fetching asylum request data");
   }
 
-  const getColourForMap = useCountryColor({
+  const getcolorForMap = useCountryColor({
     arrayData: asylumRequestsByYearAndCountry,
     metricSelected,
     directionSelected,
@@ -119,7 +119,7 @@ export const AsylumRequests = () => {
           );
         return (
           <MapComponent>
-            <GeoJSONLayer geoColourForMap={getColourForMap} />
+            <GeoJSONLayer geoColorForMap={getcolorForMap} />
             {asylumRequestsByYearAndCountry.length > 0 && showMetric && (
               <MetricLayer
                 key={directionSelected}
@@ -193,8 +193,8 @@ export const AsylumRequests = () => {
         );
       })()}
 
-      {getColourForMap.scale && showLegend && (
-        <ColourLegend scale={getColourForMap.scale} />
+      {getcolorForMap.scale && showLegend && (
+        <ColorLegend scale={getcolorForMap.scale} />
       )}
       <InfoKPIModal
         info={info ?? ""}
